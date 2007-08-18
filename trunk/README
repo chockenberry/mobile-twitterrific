@@ -6,9 +6,20 @@ Introduction
 
 This project is used to create a native iPhone application for using Twitter.
 
-It's secondary function is to act as a "best practices" document for creating
+It's secondary purpose is to act as a "best practices" document for creating
 native iPhone applications.
 
 Building
 --------
+
+Open the MobileTwitterrificApp.xcodeproj and build. The project is built using
+the Makefile in the project's root directory.
+
+If you add files to the project, you need to update the SOURCES in the
+the Makefile. They will not automatically be added to the build. Until there
+is better Xcode integration with the iPhone toolchain, that's the way it
+has to be.
+
+Note also that there aren't any precompiled headers and there is isn't any
+code index (so no code completion.)
 
