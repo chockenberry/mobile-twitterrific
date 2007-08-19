@@ -5,6 +5,8 @@
 //  Created by Craig Hockenberry on 7/30/07.
 //  Loosely based on BSTwitterAPICall from http://inessential.com/?comments=1&postid=3407
 //
+//  Copyright (c) 2007, The Iconfactory. All rights reserved.
+//
 
 #import "IFTwitterConnection.h"
 
