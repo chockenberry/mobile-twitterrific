@@ -223,11 +223,14 @@ clearer once the UI and associated views are established.
 	UIWindow *window = [[UIWindow alloc] initWithContentRect: [UIHardware fullScreenApplicationContentRect]];
 
 /*
-	UIPushButton *button = [[UIThreePartButton alloc] initWithTitle:@"Navigation"];
-	tableCell = [[UITableCell alloc] init];
-	[tableCell addSubview:button];
-	[button sizeToFit];
+TODO: The main view should consist of three UI components:
+
+1) The navigation bar (with <Setup] and [Refresh])
+2) The tweets
+3) A toolbar with [?] (for updates) [@] (for replies) [D] (for direct messages) -- each button will open an "update view"
+with "What are you doing?" and some context for the post.
 */
+
 	table = [[UITable alloc] initWithFrame:CGRectMake(0.0f, 48.0f, 320.0f, 480.0f - 16.0f - 32.0f)];
 	UITableColumn *tableColumn = [[UITableColumn alloc] initWithTitle:@"Twitterrific" identifier:@"twitterrific" width: 320.0f];
 
@@ -241,7 +244,7 @@ clearer once the UI and associated views are established.
 	[table reloadData];
 
 	UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 48.0f)];
-	[navigationBar showButtonsWithLeftTitle:@"Setup" rightTitle:@"Done" leftBack:YES];
+	[navigationBar showButtonsWithLeftTitle:@"Setup" rightTitle:@"Refresh" leftBack:YES];
 	[navigationBar setBarStyle:0];
 
 	struct CGRect rect = [UIHardware fullScreenApplicationContentRect];
