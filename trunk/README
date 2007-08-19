@@ -1,6 +1,9 @@
 MobileTwitterrific.app
 ======================
 
+Craig Hockenberry - 19.Aug.2007
+
+
 Introduction
 ------------
 
@@ -8,6 +11,15 @@ This project is used to create a native iPhone application for using Twitter.
 
 It's secondary purpose is to act as a "best practices" document for creating
 native iPhone applications.
+
+Environment
+-----------
+
+It is assumed that your "heavenly" frameworks are in /Developer/SDKs/heavenly
+and that your SDK headers are in /Developer/SDKs/iPhone.
+
+You'll also need to make sure that you have the ARM compilation tools in
+/Developer/SDKs/iPhone/bin (arm-apple-darwin-cc and arm-apple-darwin-ld).
 
 Building
 --------
@@ -21,5 +33,18 @@ is better Xcode integration with the iPhone toolchain, that's the way it
 has to be.
 
 Note also that there aren't any precompiled headers and there is isn't any
-code index (so no code completion.)
+code index. So builds will get slower as the project size increases and you'll
+be sorely disappointed by what you see when you hit the ESC key while editing
+(no code completion.)
+
+After the build completes, you'll find the iPhone application package in
+the build/Release folder. Use scp to get it onto the iPhone in the
+/Applications folder.
+
+Debugging
+---------
+
+NSLog. Learn to love it, since printf is all you have at the moment.
+
+otool can also be handy for what's in the executable.
 
