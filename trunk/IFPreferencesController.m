@@ -129,7 +129,6 @@
 
 - (void)showPreferences
 {
-	UIWindow *mainWindow = [controller mainWindow];
 	struct CGRect contentRect = [UIHardware fullScreenApplicationContentRect];
 	contentRect.origin.x = 0.0f;
 	contentRect.origin.y = 0.0f;
@@ -151,6 +150,7 @@
 	[preferenceView addSubview:_preferencesTable];
 	
 	// setup the views
+	UIWindow *mainWindow = [controller mainWindow];
 	_oldContentView = [[mainWindow contentView] retain];
 	[mainWindow setContentView:preferenceView];
 }
@@ -187,6 +187,9 @@ extract the boolean value.
 	// destroy the preference table for now, it will be recreated the next time we show
 	[_preferencesTable release];
 	_preferencesTable = nil;
+
+	// notify the app controller that new user defaults are available
+	[[NSNotificationCenter defaultCenter] postNotificationName:PREFERENCES_CHANGED object:nil];
 }
 
 #pragma mark UINavigationBar delegate
@@ -203,7 +206,7 @@ extract the boolean value.
 
 #pragma mark Utility
 
--(void) _setupCells
+- (void)_setupCells
 {
 	struct CGRect contentRect = [UIHardware fullScreenApplicationContentRect];
 
