@@ -323,17 +323,44 @@ with "What are you doing?" and some context for the post.
 
 - (void)startRefreshTimer
 {
-	// if necessary, stop the current timer
+}
+
+#pragma mark Notifications
+
+- (void)updatePreferences
+{
+	NSLog(@"MobileTwitterrificApp: updatePreferences:");
+	
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	NSString *login = [userDefaults stringForKey:@"login"];
+	NSString *password = [userDefaults stringForKey:@"password"];
+	BOOL refresh = [userDefaults boolForKey:@"refresh"];
+
+	// stop the current timer if there is one
 	if (refreshTimer)
 	{
 		[refreshTimer invalidate];
 		[refreshTimer release];
 		refreshTimer = nil;
 	}
-
-	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
-	[refreshTimer retain];
+	if (refresh)
+	{
+/*
+TODO: Make the refresh interval a preference.
+*/
+		refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+		[refreshTimer retain];
+	}
+	
+	[timelineConnection setLogin:login];
+	[timelineConnection setPassword:password];
 }
+
+- (void)setupNotifications
+{
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePreferences) name:PREFERENCES_CHANGED object:nil];
+}
+
 
 #pragma mark Application delegate
 
@@ -342,8 +369,10 @@ with "What are you doing?" and some context for the post.
 	NSLog(@"MobileTwitterrificApp: applicationDidFinishLaunching: unused = %@", [unused description]);
 	
 	[self setupUserInterface];
+	[self setupNotifications];
 	
-	[self startRefreshTimer];
+	[self updatePreferences];
+	
 	[self refresh];
 }
 
@@ -406,7 +435,6 @@ log file which can then be monitored after a launch from Springboard.
 {
 	NSLog(@"MobileTwitterrificApp: willSleep");
 }
-
 
 #pragma mark IFTwitterConnection callbacks
 
@@ -496,6 +524,7 @@ Props to Lucas Newman for figuring out this workaround.
 	}
 	else
 	{
+		NSLog(@"MobileTwitterrificApp: twitterStatusComplete: errorType = %@, error = %@", [object errorType], [object error]);
 		//[self processConnectionFailure:[object errorType] withError:[object error]];
 	}
 }

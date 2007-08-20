@@ -38,4 +38,7 @@
 
 - (void)_setupCells;
 
+// Notifications
+#define PREFERENCES_CHANGED @"IFPreferencesChanged"
+
 @end
