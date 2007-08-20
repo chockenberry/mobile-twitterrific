@@ -12,6 +12,8 @@
 
 #import "IFTwitterTimelineConnection.h"
 
+@class IFPreferencesController;
+
 @interface MobileTwitterrificApp : UIApplication
 {
 	// network connections
@@ -25,5 +27,13 @@
 	NSMutableArray *rowCells;
 	UITableCell *tableCell;
 	UITable *table;
+	UIWindow *_mainWindow;
+	
+	// preferences
+	IFPreferencesController *preferencesController;
 }
+
+- (UIWindow *)mainWindow;
+- (void)setMainWindow:(UIWindow *)newMainWindow;
+
 @end

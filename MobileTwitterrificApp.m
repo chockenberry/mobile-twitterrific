@@ -44,6 +44,8 @@
 #import <UIKit/UITableCell.h>
 #import <UIKit/UITableColumn.h>
 
+#import "IFPreferencesController.h"
+
 #import "MobileTwitterrificApp.h"
 
 @implementation MobileTwitterrificApp
@@ -72,9 +74,24 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 - (void)dealloc
 {
 	[timelineConnection release];
-
+	[preferencesController release];
+	
 	[super dealloc];
 }
+
+#pragma mark Accessors
+
+- (UIWindow *)mainWindow
+{
+    return _mainWindow;
+}
+
+- (void)setMainWindow:(UIWindow *)newMainWindow
+{
+    [_mainWindow release];
+    _mainWindow = [newMainWindow retain];
+}
+
 
 #pragma mark UITable delegate and data source
 
@@ -249,9 +266,13 @@ clearer once the UI and associated views are established.
 
 - (void)setupUserInterface
 {
+	// create a controller for managing the user's preferences
+	preferencesController = [[IFPreferencesController alloc] initWithAppController:self];
+
+
 	rowCells = [[NSMutableArray alloc] init];
 
-	UIWindow *window = [[UIWindow alloc] initWithContentRect: [UIHardware fullScreenApplicationContentRect]];
+	UIWindow *window = [[UIWindow alloc] initWithContentRect:[UIHardware fullScreenApplicationContentRect]];
 
 /*
 TODO: The main view should consist of three UI components:
@@ -262,7 +283,7 @@ TODO: The main view should consist of three UI components:
 with "What are you doing?" and some context for the post.
 */
 
-	table = [[UITable alloc] initWithFrame:CGRectMake(0.0f, 48.0f, 320.0f, 480.0f - 16.0f - 32.0f)];
+	table = [[UITable alloc] initWithFrame:CGRectMake(0.0f, 48.0f, 320.0f, 480.0f - 48.0f)];
 	UITableColumn *tableColumn = [[UITableColumn alloc] initWithTitle:@"Twitterrific" identifier:@"twitterrific" width: 320.0f];
 
 	[window orderFront:self];
@@ -274,9 +295,10 @@ with "What are you doing?" and some context for the post.
 	[table setDelegate:self];
 	[table reloadData];
 
-	UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 48.0f)];
+	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 48.0f)] autorelease];
 	[navigationBar showButtonsWithLeftTitle:@"Setup" rightTitle:@"Refresh" leftBack:YES];
 	[navigationBar setBarStyle:0];
+	[navigationBar setDelegate:self];
 
 	struct CGRect rect = [UIHardware fullScreenApplicationContentRect];
 	rect.origin.x = rect.origin.y = 0.0f;
@@ -284,7 +306,8 @@ with "What are you doing?" and some context for the post.
 	[mainView addSubview:navigationBar]; 
 	[mainView addSubview:table]; 
 
-	[window setContentView:mainView]; 
+	[window setContentView:mainView];
+	[self setMainWindow:window];
 }
 
 #pragma mark Timers
@@ -470,6 +493,22 @@ Props to Lucas Newman for figuring out this workaround.
 	else
 	{
 		//[self processConnectionFailure:[object errorType] withError:[object error]];
+	}
+}
+
+#pragma mark UINavigationBar delegate
+
+- (void)navigationBar:(UINavigationBar*)navbar buttonClicked:(int)button 
+{
+	NSLog(@"MobileTwitterrificApp: navigationBar:buttonClicked = %d", button);
+	switch (button) 
+	{
+	case 0:
+		[self refresh];
+		break;
+	case 1: 
+		[preferencesController showPrefs]; 
+		break;
 	}
 }
 
