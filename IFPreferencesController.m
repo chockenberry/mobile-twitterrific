@@ -31,11 +31,11 @@
 
 - (void)dealloc
 {
-	// destroy the ui prefs table
-	[_prefsTable release];
-	_prefsTable = nil;
+	// destroy the preference table
+	[_preferencesTable release];
+	_preferencesTable = nil;
  
-	// destroy the prefs cells
+	// destroy the preference cells
 	[_loginPreferenceCell release];
 	_loginPreferenceCell = nil;
 	[_passwordPreferenceCell release];
@@ -48,16 +48,16 @@
 
 #pragma mark UIPreferencesTable delegate & data source
 
-- (int)numberOfGroupsInPreferencesTable:(id)prefsTable
+- (int)numberOfGroupsInPreferencesTable:(id)preferencesTable
 {
-	NSLog(@"IFPreferencesController: numberOfGroupsInPreferencesTable:");
+	//NSLog(@"IFPreferencesController: numberOfGroupsInPreferencesTable:");
 
 	return 2;
 }
 
-- (int)preferencesTable:(id)prefsTable numberOfRowsInGroup:(int)group
+- (int)preferencesTable:(id)preferencesTable numberOfRowsInGroup:(int)group
 {
-	NSLog(@"IFPreferencesController: preferencesTable:numberOfRowsInGroup:");
+	//NSLog(@"IFPreferencesController: preferencesTable:numberOfRowsInGroup:");
 
 	int rowCount = 0;	
 	switch (group)
@@ -72,9 +72,9 @@
 	return rowCount;
 }
 
-- (id)preferencesTable:(id)prefsTable cellForRow:(int)row inGroup:(int)group
+- (id)preferencesTable:(id)preferencesTable cellForRow:(int)row inGroup:(int)group
 {
-	NSLog(@"IFPreferencesController: preferencesTable:cellForRow:inGroup:");
+	//NSLog(@"IFPreferencesController: preferencesTable:cellForRow:inGroup:");
 	
 	id prefCell = nil;
 	switch (group)
@@ -102,9 +102,9 @@
 	return prefCell;
 }
 
-- (id)preferencesTable:(id)prefsTable titleForGroup:(int)group
+- (id)preferencesTable:(id)preferencesTable titleForGroup:(int)group
 {
-	NSLog(@"IFPreferencesController: preferencesTable:titleForGroup:");
+	//NSLog(@"IFPreferencesController: preferencesTable:titleForGroup:");
 
 	NSString *title = nil;
 	switch (group)
@@ -119,56 +119,74 @@
 	return title;
 }
 
-- (float)preferencesTable:(id)prefsTable heightForRow:(int)row inGroup:(int)group withProposedHeight:(float)proposedHeight;
+- (float)preferencesTable:(id)preferencesTable heightForRow:(int)row inGroup:(int)group withProposedHeight:(float)proposedHeight;
 {
-	NSLog(@"IFPreferencesController: preferencesTable:heightForRow:inGroup:withProposedHeight: and proposed height is %f", proposedHeight);
+	//NSLog(@"IFPreferencesController: preferencesTable:heightForRow:inGroup:withProposedHeight: and proposed height is %f", proposedHeight);
 	return 48.0f;
 }
 
 #pragma mark View control
 
-- (void)showPrefs
+- (void)showPreferences
 {
 	UIWindow *mainWindow = [controller mainWindow];
-	//CGRect prefsBounds = CGRectMake(0.0f, 0.0f, 320.0f, 0.0f);
+	struct CGRect contentRect = [UIHardware fullScreenApplicationContentRect];
+	contentRect.origin.x = 0.0f;
+	contentRect.origin.y = 0.0f;
 	
 	// create the main view
-	UIView *mainView = [[[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 480.0f)] autorelease];
+	UIView *preferenceView = [[[UIView alloc] initWithFrame:contentRect] autorelease];
 	
-	// create the nav bar
-	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 48.0f)] autorelease];
+	// create the navigation bar
+	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 48.0f)] autorelease];
 	[navigationBar showButtonsWithLeftTitle:@"Back" rightTitle:nil leftBack:YES];
 	[navigationBar setBarStyle:0];
 	[navigationBar setDelegate:self]; 
-	[mainView addSubview:navigationBar];
+	[preferenceView addSubview:navigationBar];
 	
-	// create the ui prefs table
-	_prefsTable = [[UIPreferencesTable alloc] initWithFrame:CGRectMake(0.0f, 48.0f, 320.0f, 480.0f - 48.0f)];
-	[_prefsTable setDataSource:self];
-	[_prefsTable reloadData];
-	[mainView addSubview:_prefsTable];
+	// create the preferences table and add it to our view
+	_preferencesTable = [[UIPreferencesTable alloc] initWithFrame:CGRectMake(0.0f, 48.0f, contentRect.size.width, contentRect.size.height - 48.0f)];
+	[_preferencesTable setDataSource:self];
+	[_preferencesTable reloadData];
+	[preferenceView addSubview:_preferencesTable];
 	
 	// setup the views
 	_oldContentView = [[mainWindow contentView] retain];
-	[mainWindow setContentView:mainView];
+	[mainWindow setContentView:preferenceView];
 }
 
-- (void)hidePrefs
+- (void)hidePreferences
 {
-	// save the prefs
+	// get the current preference values
+	NSString *login = [_loginPreferenceCell value];
+	NSString *password = [_passwordPreferenceCell value];
+/*
+NOTE: Use [control valueForKey:@"value"] instead of [control value] to avoid a
+linker error. The returned floating point value on the stack will generate a
+_objc_msgSend_fpret error. Using KVC lets you get back an NSNumber and then
+extract the boolean value.
+*/
+	BOOL refresh = [[[_refreshPreferenceCell control] valueForKey:@"value"] boolValue];
+
+	//NSLog(@"IFPreferencesController: hidePreferences: login = %@", login);
+	//NSLog(@"IFPreferencesController: hidePreferences: password = %@", password);
+	//NSLog(@"IFPreferencesController: hidePreferences: refresh = %d", refresh);
+	
+	// save the preferences in user defaults
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	[userDefaults setObject:[_loginPreferenceCell value] forKey:@"login"];
-	[userDefaults setObject:[_passwordPreferenceCell value] forKey:@"password"];
-	[userDefaults setObject:[_refreshPreferenceCell value] forKey:@"refresh"];
+	[userDefaults setObject:login forKey:@"login"];
+	[userDefaults setObject:password forKey:@"password"];
+	[userDefaults setBool:refresh forKey:@"refresh"];
+	[userDefaults synchronize];
 	
 	// restore the original content view
 	[[controller mainWindow] setContentView:_oldContentView];
 	[_oldContentView release];
 	_oldContentView = nil;
 	
-	// destroy the ui prefs table
-	[_prefsTable release];
-	_prefsTable = nil;
+	// destroy the preference table for now, it will be recreated the next time we show
+	[_preferencesTable release];
+	_preferencesTable = nil;
 }
 
 #pragma mark UINavigationBar delegate
@@ -178,7 +196,7 @@
 	switch (button) 
 	{
 	case 1: 
-		[self hidePrefs]; 
+		[self hidePreferences]; 
 		break;
 	}
 }
@@ -187,21 +205,28 @@
 
 -(void) _setupCells
 {
+	struct CGRect contentRect = [UIHardware fullScreenApplicationContentRect];
+
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	
-	_loginPreferenceCell = [[UIPreferencesTextTableCell alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 48.0f)];
+
+	//NSLog(@"IFPreferencesController: _setupCells: login = %@", [userDefaults stringForKey:@"login"]);
+	//NSLog(@"IFPreferencesController: _setupCells: password = %@", [userDefaults stringForKey:@"password"]);
+	//NSLog(@"IFPreferencesController: _setupCells: refresh = %d", [userDefaults boolForKey:@"refresh"]);
+
+	_loginPreferenceCell = [[UIPreferencesTextTableCell alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 48.0f)];
 	[_loginPreferenceCell setValue:[userDefaults stringForKey:@"login"]];
 	[_loginPreferenceCell setTitle:@"Login"];
 	
-	_passwordPreferenceCell = [[UIPreferencesTextTableCell alloc] initWithFrame:CGRectMake(0.0f, 48.0f, 320.0f, 48.0f)];
+	_passwordPreferenceCell = [[UIPreferencesTextTableCell alloc] initWithFrame:CGRectMake(0.0f, 48.0f, contentRect.size.width, 48.0f)];
 	[_passwordPreferenceCell setValue:[userDefaults stringForKey:@"password"]];
 	[_passwordPreferenceCell setTitle:@"Password"];
 	[[_passwordPreferenceCell textField] setSecure:YES];
 
-	_refreshPreferenceCell = [[UIPreferencesControlTableCell alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 48.0f)];
-	[_refreshPreferenceCell setValue:[userDefaults stringForKey:@"refresh"]];
+	_refreshPreferenceCell = [[UIPreferencesControlTableCell alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 48.0f)];
+	BOOL refresh = [userDefaults boolForKey:@"refresh"];
 	[_refreshPreferenceCell setTitle:@"Automatic refresh"];
-	UISwitchControl *switchControl = [[[UISwitchControl alloc] initWithFrame:CGRectMake(320.0f - 114.0, 11.0f, 320.0f, 48.0f)] autorelease];
+	UISwitchControl *switchControl = [[[UISwitchControl alloc] initWithFrame:CGRectMake(contentRect.size.width - 114.0, 11.0f, 114.0f, 48.0f)] autorelease];
+	[switchControl setValue:refresh];
 	[_refreshPreferenceCell setControl:switchControl];
 }
 

@@ -22,7 +22,7 @@
 {
     MobileTwitterrificApp *controller;
     
-    UIPreferencesTable *_prefsTable;
+    UIPreferencesTable *_preferencesTable;
     UIView *_oldContentView;
 	
 	// oh bindings, how i miss thee
@@ -33,8 +33,8 @@
 
 - (id)initWithAppController:(MobileTwitterrificApp *)appController;
 
-- (void)showPrefs;
-- (void)hidePrefs;
+- (void)showPreferences;
+- (void)hidePreferences;
 
 - (void)_setupCells;
 

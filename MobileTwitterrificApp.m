@@ -51,10 +51,6 @@
 @implementation MobileTwitterrificApp
 
 /*
-TODO: Figure out how to manage user preferences. NSUserDefaults may work.
-*/
-
-/*
 TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promising.
 */
 
@@ -266,6 +262,15 @@ clearer once the UI and associated views are established.
 
 - (void)setupUserInterface
 {
+/*
+NOTE: Use UIHardware to get screen dimensions, since they can (and probably will)
+change in the future. Anytime you find yourself hardcoding 320.0f and 480.0f,
+resist the urge.
+*/
+	struct CGRect contentRect = [UIHardware fullScreenApplicationContentRect];
+	contentRect.origin.x = 0.0f;
+	contentRect.origin.y = 0.0f;
+
 	// create a controller for managing the user's preferences
 	preferencesController = [[IFPreferencesController alloc] initWithAppController:self];
 
@@ -283,8 +288,9 @@ TODO: The main view should consist of three UI components:
 with "What are you doing?" and some context for the post.
 */
 
-	table = [[UITable alloc] initWithFrame:CGRectMake(0.0f, 48.0f, 320.0f, 480.0f - 48.0f)];
-	UITableColumn *tableColumn = [[UITableColumn alloc] initWithTitle:@"Twitterrific" identifier:@"twitterrific" width: 320.0f];
+	// create a table whose height is the full screen, less the navbar, less the status bar
+	table = [[UITable alloc] initWithFrame:CGRectMake(0.0f, 48.0f, contentRect.size.width, contentRect.size.height - 48.0f)];
+	UITableColumn *tableColumn = [[UITableColumn alloc] initWithTitle:@"Twitterrific" identifier:@"twitterrific" width:contentRect.size.width];
 
 	[window orderFront:self];
 	[window makeKey:self];
@@ -295,14 +301,12 @@ with "What are you doing?" and some context for the post.
 	[table setDelegate:self];
 	[table reloadData];
 
-	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 48.0f)] autorelease];
+	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 48.0f)] autorelease];
 	[navigationBar showButtonsWithLeftTitle:@"Setup" rightTitle:@"Refresh" leftBack:YES];
 	[navigationBar setBarStyle:0];
 	[navigationBar setDelegate:self];
 
-	struct CGRect rect = [UIHardware fullScreenApplicationContentRect];
-	rect.origin.x = rect.origin.y = 0.0f;
-	UIView *mainView = [[UIView alloc] initWithFrame:rect];
+	UIView *mainView = [[UIView alloc] initWithFrame:contentRect];
 	[mainView addSubview:navigationBar]; 
 	[mainView addSubview:table]; 
 
@@ -477,7 +481,7 @@ Props to Lucas Newman for figuring out this workaround.
 			NSXMLDocument *document = [[[NSClassFromString(@"NSXMLDocument") alloc] initWithData:downloadData options:NSXMLNodeOptionsNone error:&error] autorelease];
 			
 			NSString *rootElementName = [[document rootElement] name];
-			NSLog(@"MobileTwitterrificApp: twitterStatusComplete: rootElementName = %@", rootElementName);
+			//NSLog(@"MobileTwitterrificApp: twitterStatusComplete: rootElementName = %@", rootElementName);
 			
 			if ([rootElementName isEqualToString:@"statuses"])
 			{
@@ -500,14 +504,14 @@ Props to Lucas Newman for figuring out this workaround.
 
 - (void)navigationBar:(UINavigationBar*)navbar buttonClicked:(int)button 
 {
-	NSLog(@"MobileTwitterrificApp: navigationBar:buttonClicked = %d", button);
+	//NSLog(@"MobileTwitterrificApp: navigationBar:buttonClicked = %d", button);
 	switch (button) 
 	{
 	case 0:
 		[self refresh];
 		break;
 	case 1: 
-		[preferencesController showPrefs]; 
+		[preferencesController showPreferences]; 
 		break;
 	}
 }
