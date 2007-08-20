@@ -29,10 +29,9 @@
 
 		NSString *urlString = nil;
 
-#if 0
-		// read user's timeline
 		if ([self login] && [self password])
 		{
+			// read user's timeline
 			NSString *encodedLogin = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)[self login], NULL, CFSTR("@"), kCFStringEncodingUTF8);
 			[encodedLogin autorelease];
 			NSString *encodedPassword = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)[self password], NULL, CFSTR("@"), kCFStringEncodingUTF8);
@@ -42,12 +41,9 @@
 		}
 		else
 		{
-			urlString = [NSString stringWithFormat:@"http://:@%@/statuses/friends_timeline.xml", baseUrl];
+			// read public timeline
+			urlString = [NSString stringWithFormat:@"http://%@/statuses/public_timeline.xml", baseUrl];
 		}
-#else
-		// read public timeline
-		urlString = [NSString stringWithFormat:@"http://%@/statuses/public_timeline.xml", baseUrl];
-#endif
 		if (_connectionLogging)
 		{
 			NSLog(@"IFTwitterTimelineConnection: refresh: urlString = %@", urlString);
