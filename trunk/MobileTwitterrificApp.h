@@ -17,6 +17,7 @@
 @interface MobileTwitterrificApp : UIApplication
 {
 	// network connections
+	BOOL firstLogin;
 	IFTwitterTimelineConnection *timelineConnection;
 
 	// timers

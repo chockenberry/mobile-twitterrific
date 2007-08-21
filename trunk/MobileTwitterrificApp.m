@@ -61,6 +61,7 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 	self = [super init];
 	if (self)
 	{
+		firstLogin = YES;
 		timelineConnection = [[IFTwitterTimelineConnection alloc] initWithLogin:nil password:nil delegate:self completedCallbackSelector:@selector(twitterStatusComplete:) authenticationCallbackSelector:@selector(twitterAuthenticate:)];
 	}
 	
@@ -354,6 +355,7 @@ TODO: Make the refresh interval a preference.
 	
 	[timelineConnection setLogin:login];
 	[timelineConnection setPassword:password];
+	firstLogin = YES;
 }
 
 - (void)setupNotifications
@@ -441,7 +443,15 @@ log file which can then be monitored after a launch from Springboard.
 - (void)twitterAuthenticate:(id)object
 {
 	NSLog(@"MobileTwitterrificApp: twitterAuthenticate: object = %@", [object description]);
-
+	
+	// let the connection use the saved passwords the first time
+	if (!firstLogin && [object isKindOfClass:[IFTwitterConnection class]])
+	{
+		[[(IFTwitterConnection *)object connection] cancel];
+		NSLog(@"MobileTwitterrificApp: twitterAuthenticate: invalid username or password. giving up.");
+	}
+	firstLogin = NO;
+    
 /*
 TODO: Figure out how to handle authentication. It's probably easiest to have a 
 configuration item for login/password and put that into the URL for the request.
