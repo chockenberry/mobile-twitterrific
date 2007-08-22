@@ -4,7 +4,8 @@ SOURCES=\
 	MobileTwitterrificApp.m \
 	IFTwitterConnection.m \
 	IFTwitterTimelineConnection.m \
-	IFPreferencesController.m	
+	IFPreferencesController.m \
+	IFTweetController.m
 RESOURCES=Resources
 
 CC=/Developer/SDKs/iPhone/bin/arm-apple-darwin-cc
