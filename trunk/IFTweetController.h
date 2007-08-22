@@ -23,7 +23,12 @@
 
 - (id)initWithAppController:(MobileTwitterrificApp *)appController;
 
-- (void)showTweet:(int)tweetIndex;
+- (void)showTweet;
+- (void)showNextTweet;
+- (void)showPreviousTweet;
 - (void)hideTweet;
+
+// Notifications
+#define TWEET_SELECTION_CHANGED @"IFTweetSelectionChanged"
 
 @end

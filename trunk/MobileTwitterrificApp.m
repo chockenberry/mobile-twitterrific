@@ -46,6 +46,7 @@
 
 #import "IFPreferencesController.h"
 #import "IFTweetController.h"
+#import "IFTweetModel.h"
 
 #import "MobileTwitterrificApp.h"
 
@@ -74,7 +75,7 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 	[timelineConnection release];
 	[preferencesController release];
 	[tweetController release];
-	[tweets release];
+	[_tweetModel release];
 
 	[super dealloc];
 }
@@ -92,9 +93,9 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
     _mainWindow = [newMainWindow retain];
 }
 
-- (NSMutableArray *)tweets
+- (IFTweetModel *)tweetModel
 {
-	return tweets;
+	return _tweetModel;
 }
 
 
@@ -102,61 +103,48 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 
 - (int) numberOfRowsInTable: (UITable *)table
 {
-	return [rowCells count];
+	return [[self tweetModel] tweetCount];
 }
 
 - (UITableCell *)table:(UITable *)table cellForRow:(int)row column:(int)column
 {
-	return [rowCells objectAtIndex:row];
+	NSLog(@"MobileTwitterrificApp: table:cellForRow:column: row = %d, column = %d", row, column);
+
+	NSDictionary *tweet = [[self tweetModel] tweetAtIndex:row];
+	
+	UIImageAndTextTableCell *imageAndTextTableCell = [[[UIImageAndTextTableCell alloc] init] autorelease];
+	[imageAndTextTableCell setTitle:[tweet objectForKey:@"userName"]];
+
+	return imageAndTextTableCell;
 }
 
-- (UITableCell *)table:(UITable *)table cellForRow:(int)row column:(int)col reusing:(BOOL)reusing
-{
-	return [rowCells objectAtIndex:row];
-}
 
-/* Determines whether the disclosure arrow (>) is shown for the row.
-   - (BOOL)table:(UITable *)table disclosureClickableForRow:(int)row determines whether the arrow is clickable.
-   If it isn't clickable, creates a "dead spot" on the arrow (selection won't change if clicked on arrow). 
-   It defaults to YES, so we don't have to implement it unless we have a good reason to not respond to clicks
-   on the arrow itself.
+/*
+NOTE: The following methods determine whether the disclosure arrow (>)
+is shown for the row. - (BOOL)table:(UITable *)table disclosureClickableForRow:(int)row
+determines whether the arrow is clickable. If it isn't clickable, creates a "dead spot"
+on the arrow (selection won't change if clicked on arrow). It defaults to YES, so we
+don't have to implement it unless we have a good reason to not respond to clicks
+on the arrow itself.
 */
 - (BOOL)table:(UITable *)table showDisclosureForRow:(int)row
 {
-  return YES;
+	return YES;
 }
 
 - (BOOL)table:(UITable *)table disclosureClickableForRow:(int)row
 {
-  return YES;
+	return YES;
 }
 
 - (void)tableRowSelected:(NSNotification *)aNotification
 {
-  [tweetController showTweet:[table selectedRow]];
+	[[self tweetModel] selectTweetWithIndex:[table selectedRow]];
+	[tweetController showTweet];
 }
 
 
 #pragma mark User interface
-
-- (int)indexForId:(NSString *)id
-{
-	BOOL idExists = NO;
-	int index = 0;
-	NSEnumerator *tweetEnumerator = [tweets objectEnumerator];
-	NSDictionary *tweet;
-	while ((tweet = [tweetEnumerator nextObject]))
-	{
-		if ([id isEqualToString:[tweet objectForKey:@"id"]])
-		{
-			idExists = YES;
-			break;
-		}
-		index += 1;
-	}
-
-	return (idExists ? index : -1);
-}
 
 - (void)parseXMLDocument:(NSXMLDocument *)document ofType:(NSString *)type
 {
@@ -249,22 +237,28 @@ TODO: Instantiate UIImage from URL
 			
 		}
 		
-		NSString *id = [content objectForKey:@"id"];
-		if (id)
+//		NSString *tweetId = [content objectForKey:@"id"];
+//		if (tweetId)
 		{
-			//NSLog(@"MobileTwitterrificApp: parseXMLDocument: content id = %@, type = %@", id, [content objectForKey:@"type"]);
+			//NSLog(@"MobileTwitterrificApp: parseXMLDocument: content id = %@, type = %@", [content objectForKey:@"id"], [content objectForKey:@"type"]);
 
-			// check to see if id already exists
-			int index = [self indexForId:id];
-			if (index == -1)
+			BOOL tweetWasAdded = [_tweetModel addTweet:content];
+			if (tweetWasAdded)
 			{
+			
+//			// check to see if id already exists
+//			int index = [self indexForId:id];
+//			if (index == -1)
+//			{
+/*
 				// add the content to the user interface
 				UIImageAndTextTableCell *imageAndTextTableCell = [[UIImageAndTextTableCell alloc] init];
 				[imageAndTextTableCell setTitle:[content objectForKey:@"userName"]];
 				[rowCells addObject:imageAndTextTableCell];
-		
+*/		
 				// add the content to the model
-				[tweets addObject:content];
+//				[tweets addObject:content];
+//				[_tweetModel addTweet:content];
 				
 				addedNewContent = YES;
 				tweetCount += 1;
@@ -306,8 +300,8 @@ resist the urge.
 	preferencesController = [[IFPreferencesController alloc] initWithAppController:self];
 	tweetController = [[IFTweetController alloc] initWithAppController:self];
 
-	rowCells = [[NSMutableArray alloc] init];
-	tweets = [[NSMutableArray alloc] init];
+	// create a model for managing the tweets
+	_tweetModel = [[IFTweetModel alloc] init];
 
 	UIWindow *window = [[UIWindow alloc] initWithContentRect:[UIHardware fullScreenApplicationContentRect]];
 
@@ -315,7 +309,7 @@ resist the urge.
 TODO: The main view should consist of three UI components:
 
 1) The navigation bar (with <Setup] and [Refresh])
-2) The tweets
+2) The main tweet view
 3) A toolbar with [?] (for updates) [@] (for replies) [D] (for direct messages) -- each button will open an "update view"
 with "What are you doing?" and some context for the post.
 */
@@ -353,10 +347,6 @@ with "What are you doing?" and some context for the post.
 	[timelineConnection refresh];
 }
 
-- (void)startRefreshTimer
-{
-}
-
 #pragma mark Notifications
 
 - (void)updatePreferences
@@ -389,9 +379,23 @@ TODO: Make the refresh interval a preference.
 	firstLogin = YES;
 }
 
+- (void)updateTweetSelection
+{
+	int newIndex = [[self tweetModel] selectionIndex];
+	NSLog(@"MobileTwitterrificApp: updateTweetSelection: new index = %d", newIndex);
+/*
+TODO: The following code causes weird things to happen with the table. Need to find a way
+to handle the selection update from the tweetController. Probably has something to do with
+the main view not being a contentView when the notification is sent.
+*/
+	//[table selectRow:newIndex byExtendingSelection:NO withFade:NO scrollingToVisible:YES];
+	//[table selectRow:newIndex byExtendingSelection:NO];
+}	
+
 - (void)setupNotifications
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePreferences) name:PREFERENCES_CHANGED object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTweetSelection) name:TWEET_SELECTION_CHANGED object:nil];
 }
 
 

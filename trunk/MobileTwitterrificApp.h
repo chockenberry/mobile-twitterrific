@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 
 #import "IFTwitterTimelineConnection.h"
+#import "IFTweetModel.h"
 
 @class IFPreferencesController;
 @class IFTweetController;
@@ -24,9 +25,10 @@
 	// timers
 	NSTimer *refreshTimer;
 
+	// models
+	IFTweetModel *_tweetModel;
+
 	// user interface
-	NSMutableArray *tweets;
-	NSMutableArray *rowCells;
 	UITableCell *tableCell;
 	UITable *table;
 	UIWindow *_mainWindow;
@@ -38,7 +40,7 @@
 	IFTweetController *tweetController;
 }
 
-- (NSMutableArray *)tweets;
+- (IFTweetModel *)tweetModel;
 - (UIWindow *)mainWindow;
 - (void)setMainWindow:(UIWindow *)newMainWindow;
 
