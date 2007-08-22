@@ -45,6 +45,7 @@
 #import <UIKit/UITableColumn.h>
 
 #import "IFPreferencesController.h"
+#import "IFTweetController.h"
 
 #import "MobileTwitterrificApp.h"
 
@@ -72,7 +73,9 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 {
 	[timelineConnection release];
 	[preferencesController release];
-	
+	[tweetController release];
+	[tweets release];
+
 	[super dealloc];
 }
 
@@ -87,6 +90,11 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 {
     [_mainWindow release];
     _mainWindow = [newMainWindow retain];
+}
+
+- (NSMutableArray *)tweets
+{
+	return tweets;
 }
 
 
@@ -106,6 +114,28 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 {
 	return [rowCells objectAtIndex:row];
 }
+
+/* Determines whether the disclosure arrow (>) is shown for the row.
+   - (BOOL)table:(UITable *)table disclosureClickableForRow:(int)row determines whether the arrow is clickable.
+   If it isn't clickable, creates a "dead spot" on the arrow (selection won't change if clicked on arrow). 
+   It defaults to YES, so we don't have to implement it unless we have a good reason to not respond to clicks
+   on the arrow itself.
+*/
+- (BOOL)table:(UITable *)table showDisclosureForRow:(int)row
+{
+  return YES;
+}
+
+- (BOOL)table:(UITable *)table disclosureClickableForRow:(int)row
+{
+  return YES;
+}
+
+- (void)tableRowSelected:(NSNotification *)aNotification
+{
+  [tweetController showTweet:[table selectedRow]];
+}
+
 
 #pragma mark User interface
 
@@ -274,9 +304,10 @@ resist the urge.
 
 	// create a controller for managing the user's preferences
 	preferencesController = [[IFPreferencesController alloc] initWithAppController:self];
-
+	tweetController = [[IFTweetController alloc] initWithAppController:self];
 
 	rowCells = [[NSMutableArray alloc] init];
+	tweets = [[NSMutableArray alloc] init];
 
 	UIWindow *window = [[UIWindow alloc] initWithContentRect:[UIHardware fullScreenApplicationContentRect]];
 

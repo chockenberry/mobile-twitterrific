@@ -13,6 +13,7 @@
 #import "IFTwitterTimelineConnection.h"
 
 @class IFPreferencesController;
+@class IFTweetController;
 
 @interface MobileTwitterrificApp : UIApplication
 {
@@ -32,8 +33,12 @@
 	
 	// preferences
 	IFPreferencesController *preferencesController;
+  
+	// tweets
+	IFTweetController *tweetController;
 }
 
+- (NSMutableArray *)tweets;
 - (UIWindow *)mainWindow;
 - (void)setMainWindow:(UIWindow *)newMainWindow;
 
