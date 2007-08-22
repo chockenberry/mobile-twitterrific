@@ -308,7 +308,7 @@ resist the urge.
 /*
 TODO: The main view should consist of three UI components:
 
-1) The navigation bar (with <Setup] and [Refresh])
+1) The navigation bar (with [Setup] and [Refresh])
 2) The main tweet view
 3) A toolbar with [?] (for updates) [@] (for replies) [D] (for direct messages) -- each button will open an "update view"
 with "What are you doing?" and some context for the post.
@@ -328,7 +328,7 @@ with "What are you doing?" and some context for the post.
 	[table reloadData];
 
 	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 48.0f)] autorelease];
-	[navigationBar showButtonsWithLeftTitle:@"Setup" rightTitle:@"Refresh" leftBack:YES];
+	[navigationBar showButtonsWithLeftTitle:@"Refresh" rightTitle:@"Setup"];
 	[navigationBar setBarStyle:0];
 	[navigationBar setDelegate:self];
 
@@ -581,11 +581,11 @@ Props to Lucas Newman for figuring out this workaround.
 	//NSLog(@"MobileTwitterrificApp: navigationBar:buttonClicked = %d", button);
 	switch (button) 
 	{
-	case 0:
-		[self refresh];
-		break;
-	case 1: 
+	case 0: 
 		[preferencesController showPreferences]; 
+		break;
+	case 1:
+		[self refresh];
 		break;
 	}
 }
