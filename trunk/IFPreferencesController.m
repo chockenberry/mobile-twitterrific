@@ -138,7 +138,7 @@
 	
 	// create the navigation bar
 	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 48.0f)] autorelease];
-	[navigationBar showButtonsWithLeftTitle:@"Back" rightTitle:nil leftBack:YES];
+	[navigationBar showButtonsWithLeftTitle:nil rightTitle:@"Done" leftBack:YES];
 	[navigationBar setBarStyle:0];
 	[navigationBar setDelegate:self]; 
 	[preferenceView addSubview:navigationBar];
@@ -198,7 +198,7 @@ extract the boolean value.
 {
 	switch (button) 
 	{
-	case 1: 
+	case 0: 
 		[self hidePreferences]; 
 		break;
 	}
