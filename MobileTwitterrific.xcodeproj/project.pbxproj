@@ -18,6 +18,8 @@
 		44AC3B420C7A080200427BB8 /* IFPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFPreferencesController.m; sourceTree = "<group>"; };
 		44AC3F980C7B938900427BB8 /* IFTweetController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = IFTweetController.m; sourceTree = "<group>"; };
 		44AC3F990C7B938900427BB8 /* IFTweetController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IFTweetController.h; sourceTree = "<group>"; };
+		44AC3FBF0C7CA99C00427BB8 /* IFTweetModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetModel.h; sourceTree = "<group>"; };
+		44AC3FC00C7CA99C00427BB8 /* IFTweetModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetModel.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D90F56B90C6719EF007AE76B /* MobileTwitterrificApp.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MobileTwitterrificApp.m; sourceTree = "<group>"; };
 		D90F56BA0C6719EF007AE76B /* MobileTwitterrificApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MobileTwitterrificApp.h; sourceTree = "<group>"; };
@@ -31,6 +33,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				44AC3FBE0C7CA97F00427BB8 /* Models */,
 				44AC3B430C7A080A00427BB8 /* Controllers */,
 				443D21690C76293F0045EDF9 /* Connections */,
 				D90F56BA0C6719EF007AE76B /* MobileTwitterrificApp.h */,
@@ -115,6 +118,15 @@
 				44AC3F980C7B938900427BB8 /* IFTweetController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		44AC3FBE0C7CA97F00427BB8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				44AC3FBF0C7CA99C00427BB8 /* IFTweetModel.h */,
+				44AC3FC00C7CA99C00427BB8 /* IFTweetModel.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
