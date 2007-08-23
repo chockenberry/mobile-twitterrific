@@ -24,8 +24,8 @@
 - (id)initWithAppController:(MobileTwitterrificApp *)appController;
 
 - (void)showTweet;
-- (void)showNextTweet;
-- (void)showPreviousTweet;
+- (void)showTweetAfterCurrent;
+- (void)showTweetBeforeCurrent;
 - (void)hideTweet;
 
 // Notifications

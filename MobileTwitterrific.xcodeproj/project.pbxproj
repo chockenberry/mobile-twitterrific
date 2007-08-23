@@ -8,6 +8,8 @@
 
 /* Begin PBXFileReference section */
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4420FF1E0C7E2186007C1208 /* arrowdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowdown.png; path = Resources/arrowdown.png; sourceTree = "<group>"; };
+		4420FF1F0C7E2186007C1208 /* arrowup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowup.png; path = Resources/arrowup.png; sourceTree = "<group>"; };
 		443D216E0C76298B0045EDF9 /* IFTwitterTimelineConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IFTwitterTimelineConnection.h; sourceTree = "<group>"; };
 		443D216F0C76298B0045EDF9 /* IFTwitterConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = IFTwitterConnection.m; sourceTree = "<group>"; };
 		443D21710C76298B0045EDF9 /* IFTwitterConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IFTwitterConnection.h; sourceTree = "<group>"; };
@@ -105,6 +107,8 @@
 			children = (
 				44AC39400C76472500427BB8 /* icon.png */,
 				44AC39410C76472500427BB8 /* Default.png */,
+				4420FF1E0C7E2186007C1208 /* arrowdown.png */,
+				4420FF1F0C7E2186007C1208 /* arrowup.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
