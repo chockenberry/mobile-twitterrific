@@ -47,6 +47,7 @@
 #import "IFPreferencesController.h"
 #import "IFTweetController.h"
 #import "IFTweetModel.h"
+#import "IFSoundController.h"
 
 #import "MobileTwitterrificApp.h"
 
@@ -75,6 +76,7 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 	[timelineConnection release];
 	[preferencesController release];
 	[tweetController release];
+	[soundController release];
 	[_tweetModel release];
 
 	[super dealloc];
@@ -282,6 +284,8 @@ clearer once the UI and associated views are established.
 		//[self removeOldTweets]; // to clean up data and keep memory usage to a minimum
 		
 		[table reloadData];
+		
+		[soundController playNotification];
 	}
 }
 
@@ -296,10 +300,13 @@ resist the urge.
 	contentRect.origin.x = 0.0f;
 	contentRect.origin.y = 0.0f;
 
-	// create a controller for managing the user's preferences
+	// create a controller for managing the user's preferences and the detailed tweet view
 	preferencesController = [[IFPreferencesController alloc] initWithAppController:self];
 	tweetController = [[IFTweetController alloc] initWithAppController:self];
 
+	// create a controller for sounds
+	soundController = [[IFSoundController alloc] init];
+	
 	// create a model for managing the tweets
 	_tweetModel = [[IFTweetModel alloc] init];
 
