@@ -29,6 +29,7 @@
     UIPreferencesTextTableCell *_loginPreferenceCell;
     UIPreferencesTextTableCell *_passwordPreferenceCell;
     UIPreferencesControlTableCell *_refreshPreferenceCell;
+    UIPreferencesControlTableCell *_notifyPreferenceCell;
 }
 
 - (id)initWithAppController:(MobileTwitterrificApp *)appController;

@@ -284,8 +284,13 @@ clearer once the UI and associated views are established.
 		//[self removeOldTweets]; // to clean up data and keep memory usage to a minimum
 		
 		[table reloadData];
-		
-		[soundController playNotification];
+
+		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+		BOOL notify = [userDefaults boolForKey:@"notify"];
+		if (notify)
+		{
+			[soundController playNotification];
+		}
 	}
 }
 

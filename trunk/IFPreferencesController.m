@@ -42,6 +42,8 @@
 	_passwordPreferenceCell = nil;
 	[_refreshPreferenceCell release];
 	_refreshPreferenceCell = nil;
+	[_notifyPreferenceCell release];
+	_notifyPreferenceCell = nil;
 	
 	[super dealloc];
 }
@@ -62,11 +64,11 @@
 	int rowCount = 0;	
 	switch (group)
 	{
-	case 0:
+	case 0: // Twitter Login
 		rowCount = 2;
 		break;
-	case 1:
-		rowCount = 1;
+	case 1: // Options
+		rowCount = 2;
 		break;
 	}
 	return rowCount;
@@ -79,7 +81,7 @@
 	id prefCell = nil;
 	switch (group)
 	{
-	case 0:
+	case 0: // Twitter Login
 		switch (row)
 		{
 		case 0:
@@ -90,11 +92,14 @@
 			break;
 		}
 		break;
-	case 1:
+	case 1: // Options
 		switch (row)
 		{
 		case 0:
 			prefCell = _refreshPreferenceCell;
+			break;
+		case 1:
+			prefCell = _notifyPreferenceCell;
 			break;
 		}
 		break;
@@ -167,6 +172,7 @@ _objc_msgSend_fpret error. Using KVC lets you get back an NSNumber and then
 extract the boolean value.
 */
 	BOOL refresh = [[[_refreshPreferenceCell control] valueForKey:@"value"] boolValue];
+	BOOL notify = [[[_notifyPreferenceCell control] valueForKey:@"value"] boolValue];
 
 	//NSLog(@"IFPreferencesController: hidePreferences: login = %@", login);
 	//NSLog(@"IFPreferencesController: hidePreferences: password = %@", password);
@@ -177,6 +183,7 @@ extract the boolean value.
 	[userDefaults setObject:login forKey:@"login"];
 	[userDefaults setObject:password forKey:@"password"];
 	[userDefaults setBool:refresh forKey:@"refresh"];
+	[userDefaults setBool:notify forKey:@"notify"];
 	[userDefaults synchronize];
 	
 	// restore the original content view
@@ -228,9 +235,16 @@ extract the boolean value.
 	_refreshPreferenceCell = [[UIPreferencesControlTableCell alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 44.0f)];
 	BOOL refresh = [userDefaults boolForKey:@"refresh"];
 	[_refreshPreferenceCell setTitle:@"Automatic Refresh"];
-	UISwitchControl *switchControl = [[[UISwitchControl alloc] initWithFrame:CGRectMake(contentRect.size.width - 112.0, 9.0f, 112.0f, 44.0f)] autorelease];
-	[switchControl setValue:refresh];
-	[_refreshPreferenceCell setControl:switchControl];
+	UISwitchControl *refreshSwitchControl = [[[UISwitchControl alloc] initWithFrame:CGRectMake(contentRect.size.width - 112.0, 9.0f, 112.0f, 44.0f)] autorelease];
+	[refreshSwitchControl setValue:refresh];
+	[_refreshPreferenceCell setControl:refreshSwitchControl];
+
+	_notifyPreferenceCell = [[UIPreferencesControlTableCell alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 44.0f)];
+	BOOL notify = [userDefaults boolForKey:@"notify"];
+	[_notifyPreferenceCell setTitle:@"Notification Sound"];
+	UISwitchControl *notifySwitchControl = [[[UISwitchControl alloc] initWithFrame:CGRectMake(contentRect.size.width - 112.0, 9.0f, 112.0f, 44.0f)] autorelease];
+	[notifySwitchControl setValue:notify];
+	[_notifyPreferenceCell setControl:notifySwitchControl];
 }
 
 @end
