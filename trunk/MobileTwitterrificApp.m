@@ -315,7 +315,7 @@ with "What are you doing?" and some context for the post.
 */
 
 	// create a table whose height is the full screen, less the navbar, less the status bar
-	table = [[UITable alloc] initWithFrame:CGRectMake(0.0f, 48.0f, contentRect.size.width, contentRect.size.height - 48.0f)];
+	table = [[UITable alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f)];
 	UITableColumn *tableColumn = [[UITableColumn alloc] initWithTitle:@"Twitterrific" identifier:@"twitterrific" width:contentRect.size.width];
 
 	[window orderFront:self];
@@ -327,7 +327,7 @@ with "What are you doing?" and some context for the post.
 	[table setDelegate:self];
 	[table reloadData];
 
-	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 48.0f)] autorelease];
+	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 44.0f)] autorelease];
 	[navigationBar showButtonsWithLeftTitle:@"Refresh" rightTitle:@"Setup"];
 	[navigationBar setBarStyle:0];
 	[navigationBar setDelegate:self];

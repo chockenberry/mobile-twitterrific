@@ -122,7 +122,7 @@
 - (float)preferencesTable:(id)preferencesTable heightForRow:(int)row inGroup:(int)group withProposedHeight:(float)proposedHeight;
 {
 	//NSLog(@"IFPreferencesController: preferencesTable:heightForRow:inGroup:withProposedHeight: and proposed height is %f", proposedHeight);
-	return 48.0f;
+	return 44.0f;
 }
 
 #pragma mark View control
@@ -137,14 +137,14 @@
 	UIView *preferenceView = [[[UIView alloc] initWithFrame:contentRect] autorelease];
 	
 	// create the navigation bar
-	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 48.0f)] autorelease];
+	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 44.0f)] autorelease];
 	[navigationBar showButtonsWithLeftTitle:nil rightTitle:@"Done" leftBack:YES];
 	[navigationBar setBarStyle:0];
 	[navigationBar setDelegate:self]; 
 	[preferenceView addSubview:navigationBar];
 	
 	// create the preferences table and add it to our view
-	_preferencesTable = [[UIPreferencesTable alloc] initWithFrame:CGRectMake(0.0f, 48.0f, contentRect.size.width, contentRect.size.height - 48.0f)];
+	_preferencesTable = [[UIPreferencesTable alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f)];
 	[_preferencesTable setDataSource:self];
 	[_preferencesTable reloadData];
 	[preferenceView addSubview:_preferencesTable];
@@ -216,19 +216,19 @@ extract the boolean value.
 	//NSLog(@"IFPreferencesController: _setupCells: password = %@", [userDefaults stringForKey:@"password"]);
 	//NSLog(@"IFPreferencesController: _setupCells: refresh = %d", [userDefaults boolForKey:@"refresh"]);
 
-	_loginPreferenceCell = [[UIPreferencesTextTableCell alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 48.0f)];
+	_loginPreferenceCell = [[UIPreferencesTextTableCell alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 44.0f)];
 	[_loginPreferenceCell setValue:[userDefaults stringForKey:@"login"]];
 	[_loginPreferenceCell setTitle:@"Login"];
 	
-	_passwordPreferenceCell = [[UIPreferencesTextTableCell alloc] initWithFrame:CGRectMake(0.0f, 48.0f, contentRect.size.width, 48.0f)];
+	_passwordPreferenceCell = [[UIPreferencesTextTableCell alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, 44.0f)];
 	[_passwordPreferenceCell setValue:[userDefaults stringForKey:@"password"]];
 	[_passwordPreferenceCell setTitle:@"Password"];
 	[[_passwordPreferenceCell textField] setSecure:YES];
 
-	_refreshPreferenceCell = [[UIPreferencesControlTableCell alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 48.0f)];
+	_refreshPreferenceCell = [[UIPreferencesControlTableCell alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 44.0f)];
 	BOOL refresh = [userDefaults boolForKey:@"refresh"];
-	[_refreshPreferenceCell setTitle:@"Automatic refresh"];
-	UISwitchControl *switchControl = [[[UISwitchControl alloc] initWithFrame:CGRectMake(contentRect.size.width - 114.0, 11.0f, 114.0f, 48.0f)] autorelease];
+	[_refreshPreferenceCell setTitle:@"Automatic Refresh"];
+	UISwitchControl *switchControl = [[[UISwitchControl alloc] initWithFrame:CGRectMake(contentRect.size.width - 112.0, 9.0f, 112.0f, 44.0f)] autorelease];
 	[switchControl setValue:refresh];
 	[_refreshPreferenceCell setControl:switchControl];
 }

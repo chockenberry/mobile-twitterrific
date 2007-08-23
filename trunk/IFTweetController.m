@@ -45,7 +45,7 @@
 	UIView *tweetView = [[[UIView alloc] initWithFrame:contentRect] autorelease];
 	
 	// create the navigation bar
-	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 48.0f)] autorelease];
+	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 44.0f)] autorelease];
 	//int tweetCount = [tweetModel tweetCount];
 	int selectionIndex = [tweetModel selectionIndex];
 	if (selectionIndex > 0)
@@ -62,7 +62,7 @@
 	
 	// create the text view
 	NSDictionary *tweet = [tweetModel selectedTweet];	
-	UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0f, 48.0f, contentRect.size.width, contentRect.size.height - 48.0f)];
+	UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f)];
 	NSString *html = [[NSString alloc] initWithString:[NSString stringWithFormat:@"<b>%@</b><br/>%@",
 			[tweet objectForKey:@"userName"], [tweet objectForKey:@"text"]]];
 	
