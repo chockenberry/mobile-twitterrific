@@ -6,7 +6,8 @@ SOURCES=\
 	IFTwitterTimelineConnection.m \
 	IFPreferencesController.m \
 	IFTweetController.m \
-	IFTweetModel.m
+	IFTweetModel.m \
+	IFSoundController.m
 RESOURCES=Resources
 
 CC=/Developer/SDKs/iPhone/bin/arm-apple-darwin-cc
@@ -84,10 +85,11 @@ all: $(PRODUCT_ABS)
 $(PRODUCT_ABS): $(APP_ABS) $(OBJECTS_ABS)
 	$(LD) $(LDFLAGS) -o $(PRODUCT_ABS) $(OBJECTS_ABS)
 
-$(APP_ABS): $(INFOPLIST_ABS) $(SRCROOT)/$(RESOURCES)/*.png
+$(APP_ABS): $(INFOPLIST_ABS) $(SRCROOT)/$(RESOURCES)/*.png $(SRCROOT)/$(RESOURCES)/*.wav
 	mkdir -p $(APP_ABS)
 	cp $(INFOPLIST_ABS) $(APP_ABS)/
 	cp $(SRCROOT)/$(RESOURCES)/*.png $(APP_ABS)/
+	cp $(SRCROOT)/$(RESOURCES)/*.wav $(APP_ABS)/
 
 $(CONFIGURATION_TEMP_DIR)/%.o: $(SRCROOT)/%.m
 	mkdir -p $(dir $@)
