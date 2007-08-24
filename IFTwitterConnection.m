@@ -41,7 +41,7 @@
 	_error = nil;
 	_errorType = nil;
 	
-	_connectionLogging = YES;
+	_connectionLogging = NO; // YES;
 
 	return self;
 }
