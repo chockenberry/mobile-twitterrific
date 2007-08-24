@@ -43,11 +43,18 @@
 #import <UIKit/UITable.h>
 #import <UIKit/UITableCell.h>
 #import <UIKit/UITableColumn.h>
+#import <UIKit/UIButtonBar.h>
+#import <UIKit/UIButtonBarButton.h>
+#import <UIKit/UIButtonBarTextButton.h>
+
+#import <WebCore/WebFontCache.h>
 
 #import "IFPreferencesController.h"
 #import "IFTweetController.h"
 #import "IFTweetModel.h"
 #import "IFSoundController.h"
+
+//#import "IFTestDictionary.h"
 
 #import "MobileTwitterrificApp.h"
 
@@ -110,7 +117,7 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 
 - (UITableCell *)table:(UITable *)table cellForRow:(int)row column:(int)column
 {
-	NSLog(@"MobileTwitterrificApp: table:cellForRow:column: row = %d, column = %d", row, column);
+	//NSLog(@"MobileTwitterrificApp: table:cellForRow:column: row = %d, column = %d", row, column);
 
 	NSDictionary *tweet = [[self tweetModel] tweetAtIndex:row];
 	
@@ -326,8 +333,8 @@ TODO: The main view should consist of three UI components:
 with "What are you doing?" and some context for the post.
 */
 
-	// create a table whose height is the full screen, less the navbar, less the status bar
-	table = [[UITable alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f)];
+	// create a table whose height is the full screen, less the navbar, less the button bar
+	table = [[UITable alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f - 44.0f)];
 	UITableColumn *tableColumn = [[UITableColumn alloc] initWithTitle:@"Twitterrific" identifier:@"twitterrific" width:contentRect.size.width];
 
 	[window orderFront:self];
@@ -339,15 +346,96 @@ with "What are you doing?" and some context for the post.
 	[table setDelegate:self];
 	[table reloadData];
 
+/*
+NOTE: The styles enumeration used withBarStyle are:
+	0 - Standard light blue
+	1 - Shiny black
+	2 - Like 1
+	3 - Like 0
+	4+ - ?
+*/
 	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 44.0f)] autorelease];
 	[navigationBar showButtonsWithLeftTitle:@"Refresh" rightTitle:@"Setup"];
-	[navigationBar setBarStyle:0];
+	[navigationBar setBarStyle:1];
 	[navigationBar setDelegate:self];
+
+/*
+	UIButtonBar *buttonBar = [[[UIButtonBar alloc] initWithFrame:CGRectMake(0.0f, contentRect.size.height - 44.0f, contentRect.size.width, 44.0f)] autorelease];
+	[buttonBar setBarStyle:0];
+	[buttonBar setDelegate:self];
+*/
 
 	UIView *mainView = [[UIView alloc] initWithFrame:contentRect];
 	[mainView addSubview:navigationBar]; 
-	[mainView addSubview:table]; 
+	[mainView addSubview:table];
 
+/*
+These look like promising keys for the NSDictionary (from UIKit)
+
+UIButtonBarButtonTitleWidth
+UIButtonBarButtonStyle
+UIButtonBarButtonTarget
+UIButtonBarButtonAction
+UIButtonBarButtonTag
+UIButtonBarButtonSelectedInfo
+UIButtonBarButtonInfo
+UIButtonBarButtonTitle
+UIButtonBarButtonType
+
+// these are probably class names
+UIButtonBarButtonItem
+UIButtonBarCustomizeHeader
+UIButtonBarCustomizeView
+UIButtonBarTextButton
+UIButtonBarButton
+UIButtonBarButtonBadge
+UISwappableImageView
+UISelectionIndicatorView
+kUIButtonBarButtonInfoOffset
+kUIButtonBarButtonTitleVerticalHeight
+
+// standard images?
+UIButtonBarSelectedIndicator.png
+UIButtonBarBlueMiniButton.png
+UIButtonBarMiniButton.png
+UIButtonBarMiniButtonPressed.png
+*/
+	NSLog(@"creating testButton");
+	UIButtonBarButton *testButton = [[[UIButtonBarButton alloc] initWithImage:[UIImage imageNamed:@"arrowup.png"] selectedImage:[UIImage imageNamed:@"arrowdown.png"] label:@"Test" labelHeight:20.0f withBarStyle:0 withStyle:0 withOffset:NSMakeSize(4.0f, 0.0f)] autorelease];
+
+//	struct __GSFont *font = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:2 size:16.0f];
+//	UIButtonBarTextButton *testButton = [[[UIButtonBarTextButton alloc] initWithTitle:@"Title" selectedTitle:@"Selected" withFont:font withBarStyle:0 withStyle:0 withTitleWidth:44.0f] autorelease];      
+
+	NSLog(@"creating dictionary");
+	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+		testButton, @"UIButtonBarButtonTarget",
+		nil];
+//		@selector(buttonAction:), @"UIButtonBarButtonAction",
+//		testButton, @"UIButtonBarButton", 
+	
+	
+//	NSLog(@"creating test dictionary");
+//	IFTestDictionary *testDictionary = [[IFTestDictionary alloc] initWithDictionary:dictionary];
+	
+	NSLog(@"creating array");
+//	NSArray *itemList = [NSArray arrayWithObject:testDictionary];
+	NSArray *itemList = [NSArray arrayWithObject:dictionary];
+
+	NSLog(@"creating buttonBar");
+	UIButtonBar *buttonBar = [[[UIButtonBar alloc] initInView:mainView withItemList:itemList] autorelease];
+
+/*
+	NSLog(@"creating dictionary");
+	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+		self, @"UIButtonBarButtonTarget",
+		nil];
+	id button = [buttonBar createButtonWithDescription:dictionary];
+	NSLog(@"button = %@", button);
+*/
+	
+	[buttonBar setBarStyle:1];
+	[buttonBar setDelegate:self];
+	
 	[window setContentView:mainView];
 	[self setMainWindow:window];
 }
@@ -411,7 +499,7 @@ the main view not being a contentView when the notification is sent.
 }
 
 
-#pragma mark Application delegate
+#pragma mark UIApplication delegate
 
 - (void)applicationDidFinishLaunching:(id)unused
 {
@@ -590,7 +678,7 @@ Props to Lucas Newman for figuring out this workaround.
 
 - (void)navigationBar:(UINavigationBar*)navbar buttonClicked:(int)button 
 {
-	//NSLog(@"MobileTwitterrificApp: navigationBar:buttonClicked = %d", button);
+	//NSLog(@"MobileTwitterrificApp: navigationBar:buttonClicked: button = %d", button);
 	switch (button) 
 	{
 	case 0: 
@@ -600,6 +688,18 @@ Props to Lucas Newman for figuring out this workaround.
 		[self refresh];
 		break;
 	}
+}
+
+#pragma mark UIButtonBar delegate
+
+- (void)buttonBar:(UIButtonBar*)buttonBar buttonClicked:(int)button 
+{
+	NSLog(@"MobileTwitterrificApp: buttonBar:buttonClicked: button = %d", button);
+}
+
+- (void)buttonAction:(id)sender
+{
+	NSLog(@"MobileTwitterrificApp: buttonAction: sender = %@", sender);
 }
 
 @end

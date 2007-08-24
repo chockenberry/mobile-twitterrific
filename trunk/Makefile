@@ -7,7 +7,8 @@ SOURCES=\
 	IFPreferencesController.m \
 	IFTweetController.m \
 	IFTweetModel.m \
-	IFSoundController.m
+	IFSoundController.m \
+	IFTestDictionary.m
 RESOURCES=Resources
 
 CC=/Developer/SDKs/iPhone/bin/arm-apple-darwin-cc

@@ -95,7 +95,7 @@ TODO: Make the threshold a preference.
 		
 		tweetWasAdded = YES;
 		
-		NSLog(@"IFTweetModel: addTweet: newTweetId = %@, tweets = %@", newTweetId, _tweets);
+		//NSLog(@"IFTweetModel: addTweet: newTweetId = %@, tweets = %@", newTweetId, _tweets);
 	}
 	
 	return tweetWasAdded;

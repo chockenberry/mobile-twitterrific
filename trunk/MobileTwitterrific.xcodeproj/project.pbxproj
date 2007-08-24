@@ -8,6 +8,8 @@
 
 /* Begin PBXFileReference section */
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		442000A50C7F5590007C1208 /* IFTestDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTestDictionary.h; sourceTree = "<group>"; };
+		442000A60C7F5590007C1208 /* IFTestDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTestDictionary.m; sourceTree = "<group>"; };
 		4420FF1E0C7E2186007C1208 /* arrowdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowdown.png; path = Resources/arrowdown.png; sourceTree = "<group>"; };
 		4420FF1F0C7E2186007C1208 /* arrowup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowup.png; path = Resources/arrowup.png; sourceTree = "<group>"; };
 		4420FF580C7E4C8D007C1208 /* IFSoundController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFSoundController.h; sourceTree = "<group>"; };
@@ -42,6 +44,8 @@
 				443D21690C76293F0045EDF9 /* Connections */,
 				D90F56BA0C6719EF007AE76B /* MobileTwitterrificApp.h */,
 				D90F56B90C6719EF007AE76B /* MobileTwitterrificApp.m */,
+				442000A50C7F5590007C1208 /* IFTestDictionary.h */,
+				442000A60C7F5590007C1208 /* IFTestDictionary.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
