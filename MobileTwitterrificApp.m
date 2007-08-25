@@ -53,8 +53,9 @@
 #import "IFTweetController.h"
 #import "IFTweetModel.h"
 #import "IFSoundController.h"
+#import "IFInputController.h"
 
-//#import "IFTestDictionary.h"
+#import "IFTestDictionary.h"
 
 #import "MobileTwitterrificApp.h"
 
@@ -83,6 +84,7 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 	[timelineConnection release];
 	[preferencesController release];
 	[tweetController release];
+	[inputController release];
 	[soundController release];
 	[_tweetModel release];
 
@@ -312,9 +314,10 @@ resist the urge.
 	contentRect.origin.x = 0.0f;
 	contentRect.origin.y = 0.0f;
 
-	// create a controller for managing the user's preferences and the detailed tweet view
+	// create a controller for managing the user's preference view, the detailed tweet view, and the input view
 	preferencesController = [[IFPreferencesController alloc] initWithAppController:self];
 	tweetController = [[IFTweetController alloc] initWithAppController:self];
+	inputController = [[IFInputController alloc] initWithAppController:self];
 
 	// create a controller for sounds
 	soundController = [[IFSoundController alloc] init];
@@ -366,8 +369,9 @@ NOTE: The styles enumeration used withBarStyle are:
 */
 
 	UIView *mainView = [[UIView alloc] initWithFrame:contentRect];
-	[mainView addSubview:navigationBar]; 
+	[mainView addSubview:navigationBar];
 	[mainView addSubview:table];
+	
 
 /*
 These look like promising keys for the NSDictionary (from UIKit)
@@ -401,25 +405,30 @@ UIButtonBarMiniButton.png
 UIButtonBarMiniButtonPressed.png
 */
 	NSLog(@"creating testButton");
-	UIButtonBarButton *testButton = [[[UIButtonBarButton alloc] initWithImage:[UIImage imageNamed:@"arrowup.png"] selectedImage:[UIImage imageNamed:@"arrowdown.png"] label:@"Test" labelHeight:20.0f withBarStyle:0 withStyle:0 withOffset:NSMakeSize(4.0f, 0.0f)] autorelease];
+//	UIButtonBarButton *testButton = [[[UIButtonBarButton alloc] initWithImage:[UIImage imageNamed:@"arrowup.png"] selectedImage:[UIImage imageNamed:@"arrowdown.png"] label:@"Test" labelHeight:20.0f withBarStyle:0 withStyle:0 withOffset:NSMakeSize(4.0f, 0.0f)] autorelease];
 
 //	struct __GSFont *font = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:2 size:16.0f];
 //	UIButtonBarTextButton *testButton = [[[UIButtonBarTextButton alloc] initWithTitle:@"Title" selectedTitle:@"Selected" withFont:font withBarStyle:0 withStyle:0 withTitleWidth:44.0f] autorelease];      
 
 	NSLog(@"creating dictionary");
 	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-		testButton, @"UIButtonBarButtonTarget",
+		[NSNumber numberWithFloat:44.0f], @"UIButtonBarButtonTitleWidth",
+		[NSNumber numberWithInt:0], @"UIButtonBarButtonStyle",
+		@"Title", @"UIButtonBarButtonTitle",
+		@"Tag", @"UIButtonBarButtonTag",
+		@"UIButtonBarButton", @"UIButtonBarButtonType",
+		self, @"UIButtonBarButtonTarget",
 		nil];
 //		@selector(buttonAction:), @"UIButtonBarButtonAction",
 //		testButton, @"UIButtonBarButton", 
 	
 	
-//	NSLog(@"creating test dictionary");
-//	IFTestDictionary *testDictionary = [[IFTestDictionary alloc] initWithDictionary:dictionary];
+	NSLog(@"creating test dictionary");
+	IFTestDictionary *testDictionary = [[IFTestDictionary alloc] initWithDictionary:dictionary];
 	
 	NSLog(@"creating array");
-//	NSArray *itemList = [NSArray arrayWithObject:testDictionary];
-	NSArray *itemList = [NSArray arrayWithObject:dictionary];
+	NSArray *itemList = [NSArray arrayWithObject:testDictionary];
+//	NSArray *itemList = [NSArray arrayWithObject:dictionary];
 
 	NSLog(@"creating buttonBar");
 	UIButtonBar *buttonBar = [[[UIButtonBar alloc] initInView:mainView withItemList:itemList] autorelease];
@@ -436,6 +445,8 @@ UIButtonBarMiniButtonPressed.png
 	[buttonBar setBarStyle:1];
 	[buttonBar setDelegate:self];
 	
+	[mainView addSubview:buttonBar];
+
 	[window setContentView:mainView];
 	[self setMainWindow:window];
 }
@@ -678,14 +689,15 @@ Props to Lucas Newman for figuring out this workaround.
 
 - (void)navigationBar:(UINavigationBar*)navbar buttonClicked:(int)button 
 {
-	//NSLog(@"MobileTwitterrificApp: navigationBar:buttonClicked: button = %d", button);
+	NSLog(@"MobileTwitterrificApp: navigationBar:buttonClicked: button = %d", button);
 	switch (button) 
 	{
 	case 0: 
 		[preferencesController showPreferences]; 
 		break;
 	case 1:
-		[self refresh];
+		//[self refresh];
+		[inputController showInput];
 		break;
 	}
 }

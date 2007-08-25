@@ -16,6 +16,7 @@
 @class IFPreferencesController;
 @class IFTweetController;
 @class IFSoundController;
+@class IFInputController;
 
 @interface MobileTwitterrificApp : UIApplication
 {
@@ -42,6 +43,9 @@
 	
 	// sounds
 	IFSoundController *soundController;
+
+	// keyboard
+	IFInputController *inputController;
 }
 
 - (IFTweetModel *)tweetModel;
