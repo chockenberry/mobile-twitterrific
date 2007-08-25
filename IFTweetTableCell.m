@@ -24,6 +24,10 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 
 - (id)initWithFrame:(struct CGRect)frame;
 {
+	struct CGRect contentRect = [UIHardware fullScreenApplicationContentRect];
+	contentRect.origin.x = 0.0f;
+	contentRect.origin.y = 0.0f;
+
     self = [super initWithFrame:frame];
     if (self)
 	{
@@ -36,7 +40,7 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 		[_userNameLabel setFont:userNameFont];
 		[self addSubview:_userNameLabel];
 
-		_textLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(4.0f, 18.0f, 290.0f, 70.0f)];
+		_textLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(4.0f, 18.0f, contentRect.size.width - 40.0f, 70.0f)];
 		[_textLabel setWrapsText:YES];
 		[_textLabel setBackgroundColor:CGColorCreate(colorSpace, transparentComponents)];
 		[_textLabel setEllipsisStyle:2];
