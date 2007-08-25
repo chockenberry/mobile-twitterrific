@@ -10,8 +10,6 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		442000A50C7F5590007C1208 /* IFTestDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTestDictionary.h; sourceTree = "<group>"; };
 		442000A60C7F5590007C1208 /* IFTestDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTestDictionary.m; sourceTree = "<group>"; };
-		442002820C7F9E5E007C1208 /* IFKeyboardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFKeyboardController.h; sourceTree = "<group>"; };
-		442002830C7F9E5E007C1208 /* IFKeyboardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFKeyboardController.m; sourceTree = "<group>"; };
 		4420036A0C7FAABF007C1208 /* IFInputController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = IFInputController.m; sourceTree = "<group>"; };
 		4420036B0C7FAABF007C1208 /* IFInputController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IFInputController.h; sourceTree = "<group>"; };
 		4420FF1E0C7E2186007C1208 /* arrowdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowdown.png; path = Resources/arrowdown.png; sourceTree = "<group>"; };
@@ -132,8 +130,6 @@
 				44AC3F980C7B938900427BB8 /* IFTweetController.m */,
 				4420FF580C7E4C8D007C1208 /* IFSoundController.h */,
 				4420FF590C7E4C8D007C1208 /* IFSoundController.m */,
-				442002820C7F9E5E007C1208 /* IFKeyboardController.h */,
-				442002830C7F9E5E007C1208 /* IFKeyboardController.m */,
 				4420036B0C7FAABF007C1208 /* IFInputController.h */,
 				4420036A0C7FAABF007C1208 /* IFInputController.m */,
 			);
