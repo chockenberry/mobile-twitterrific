@@ -9,6 +9,7 @@ SOURCES=\
 	IFTweetModel.m \
 	IFSoundController.m \
 	IFInputController.m \
+	IFTweetTableCell.m \
 	IFTestDictionary.m
 RESOURCES=Resources
 
