@@ -38,7 +38,7 @@
 
 + (void)setObject:(id)anObject forKey:(id)aKey
 {
-	NSLog(@"IFTestDictionary: + setObject:forKey: value = %@, key = %@", anObject, aKey);
+	NSLog(@"IFTestDictionary: + setObject:forKey: value = %@ (%@), key = %@", anObject, [anObject description], aKey);
 }
 
 - (void)setObject:(id)anObject forKey:(id)aKey
@@ -49,6 +49,16 @@
 
 - (id)mutableCopyWithZone:(NSZone *)zone
 {
-	return [IFTestDictionary mutableCopyWithZone:zone];
+//	return [IFTestDictionary mutableCopyWithZone:zone];
+	return [[IFTestDictionary allocWithZone:zone] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:_dictionary]];
 }
+
+- (void)forwardInvocation:(NSInvocation *)anInvocation
+{
+	NSLog(@"IFTestDictionary: forwardInvocation: selector = %@", NSStringFromSelector([anInvocation selector]));
+	[super forwardInvocation:anInvocation];
+	return;
+}
+
+
 @end
