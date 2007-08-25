@@ -12,6 +12,8 @@
 		442000A60C7F5590007C1208 /* IFTestDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTestDictionary.m; sourceTree = "<group>"; };
 		4420036A0C7FAABF007C1208 /* IFInputController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = IFInputController.m; sourceTree = "<group>"; };
 		4420036B0C7FAABF007C1208 /* IFInputController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IFInputController.h; sourceTree = "<group>"; };
+		442004CB0C80CF47007C1208 /* IFTweetTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetTableCell.h; sourceTree = "<group>"; };
+		442004CC0C80CF47007C1208 /* IFTweetTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetTableCell.m; sourceTree = "<group>"; };
 		4420FF1E0C7E2186007C1208 /* arrowdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowdown.png; path = Resources/arrowdown.png; sourceTree = "<group>"; };
 		4420FF1F0C7E2186007C1208 /* arrowup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowup.png; path = Resources/arrowup.png; sourceTree = "<group>"; };
 		4420FF580C7E4C8D007C1208 /* IFSoundController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFSoundController.h; sourceTree = "<group>"; };
@@ -42,6 +44,7 @@
 			isa = PBXGroup;
 			children = (
 				44AC3FBE0C7CA97F00427BB8 /* Models */,
+				442004CA0C80CF11007C1208 /* Views */,
 				44AC3B430C7A080A00427BB8 /* Controllers */,
 				443D21690C76293F0045EDF9 /* Connections */,
 				D90F56BA0C6719EF007AE76B /* MobileTwitterrificApp.h */,
@@ -97,6 +100,15 @@
 				D90F56E30C671CD1007AE76B /* UIKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		442004CA0C80CF11007C1208 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				442004CB0C80CF47007C1208 /* IFTweetTableCell.h */,
+				442004CC0C80CF47007C1208 /* IFTweetTableCell.m */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		443D21690C76293F0045EDF9 /* Connections */ = {

@@ -46,6 +46,7 @@
 #import <UIKit/UIButtonBar.h>
 #import <UIKit/UIButtonBarButton.h>
 #import <UIKit/UIButtonBarTextButton.h>
+#import <UIKit/UISimpleTableCell.h>
 
 #import <WebCore/WebFontCache.h>
 
@@ -54,6 +55,8 @@
 #import "IFTweetModel.h"
 #import "IFSoundController.h"
 #import "IFInputController.h"
+
+#import "IFTweetTableCell.h"
 
 #import "IFTestDictionary.h"
 
@@ -110,7 +113,7 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 }
 
 
-#pragma mark UITable delegate and data source
+#pragma mark UITable delegate, data source, and actions
 
 - (int) numberOfRowsInTable: (UITable *)table
 {
@@ -122,11 +125,27 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 	//NSLog(@"MobileTwitterrificApp: table:cellForRow:column: row = %d, column = %d", row, column);
 
 	NSDictionary *tweet = [[self tweetModel] tweetAtIndex:row];
-	
+
+#if 0
 	UIImageAndTextTableCell *imageAndTextTableCell = [[[UIImageAndTextTableCell alloc] init] autorelease];
 	[imageAndTextTableCell setTitle:[tweet objectForKey:@"userName"]];
-
 	return imageAndTextTableCell;
+#endif
+
+#if 0
+	UISimpleTableCell *simpleTableCell = [[[UISimpleTableCell alloc] init] autorelease];
+	[simpleTableCell setTitle:[tweet objectForKey:@"userName"]];
+//	NSData *avatarImageData = [NSData dataWithContentsOfURL:[tweet objectForKey:@"userAvatarUrl"]];
+//	[simpleTableCell setIcon:[[[UIImage alloc] initWithData:avatarImageData] autorelease]];
+	[simpleTableCell setIcon:[UIImage imageNamed:@"arrowup.png"]];
+	return simpleTableCell;
+#endif
+
+#if 1
+	IFTweetTableCell *tweetTableCell = [[[IFTweetTableCell alloc] init] autorelease];
+	[tweetTableCell setContent:tweet];
+	return tweetTableCell;
+#endif
 }
 
 
@@ -145,7 +164,7 @@ on the arrow itself.
 
 - (BOOL)table:(UITable *)table disclosureClickableForRow:(int)row
 {
-	return YES;
+	return NO;
 }
 
 - (void)tableRowSelected:(NSNotification *)aNotification
@@ -154,6 +173,10 @@ on the arrow itself.
 	[tweetController showTweet];
 }
 
+- (void)tableDoubleAction
+{
+	[inputController showInput];
+}
 
 #pragma mark User interface
 
@@ -344,9 +367,21 @@ with "What are you doing?" and some context for the post.
 	[window makeKey:self];
 	[window _setHidden:NO];
 
-	[table addTableColumn:tableColumn]; 
+	[table addTableColumn:tableColumn];
+//	[table setTapDelegate:self];
+//	[table setDoubleAction:@selector(tableDoubleAction)];
+//	[table setCountString:@"The Count"];
 	[table setDataSource:self];
 	[table setDelegate:self];
+/*
+NOTE: The styles enumeration used with setSeparatorStyle:
+	0 - No separator
+	1 - Thin gray line
+	2 - Thick gray line
+	3+ - ?
+*/
+	[table setSeparatorStyle:1];
+	[table setRowHeight:88.0f];
 	[table reloadData];
 
 /*
@@ -696,8 +731,8 @@ Props to Lucas Newman for figuring out this workaround.
 		[preferencesController showPreferences]; 
 		break;
 	case 1:
-		//[self refresh];
-		[inputController showInput];
+		[self refresh];
+		//[inputController showInput];
 		break;
 	}
 }
