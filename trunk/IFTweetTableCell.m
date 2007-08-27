@@ -59,6 +59,10 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 {
 	[_userNameLabel release];
 	_userNameLabel = nil;
+	[_textLabel release];
+	_textLabel = nil;
+	[_avatarImageView release];
+	_avatarImageView = nil;
 	
 	[_content release];
 	_content = nil;
