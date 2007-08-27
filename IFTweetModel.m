@@ -10,6 +10,9 @@
 #import "IFTweetModel.h"
 
 
+#define MAX_TWEET_COUNT 200
+
+
 @implementation IFTweetModel
 
 #pragma mark Instance management
@@ -88,7 +91,7 @@ NSComparisonResult tweetSortFunction(id tweet, id anotherTweet, void *context)
 /*
 TODO: Make the threshold a preference.
 */
-		if ([_tweets count] > 200)
+		if ([_tweets count] > MAX_TWEET_COUNT)
 		{
 			[_tweets removeLastObject];
 		}

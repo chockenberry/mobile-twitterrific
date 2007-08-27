@@ -33,19 +33,22 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 	{
 		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
-		_userNameLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(4.0f, 4.0f, 200.0f, 18.0f)];
+		_userNameLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(56.0f, 4.0f, contentRect.size.width - 40.0f - 56.0f, 18.0f)];
 		[_userNameLabel setWrapsText:NO];
 		[_userNameLabel setBackgroundColor:CGColorCreate(colorSpace, transparentComponents)];
 		struct __GSFont *userNameFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:2 size:16.0f];
 		[_userNameLabel setFont:userNameFont];
 		[self addSubview:_userNameLabel];
 
-		_textLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(4.0f, 18.0f, contentRect.size.width - 40.0f, 70.0f)];
+		_textLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(56.0f, 18.0f, contentRect.size.width - 40.0f - 56.0f, 70.0f)];
 		[_textLabel setWrapsText:YES];
 		[_textLabel setBackgroundColor:CGColorCreate(colorSpace, transparentComponents)];
 		[_textLabel setEllipsisStyle:2];
 		[_textLabel setCentersHorizontally:NO];		
 		[self addSubview:_textLabel];
+
+		_avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(4.0f, 4.0f, 48.0f, 48.0f)];
+		[self addSubview:_avatarImageView];
 
 		_content = nil;
 	}
@@ -71,7 +74,7 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 
 - (void)drawContentInRect:(struct CGRect)rect selected:(BOOL)selected
 {
-	NSLog(@"IFTweetTableCell: drawContentInRect:");
+	//NSLog(@"IFTweetTableCell: drawContentInRect:");
 	
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
@@ -88,6 +91,7 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 	
 	[_userNameLabel setText:[_content objectForKey:@"userName"]];
 	[_textLabel setText:[_content objectForKey:@"text"]];
+	[_avatarImageView setImage:[_content objectForKey:@"userAvatarImage"]];
 	
 	[super drawContentInRect:rect selected:selected];
 }

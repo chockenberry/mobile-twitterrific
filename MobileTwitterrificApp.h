@@ -12,6 +12,7 @@
 
 #import "IFTwitterTimelineConnection.h"
 #import "IFTweetModel.h"
+#import "IFAvatarModel.h"
 
 @class IFPreferencesController;
 @class IFTweetController;
@@ -29,7 +30,8 @@
 
 	// models
 	IFTweetModel *_tweetModel;
-
+	IFAvatarModel *avatarModel;
+	
 	// user interface
 	UITableCell *tableCell;
 	UITable *table;

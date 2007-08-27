@@ -53,6 +53,7 @@
 #import "IFPreferencesController.h"
 #import "IFTweetController.h"
 #import "IFTweetModel.h"
+#import "IFAvatarModel.h"
 #import "IFSoundController.h"
 #import "IFInputController.h"
 
@@ -90,6 +91,7 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 	[inputController release];
 	[soundController release];
 	[_tweetModel release];
+	[avatarModel release];
 
 	[super dealloc];
 }
@@ -137,7 +139,12 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 	[simpleTableCell setTitle:[tweet objectForKey:@"userName"]];
 //	NSData *avatarImageData = [NSData dataWithContentsOfURL:[tweet objectForKey:@"userAvatarUrl"]];
 //	[simpleTableCell setIcon:[[[UIImage alloc] initWithData:avatarImageData] autorelease]];
-	[simpleTableCell setIcon:[UIImage imageNamed:@"arrowup.png"]];
+#if 0
+	NSURL *url = [NSURL URLWithString:[tweet objectForKey:@"userAvatarUrl"]];
+	[simpleTableCell setIcon:[avatarModel avatarForScreenName:[tweet objectForKey:@"screenName"] fromURL:url]];
+#else
+	[simpleTableCell setIcon:[tweet objectForKey:@"userAvatarImage"]];
+#endif
 	return simpleTableCell;
 #endif
 
@@ -177,6 +184,7 @@ on the arrow itself.
 {
 	[inputController showInput];
 }
+
 
 #pragma mark User interface
 
@@ -258,9 +266,6 @@ and stringValues.
 					else if ([userChildName isEqualToString:@"profile_image_url"])
 					{
 						[content setValue:[userChildNode stringValue] forKey:@"userAvatarUrl"];
-/*
-TODO: Instantiate UIImage from URL
-*/
 					}
 					else if ([userChildName isEqualToString:@"url"])
 					{
@@ -279,6 +284,12 @@ TODO: Instantiate UIImage from URL
 			BOOL tweetWasAdded = [_tweetModel addTweet:content];
 			if (tweetWasAdded)
 			{
+#if 1						
+				NSURL *url = [NSURL URLWithString:[content objectForKey:@"userAvatarUrl"]];
+				UIImage *userAvatarImage = [avatarModel avatarForScreenName:[content objectForKey:@"screenName"] fromURL:url];
+				[content setValue:userAvatarImage forKey:@"userAvatarImage"];
+#endif
+
 			
 //			// check to see if id already exists
 //			int index = [self indexForId:id];
@@ -345,9 +356,6 @@ resist the urge.
 	// create a controller for sounds
 	soundController = [[IFSoundController alloc] init];
 	
-	// create a model for managing the tweets
-	_tweetModel = [[IFTweetModel alloc] init];
-
 	UIWindow *window = [[UIWindow alloc] initWithContentRect:[UIHardware fullScreenApplicationContentRect]];
 
 /*
@@ -520,8 +528,16 @@ TODO: Make the refresh interval a preference.
 		[refreshTimer retain];
 	}
 	
-	[timelineConnection setLogin:login];
-	[timelineConnection setPassword:password];
+	if (([login length] > 0) && ([password length] > 0))
+	{
+		[timelineConnection setLogin:login];
+		[timelineConnection setPassword:password];
+	}
+	else
+	{
+		[timelineConnection setLogin:nil];
+		[timelineConnection setPassword:nil];
+	}
 	firstLogin = YES;
 }
 
@@ -545,11 +561,23 @@ the main view not being a contentView when the notification is sent.
 }
 
 
+#pragma mark Models
+- (void)setupModels
+{
+	// create a model for managing the tweets
+	_tweetModel = [[IFTweetModel alloc] init];
+
+	// create a model for managing the avatars
+	avatarModel = [[IFAvatarModel alloc] init];
+}
+
 #pragma mark UIApplication delegate
 
 - (void)applicationDidFinishLaunching:(id)unused
 {
 	NSLog(@"MobileTwitterrificApp: applicationDidFinishLaunching: unused = %@", [unused description]);
+	
+	[self setupModels];
 	
 	[self setupUserInterface];
 	[self setupNotifications];

@@ -15,8 +15,7 @@
 	UITextLabel *_userNameLabel;
 	UITextLabel *_textLabel;
     UIImageView *_avatarImageView;
-	NSDictionary *_content;
-	
+	NSDictionary *_content;	
 }
 
 - (void)setContent:(NSDictionary *)newContent;
