@@ -10,6 +10,7 @@ SOURCES=\
 	IFSoundController.m \
 	IFInputController.m \
 	IFTweetTableCell.m \
+	IFAvatarModel.m \
 	IFTestDictionary.m
 RESOURCES=Resources
 

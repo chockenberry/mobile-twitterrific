@@ -14,6 +14,8 @@
 		4420036B0C7FAABF007C1208 /* IFInputController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IFInputController.h; sourceTree = "<group>"; };
 		442004CB0C80CF47007C1208 /* IFTweetTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetTableCell.h; sourceTree = "<group>"; };
 		442004CC0C80CF47007C1208 /* IFTweetTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetTableCell.m; sourceTree = "<group>"; };
+		442006480C8342E2007C1208 /* IFAvatarModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAvatarModel.h; sourceTree = "<group>"; };
+		442006490C8342E2007C1208 /* IFAvatarModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAvatarModel.m; sourceTree = "<group>"; };
 		4420FF1E0C7E2186007C1208 /* arrowdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowdown.png; path = Resources/arrowdown.png; sourceTree = "<group>"; };
 		4420FF1F0C7E2186007C1208 /* arrowup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowup.png; path = Resources/arrowup.png; sourceTree = "<group>"; };
 		4420FF580C7E4C8D007C1208 /* IFSoundController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFSoundController.h; sourceTree = "<group>"; };
@@ -153,6 +155,8 @@
 			children = (
 				44AC3FBF0C7CA99C00427BB8 /* IFTweetModel.h */,
 				44AC3FC00C7CA99C00427BB8 /* IFTweetModel.m */,
+				442006480C8342E2007C1208 /* IFAvatarModel.h */,
+				442006490C8342E2007C1208 /* IFAvatarModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
