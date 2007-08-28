@@ -401,6 +401,7 @@ NOTE: The styles enumeration used with setSeparatorStyle:
 	const float backgroundComponents[4] = {0, 0, 0, 0};
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 	[table setBackgroundColor:CGColorCreate(colorSpace, backgroundComponents)];
+	CFRelease(colorSpace);
 #endif
 
 	[table reloadData];
