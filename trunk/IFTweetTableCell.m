@@ -52,6 +52,8 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 		_avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(4.0f, 4.0f, 48.0f, 48.0f)];
 		[self addSubview:_avatarImageView];
 
+		CFRelease(colorSpace);
+		
 		_content = nil;
 	}
     return self;
@@ -77,6 +79,14 @@ const float whiteComponents[4] = {1, 1, 1, 1};
     [_content release];
     _content = [newContent retain];
 }
+
+enum {
+    kUIBezierPathTopLeftCorner = 1,
+    kUIBezierPathTopRightCorner = 1 << 1,
+    kUIBezierPathBottomLeftCorner = 1 << 2,
+    kUIBezierPathBottomRightCorner = 1 << 3,
+    kUIBezierPathAllCorners = (kUIBezierPathTopLeftCorner | kUIBezierPathTopRightCorner | kUIBezierPathBottomLeftCorner | kUIBezierPathBottomRightCorner)
+};
 
 - (void)drawContentInRect:(struct CGRect)rect selected:(BOOL)selected
 {
@@ -127,6 +137,8 @@ Radius is in number of pixels.
 	[path stroke];
 
 	[super drawContentInRect:rect selected:selected];
+	
+	CFRelease(colorSpace);
 }
 
 /*
