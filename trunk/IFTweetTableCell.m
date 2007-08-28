@@ -20,7 +20,7 @@
 
 const float transparentComponents[4] = {0, 0, 0, 0};
 const float blackComponents[4] = {0, 0, 0, 1};
-const float grayComponents[4] = {0.5, 0.5, 0.5, 1};
+const float grayComponents[4] = {0.75, 0.75, 0.75, 1};
 const float blueComponents[4] = {0.208, 0.482, 0.859, 1};
 const float whiteComponents[4] = {1, 1, 1, 1};
 
@@ -80,21 +80,14 @@ const float whiteComponents[4] = {1, 1, 1, 1};
     _content = [newContent retain];
 }
 
-enum {
-    kUIBezierPathTopLeftCorner = 1,
-    kUIBezierPathTopRightCorner = 1 << 1,
-    kUIBezierPathBottomLeftCorner = 1 << 2,
-    kUIBezierPathBottomRightCorner = 1 << 3,
-    kUIBezierPathAllCorners = (kUIBezierPathTopLeftCorner | kUIBezierPathTopRightCorner | kUIBezierPathBottomLeftCorner | kUIBezierPathBottomRightCorner)
-};
-
+#if 1
 - (void)drawContentInRect:(struct CGRect)rect selected:(BOOL)selected
 {
 	//NSLog(@"IFTweetTableCell: drawContentInRect:");
 	
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
-#if 0
+#if 1
 	if (selected)
 	{
 		[_userNameLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
@@ -102,7 +95,7 @@ enum {
 	}
 	else
 	{
-		[_userNameLabel setColor:CGColorCreate(colorSpace, blackComponents)];
+		[_userNameLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
 		[_textLabel setColor:CGColorCreate(colorSpace, grayComponents)];
 	}
 #else
@@ -116,7 +109,7 @@ enum {
 	
 //	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:rect withRoundedEdges:15];
 	
-	struct CGRect newRect = CGRectInset(rect, 0.0, 0.0);
+	struct CGRect innerRect = CGRectInset(rect, 1.5, 1.5);
 //	struct CGRect newRect = GCRectMake(rect, 10.0, 10.0);
 /*
 NOTE: Corners are determined by OR-ing the following values. Use 15 for all four corners:
@@ -126,20 +119,37 @@ NOTE: Corners are determined by OR-ing the following values. Use 15 for all four
 	8 = lower-right corner
 Radius is in number of pixels.
 */
-	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:newRect withRoundedCorners:15 withCornerRadius:8.0];
+	UIBezierPath *path;
 
-	const float backgroundComponents[4] = {0, 0, 0, 0.80};
+	path = [UIBezierPath roundedRectBezierPath:rect withRoundedCorners:15 withCornerRadius:8.0];
+	const float backgroundComponents[4] = {0, 0, 0, 0.7};
 	CGContextSetFillColor(UICurrentContext(), backgroundComponents);
 	[path fill];
-	const float strokeComponents[4] = {1, 1, 1, 0.80};
+	
+	path = [UIBezierPath roundedRectBezierPath:innerRect withRoundedCorners:15 withCornerRadius:8.0];
+	const float strokeComponents[4] = {1, 1, 1, 0.50};
 	CGContextSetStrokeColor(UICurrentContext(), strokeComponents);
-	[path setLineWidth:1.0f];
+	[path setLineWidth:2.0f];
 	[path stroke];
 
 	[super drawContentInRect:rect selected:selected];
 	
 	CFRelease(colorSpace);
 }
+#endif
+
+- (void)drawRect:(struct CGRect)rect
+{
+	NSLog(@"IFTweetTableCell: drawRect:");
+#if 0
+	if (! [self isSelected])
+	{
+		[super drawRect:rect];
+	}
+#else
+	[self drawContentInRect:rect selected:[self isSelected]];
+#endif
+}	
 
 /*
 - (void)drawTitleInRect:(struct CGRect)rect selected:(BOOL)selected
@@ -147,5 +157,14 @@ Radius is in number of pixels.
 	NSLog(@"IFTweetTableCell: drawTitleInRect:");
 }
 */
+
+#pragma mark HACKING AWAY AT THE DELEGATE
+
+- (BOOL)respondsToSelector:(SEL)aSelector
+{
+	NSLog(@"IFTweetTableCell: request for selector: %@", NSStringFromSelector(aSelector));
+	return [super respondsToSelector:aSelector];
+}
+
 
 @end

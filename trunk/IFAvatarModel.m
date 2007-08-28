@@ -112,6 +112,7 @@ TODO: Check if options should be set to 2 = NSUncachedRead.
 	
 	return result;
 #else
+#if 1
 	// use the built-in cache for UIImage
 	
 	NSError *error = nil;
@@ -129,6 +130,9 @@ TODO: Check if options should be set to 2 = NSUncachedRead.
 		UIImage *image = [[[UIImage alloc] initWithData:data cache:YES] autorelease];
 		return image;
 	}
+#else
+	return nil;
+#endif
 #endif
 }
 

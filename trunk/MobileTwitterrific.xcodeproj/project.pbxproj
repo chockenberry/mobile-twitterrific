@@ -17,6 +17,10 @@
 		442006480C8342E2007C1208 /* IFAvatarModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAvatarModel.h; sourceTree = "<group>"; };
 		442006490C8342E2007C1208 /* IFAvatarModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAvatarModel.m; sourceTree = "<group>"; };
 		442008940C83A570007C1208 /* wallpaper.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = wallpaper.jpg; path = Resources/wallpaper.jpg; sourceTree = "<group>"; };
+		442009280C84C1A7007C1208 /* IFRuntimeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFRuntimeAdditions.h; sourceTree = "<group>"; };
+		4420092B0C84C368007C1208 /* IFUIKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFUIKitAdditions.h; sourceTree = "<group>"; };
+		442009AA0C84CEFA007C1208 /* IFTweetTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetTable.h; sourceTree = "<group>"; };
+		442009AB0C84CEFA007C1208 /* IFTweetTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetTable.m; sourceTree = "<group>"; };
 		4420FF1E0C7E2186007C1208 /* arrowdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowdown.png; path = Resources/arrowdown.png; sourceTree = "<group>"; };
 		4420FF1F0C7E2186007C1208 /* arrowup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowup.png; path = Resources/arrowup.png; sourceTree = "<group>"; };
 		4420FF580C7E4C8D007C1208 /* IFSoundController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFSoundController.h; sourceTree = "<group>"; };
@@ -83,6 +87,8 @@
 			children = (
 				D9C1849B0C6B467300A7383F /* MobileTwitterrific_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
+				442009280C84C1A7007C1208 /* IFRuntimeAdditions.h */,
+				4420092B0C84C368007C1208 /* IFUIKitAdditions.h */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -108,6 +114,8 @@
 		442004CA0C80CF11007C1208 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				442009AA0C84CEFA007C1208 /* IFTweetTable.h */,
+				442009AB0C84CEFA007C1208 /* IFTweetTable.m */,
 				442004CB0C80CF47007C1208 /* IFTweetTableCell.h */,
 				442004CC0C80CF47007C1208 /* IFTweetTableCell.m */,
 			);
