@@ -106,7 +106,7 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 	
 //	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:rect withRoundedEdges:15];
 	
-	struct CGRect newRect = CGRectInset(rect, 0.0, 2.0);
+	struct CGRect newRect = CGRectInset(rect, 0.0, 0.0);
 //	struct CGRect newRect = GCRectMake(rect, 10.0, 10.0);
 /*
 NOTE: Corners are determined by OR-ing the following values. Use 15 for all four corners:
@@ -121,6 +121,10 @@ Radius is in number of pixels.
 	const float backgroundComponents[4] = {0, 0, 0, 0.80};
 	CGContextSetFillColor(UICurrentContext(), backgroundComponents);
 	[path fill];
+	const float strokeComponents[4] = {1, 1, 1, 0.80};
+	CGContextSetStrokeColor(UICurrentContext(), strokeComponents);
+	[path setLineWidth:1.0f];
+	[path stroke];
 
 	[super drawContentInRect:rect selected:selected];
 }
