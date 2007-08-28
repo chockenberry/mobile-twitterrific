@@ -10,7 +10,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import <UIKit/UIBezierPath.h>
 #import <WebCore/WebFontCache.h>
+#import <CoreGraphics/CGGeometry.h>
 
 #import "IFTweetTableCell.h"
 
@@ -82,6 +84,7 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 	
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
+#if 0
 	if (selected)
 	{
 		[_userNameLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
@@ -92,11 +95,33 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 		[_userNameLabel setColor:CGColorCreate(colorSpace, blackComponents)];
 		[_textLabel setColor:CGColorCreate(colorSpace, grayComponents)];
 	}
-	
+#else
+	[_userNameLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
+	[_textLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
+#endif	
+
 	[_userNameLabel setText:[_content objectForKey:@"userName"]];
 	[_textLabel setText:[_content objectForKey:@"text"]];
 	[_avatarImageView setImage:[_content objectForKey:@"userAvatarImage"]];
 	
+//	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:rect withRoundedEdges:15];
+	
+	struct CGRect newRect = CGRectInset(rect, 0.0, 2.0);
+//	struct CGRect newRect = GCRectMake(rect, 10.0, 10.0);
+/*
+NOTE: Corners are determined by OR-ing the following values. Use 15 for all four corners:
+	1 = upper-left corner
+	2 = upper-right corner
+	4 = lower-left corner
+	8 = lower-right corner
+Radius is in number of pixels.
+*/
+	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:newRect withRoundedCorners:15 withCornerRadius:8.0];
+
+	const float backgroundComponents[4] = {0, 0, 0, 0.80};
+	CGContextSetFillColor(UICurrentContext(), backgroundComponents);
+	[path fill];
+
 	[super drawContentInRect:rect selected:selected];
 }
 

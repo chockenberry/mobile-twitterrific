@@ -166,7 +166,7 @@ on the arrow itself.
 */
 - (BOOL)table:(UITable *)table showDisclosureForRow:(int)row
 {
-	return YES;
+	return NO;
 }
 
 - (BOOL)table:(UITable *)table disclosureClickableForRow:(int)row
@@ -388,8 +388,21 @@ NOTE: The styles enumeration used with setSeparatorStyle:
 	2 - Thick gray line
 	3+ - ?
 */
-	[table setSeparatorStyle:1];
+//	[table setSeparatorStyle:1];
 	[table setRowHeight:88.0f];
+
+#if 1
+//const float transparentComponents[4] = {0, 0, 0, 0};
+//const float blackComponents[4] = {0, 0, 0, 1};
+//const float grayComponents[4] = {0.5, 0.5, 0.5, 1};
+//const float blueComponents[4] = {0.208, 0.482, 0.859, 1};
+//const float whiteComponents[4] = {1, 1, 1, 1};
+
+	const float backgroundComponents[4] = {0, 0, 0, 0};
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	[table setBackgroundColor:CGColorCreate(colorSpace, backgroundComponents)];
+#endif
+
 	[table reloadData];
 
 /*
@@ -411,7 +424,11 @@ NOTE: The styles enumeration used withBarStyle are:
 	[buttonBar setDelegate:self];
 */
 
+	UIImageView *background = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, contentRect.size.height)];
+	[background setImage:[UIImage imageNamed:@"wallpaper.jpg"]];
+	
 	UIView *mainView = [[UIView alloc] initWithFrame:contentRect];
+	[mainView addSubview:background];
 	[mainView addSubview:navigationBar];
 	[mainView addSubview:table];
 	
