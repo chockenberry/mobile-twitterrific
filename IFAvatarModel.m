@@ -10,7 +10,7 @@
 #import "IFAvatarModel.h"
 
 
-#define MAX_AVATAR_COUNT 100
+#define MAX_AVATAR_COUNT 10
 
 
 @implementation IFAvatarModel
