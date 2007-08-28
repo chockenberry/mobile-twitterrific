@@ -53,11 +53,10 @@
 	return [[IFTestDictionary allocWithZone:zone] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:_dictionary]];
 }
 
-- (void)forwardInvocation:(NSInvocation *)anInvocation
+- (BOOL)respondsToSelector:(SEL)aSelector
 {
-	NSLog(@"IFTestDictionary: forwardInvocation: selector = %@", NSStringFromSelector([anInvocation selector]));
-	[super forwardInvocation:anInvocation];
-	return;
+	NSLog(@"IFTestDictionary: request for selector: %@", NSStringFromSelector(aSelector));
+	return [super respondsToSelector:aSelector];
 }
 
 

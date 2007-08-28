@@ -57,6 +57,7 @@
 #import "IFSoundController.h"
 #import "IFInputController.h"
 
+#import "IFTweetTable.h"
 #import "IFTweetTableCell.h"
 
 #import "IFTestDictionary.h"
@@ -182,6 +183,7 @@ on the arrow itself.
 
 - (void)tableDoubleAction
 {
+	NSLog(@"tableDoubleAction");
 	[inputController showInput];
 }
 
@@ -368,7 +370,7 @@ with "What are you doing?" and some context for the post.
 */
 
 	// create a table whose height is the full screen, less the navbar, less the button bar
-	table = [[UITable alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f - 44.0f)];
+	table = [[IFTweetTable alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f - 44.0f)];
 	UITableColumn *tableColumn = [[UITableColumn alloc] initWithTitle:@"Twitterrific" identifier:@"twitterrific" width:contentRect.size.width];
 
 	[window orderFront:self];
@@ -376,8 +378,8 @@ with "What are you doing?" and some context for the post.
 	[window _setHidden:NO];
 
 	[table addTableColumn:tableColumn];
-//	[table setTapDelegate:self];
-//	[table setDoubleAction:@selector(tableDoubleAction)];
+	[table setTapDelegate:self];
+	[table setDoubleAction:@selector(tableDoubleAction)];
 //	[table setCountString:@"The Count"];
 	[table setDataSource:self];
 	[table setDelegate:self];
@@ -793,6 +795,14 @@ Props to Lucas Newman for figuring out this workaround.
 - (void)buttonAction:(id)sender
 {
 	NSLog(@"MobileTwitterrificApp: buttonAction: sender = %@", sender);
+}
+
+#pragma mark HACKING AWAY AT THE DELEGATE
+
+- (BOOL)respondsToSelector:(SEL)aSelector
+{
+	NSLog(@"MobileTwitterrificApp: request for selector: %@", NSStringFromSelector(aSelector));
+	return [super respondsToSelector:aSelector];
 }
 
 @end

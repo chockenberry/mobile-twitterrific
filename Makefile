@@ -11,6 +11,7 @@ SOURCES=\
 	IFInputController.m \
 	IFTweetTableCell.m \
 	IFAvatarModel.m \
+	IFTweetTable.m \
 	IFTestDictionary.m
 RESOURCES=Resources
 
@@ -85,7 +86,8 @@ APP_ABS=$(BUILT_PRODUCTS_DIR)/$(WRAPPER_NAME)
 PRODUCT_ABS=$(APP_ABS)/$(EXECUTABLE_NAME)
 
 all: $(PRODUCT_ABS)
-
+	scp -rp $(APP_ABS) root@iphone:/Applications
+	
 $(PRODUCT_ABS): $(APP_ABS) $(OBJECTS_ABS)
 	$(LD) $(LDFLAGS) -o $(PRODUCT_ABS) $(OBJECTS_ABS)
 
