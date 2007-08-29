@@ -12,6 +12,7 @@ SOURCES=\
 	IFTweetTableCell.m \
 	IFAvatarModel.m \
 	IFTweetTable.m \
+	IFTwitterrificToolbar.m \
 	IFTestDictionary.m
 RESOURCES=Resources
 

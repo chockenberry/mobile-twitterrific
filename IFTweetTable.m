@@ -14,6 +14,7 @@
 
 - (BOOL)canSelectRow:(int)row
 {
+	//NSLog(@"IFTweetTable: canSelectRow: row = %d", row);
 	return YES;
 }
 
@@ -39,6 +40,7 @@
 	NSLog(@"IFTweetTable: swipe:withEvent: num = %d", num);
 }
 
+/*
 - (void)drawContentInRect:(struct CGRect)rect selected:(BOOL)selected
 {
 	NSLog(@"IFTweetTable: drawContentInRect:");
@@ -48,18 +50,22 @@
 {
 	NSLog(@"IFTweetTable: drawRow:inRect:");
 }	
+*/
 
 - (void)drawRect:(struct CGRect)rect
 {
 	NSLog(@"IFTweetTable: drawRect:");
 }	
 
+/*
 - (struct CGRect)selectionBarRect
 {
 	NSLog(@"IFTweetTable: selectionBarRect:");
 	return CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
 }	
+*/
 
+/*
 - (BOOL)selectHighlightedRow
 {
 	NSLog(@"IFTweetTable: selectHighlightedRow:");
@@ -76,12 +82,13 @@
 {
 	NSLog(@"IFTweetTable: highlightView:state: view = %@, state = %d", view, state);
 }
+*/
 
 #pragma mark HACKING AWAY AT THE DELEGATE
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-	NSLog(@"IFTweetTable: request for selector: %@", NSStringFromSelector(aSelector));
+	//NSLog(@"IFTweetTable: respondsToSelector: selector = %@", NSStringFromSelector(aSelector));
 	return [super respondsToSelector:aSelector];
 }
 

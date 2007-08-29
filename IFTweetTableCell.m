@@ -24,6 +24,17 @@ const float grayComponents[4] = {0.75, 0.75, 0.75, 1};
 const float blueComponents[4] = {0.208, 0.482, 0.859, 1};
 const float whiteComponents[4] = {1, 1, 1, 1};
 
+#define LEFT_OFFSET 4.0f
+//#define RIGHT_OFFSET 40.0f
+#define RIGHT_OFFSET 4.0f
+#define TOP_OFFSET 4.0f
+#define BOTTOM_OFFSET 4.0f
+#define PADDING 4.0f
+
+#define AVATAR_SIZE 48.0f
+
+#define LINE_HEIGHT 20.0f
+
 - (id)initWithFrame:(struct CGRect)frame;
 {
 	struct CGRect contentRect = [UIHardware fullScreenApplicationContentRect];
@@ -35,22 +46,35 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 	{
 		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
-		_userNameLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(56.0f, 4.0f, contentRect.size.width - 40.0f - 56.0f, 18.0f)];
+		_userNameLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET, contentRect.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, LINE_HEIGHT)];
 		[_userNameLabel setWrapsText:NO];
 		[_userNameLabel setBackgroundColor:CGColorCreate(colorSpace, transparentComponents)];
 		struct __GSFont *userNameFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:2 size:16.0f];
 		[_userNameLabel setFont:userNameFont];
 		[self addSubview:_userNameLabel];
 
-		_textLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(56.0f, 18.0f, contentRect.size.width - 40.0f - 56.0f, 70.0f)];
+		_textLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, LINE_HEIGHT + PADDING, contentRect.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, LINE_HEIGHT * 3)];
 		[_textLabel setWrapsText:YES];
 		[_textLabel setBackgroundColor:CGColorCreate(colorSpace, transparentComponents)];
 		[_textLabel setEllipsisStyle:2];
 		[_textLabel setCentersHorizontally:NO];		
 		[self addSubview:_textLabel];
 
-		_avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(4.0f, 4.0f, 48.0f, 48.0f)];
+		_avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(LEFT_OFFSET, TOP_OFFSET, AVATAR_SIZE, AVATAR_SIZE)];
 		[self addSubview:_avatarImageView];
+
+#if 0
+		_detailButton = [[UIPushButton alloc] initWithFrame:CGRectMake(contentRect.size.width - RIGHT_OFFSET, 0.0f, RIGHT_OFFSET, 88.0f)];
+		[_detailButton setAutosizesToFit:NO];
+		[_detailButton setImage:[UIImage imageNamed:@"detail.png"] forState:0]; // normal state
+#endif
+		[_detailButton addTarget:self action:@selector(buttonDown) forEvents:1]; // mouse down
+		[_detailButton addTarget:self action:@selector(buttonUp) forEvents:2]; // mouse up
+		[_detailButton setShowPressFeedback:YES];
+		[_detailButton setEnabled:YES];
+		[self addSubview:_detailButton];
+
+//		[self setTapDelegate:self];
 
 		CFRelease(colorSpace);
 		
@@ -67,6 +91,8 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 	_textLabel = nil;
 	[_avatarImageView release];
 	_avatarImageView = nil;
+	[_detailButton release];
+	_detailButton = nil;
 	
 	[_content release];
 	_content = nil;
@@ -80,6 +106,17 @@ const float whiteComponents[4] = {1, 1, 1, 1};
     _content = [newContent retain];
 }
 
+- (void)buttonDown
+{
+	NSLog(@"IFTweetTableCell: buttonDown");
+}
+
+- (void)buttonUp
+{
+	NSLog(@"IFTweetTableCell: buttonUp");
+}
+
+
 #if 1
 - (void)drawContentInRect:(struct CGRect)rect selected:(BOOL)selected
 {
@@ -92,11 +129,17 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 	{
 		[_userNameLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
 		[_textLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
+
+		const float strokeComponents[4] = {1, 1, 1, 1};
+		CGContextSetStrokeColor(UICurrentContext(), strokeComponents);
 	}
 	else
 	{
 		[_userNameLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
 		[_textLabel setColor:CGColorCreate(colorSpace, grayComponents)];
+
+		const float strokeComponents[4] = {1, 1, 1, 0.50};
+		CGContextSetStrokeColor(UICurrentContext(), strokeComponents);
 	}
 #else
 	[_userNameLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
@@ -127,8 +170,8 @@ Radius is in number of pixels.
 	[path fill];
 	
 	path = [UIBezierPath roundedRectBezierPath:innerRect withRoundedCorners:15 withCornerRadius:8.0];
-	const float strokeComponents[4] = {1, 1, 1, 0.50};
-	CGContextSetStrokeColor(UICurrentContext(), strokeComponents);
+//	const float strokeComponents[4] = {1, 1, 1, 0.50};
+//	CGContextSetStrokeColor(UICurrentContext(), strokeComponents);
 	[path setLineWidth:2.0f];
 	[path stroke];
 
@@ -140,7 +183,7 @@ Radius is in number of pixels.
 
 - (void)drawRect:(struct CGRect)rect
 {
-	NSLog(@"IFTweetTableCell: drawRect:");
+	//NSLog(@"IFTweetTableCell: drawRect:");
 #if 0
 	if (! [self isSelected])
 	{
@@ -162,7 +205,7 @@ Radius is in number of pixels.
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-	NSLog(@"IFTweetTableCell: request for selector: %@", NSStringFromSelector(aSelector));
+	//NSLog(@"IFTweetTableCell: respondsToSelector: selector = %@", NSStringFromSelector(aSelector));
 	return [super respondsToSelector:aSelector];
 }
 

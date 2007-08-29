@@ -59,6 +59,7 @@
 
 #import "IFTweetTable.h"
 #import "IFTweetTableCell.h"
+#import "IFTwitterrificToolbar.h"
 
 #import "IFTestDictionary.h"
 
@@ -172,13 +173,15 @@ on the arrow itself.
 
 - (BOOL)table:(UITable *)table disclosureClickableForRow:(int)row
 {
-	return NO;
+	return YES;
 }
 
 - (void)tableRowSelected:(NSNotification *)aNotification
 {
+#if 0
 	[[self tweetModel] selectTweetWithIndex:[table selectedRow]];
 	[tweetController showTweet];
+#endif
 }
 
 - (void)tableDoubleAction
@@ -360,17 +363,36 @@ resist the urge.
 	
 	UIWindow *window = [[UIWindow alloc] initWithContentRect:[UIHardware fullScreenApplicationContentRect]];
 
+	UIView *mainView = [[UIView alloc] initWithFrame:contentRect];
+
+	// create a background image (eventually, this will be the user's wallpaper preference)
+	UIImageView *background = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, contentRect.size.height)] autorelease];
+	[background setImage:[UIImage imageNamed:@"wallpaper.jpg"]];	
+	[mainView addSubview:background];
+
+#if 0
 /*
-TODO: The main view should consist of three UI components:
-
-1) The navigation bar (with [Setup] and [Refresh])
-2) The main tweet view
-3) A toolbar with [?] (for updates) [@] (for replies) [D] (for direct messages) -- each button will open an "update view"
-with "What are you doing?" and some context for the post.
+NOTE: The styles enumeration used withBarStyle are:
+	0 - Standard light blue
+	1 - Shiny black
+	2 - Like 1
+	3 - Like 0
+	4+ - ?
 */
+	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 44.0f)] autorelease];
+	[navigationBar showButtonsWithLeftTitle:@"Refresh" rightTitle:@"Setup"];
+	[navigationBar setBarStyle:1];
+	[navigationBar setDelegate:self];
+	[mainView addSubview:navigationBar];
+#endif
 
-	// create a table whose height is the full screen, less the navbar, less the button bar
-	table = [[IFTweetTable alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f - 44.0f)];
+
+//	// create a table whose height is the full screen, less the navbar, less the button bar
+//	table = [[[IFTweetTable alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f - 44.0f)] autorelease];
+//	table = [[[IFTweetTable alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f)] autorelease];
+
+	// create a table whose size fits the entire screen
+	table = [[[IFTweetTable alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, contentRect.size.height)] autorelease];
 	UITableColumn *tableColumn = [[UITableColumn alloc] initWithTitle:@"Twitterrific" identifier:@"twitterrific" width:contentRect.size.width];
 
 	[window orderFront:self];
@@ -378,8 +400,8 @@ with "What are you doing?" and some context for the post.
 	[window _setHidden:NO];
 
 	[table addTableColumn:tableColumn];
-	[table setTapDelegate:self];
-	[table setDoubleAction:@selector(tableDoubleAction)];
+//	[table setTapDelegate:self];
+//	[table setDoubleAction:@selector(tableDoubleAction)];
 //	[table setCountString:@"The Count"];
 	[table setDataSource:self];
 	[table setDelegate:self];
@@ -406,20 +428,9 @@ NOTE: The styles enumeration used with setSeparatorStyle:
 	CFRelease(colorSpace);
 #endif
 
+	[mainView addSubview:table];
 	[table reloadData];
 
-/*
-NOTE: The styles enumeration used withBarStyle are:
-	0 - Standard light blue
-	1 - Shiny black
-	2 - Like 1
-	3 - Like 0
-	4+ - ?
-*/
-	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 44.0f)] autorelease];
-	[navigationBar showButtonsWithLeftTitle:@"Refresh" rightTitle:@"Setup"];
-	[navigationBar setBarStyle:1];
-	[navigationBar setDelegate:self];
 
 /*
 	UIButtonBar *buttonBar = [[[UIButtonBar alloc] initWithFrame:CGRectMake(0.0f, contentRect.size.height - 44.0f, contentRect.size.width, 44.0f)] autorelease];
@@ -427,15 +438,8 @@ NOTE: The styles enumeration used withBarStyle are:
 	[buttonBar setDelegate:self];
 */
 
-	UIImageView *background = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, contentRect.size.height)];
-	[background setImage:[UIImage imageNamed:@"wallpaper.jpg"]];
 	
-	UIView *mainView = [[UIView alloc] initWithFrame:contentRect];
-	[mainView addSubview:background];
-	[mainView addSubview:navigationBar];
-	[mainView addSubview:table];
-	
-
+#if 0
 /*
 These look like promising keys for the NSDictionary (from UIKit)
 
@@ -468,7 +472,7 @@ UIButtonBarMiniButton.png
 UIButtonBarMiniButtonPressed.png
 */
 	NSLog(@"creating testButton");
-//	UIButtonBarButton *testButton = [[[UIButtonBarButton alloc] initWithImage:[UIImage imageNamed:@"arrowup.png"] selectedImage:[UIImage imageNamed:@"arrowdown.png"] label:@"Test" labelHeight:20.0f withBarStyle:0 withStyle:0 withOffset:NSMakeSize(4.0f, 0.0f)] autorelease];
+	UIButtonBarButton *testButton = [[[UIButtonBarButton alloc] initWithImage:[UIImage imageNamed:@"arrowup.png"] selectedImage:[UIImage imageNamed:@"arrowdown.png"] label:@"Test" labelHeight:20.0f withBarStyle:0 withStyle:0 withOffset:NSMakeSize(4.0f, 0.0f)] autorelease];
 
 //	struct __GSFont *font = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:2 size:16.0f];
 //	UIButtonBarTextButton *testButton = [[[UIButtonBarTextButton alloc] initWithTitle:@"Title" selectedTitle:@"Selected" withFont:font withBarStyle:0 withStyle:0 withTitleWidth:44.0f] autorelease];      
@@ -480,10 +484,11 @@ UIButtonBarMiniButtonPressed.png
 		@"Title", @"UIButtonBarButtonTitle",
 		@"Tag", @"UIButtonBarButtonTag",
 		@"UIButtonBarButton", @"UIButtonBarButtonType",
-		self, @"UIButtonBarButtonTarget",
+		testButton, @"UIButtonBarButtonTarget",
 		nil];
 //		@selector(buttonAction:), @"UIButtonBarButtonAction",
 //		testButton, @"UIButtonBarButton", 
+//		self, @"UIButtonBarButtonTarget",
 	
 	
 	NSLog(@"creating test dictionary");
@@ -509,6 +514,10 @@ UIButtonBarMiniButtonPressed.png
 	[buttonBar setDelegate:self];
 	
 	[mainView addSubview:buttonBar];
+#else
+	IFTwitterrificToolbar *toolbar = [[[IFTwitterrificToolbar alloc] initWithFrame:CGRectMake(0.0f, contentRect.size.height - 44.0f, contentRect.size.width, 44.0f)] autorelease];
+	[mainView addSubview:toolbar];
+#endif
 
 	[window setContentView:mainView];
 	[self setMainWindow:window];
@@ -593,9 +602,18 @@ the main view not being a contentView when the notification is sent.
 
 #pragma mark UIApplication delegate
 
+/*
++ (BOOL)shouldMakeUIForDefaultPNG
+{
+	return YES;
+}
+*/
+
 - (void)applicationDidFinishLaunching:(id)unused
 {
 	NSLog(@"MobileTwitterrificApp: applicationDidFinishLaunching: unused = %@", [unused description]);
+	
+	NSLog(@"default image = %@", [self createApplicationDefaultPNG]);
 	
 	[self setupModels];
 	
@@ -797,11 +815,26 @@ Props to Lucas Newman for figuring out this workaround.
 	NSLog(@"MobileTwitterrificApp: buttonAction: sender = %@", sender);
 }
 
+#pragma mark UIView delegate
+
+- (double)viewDoubleTapDelay:(id)view
+{
+	NSLog(@"MobileTwitterrificApp: viewDoubleTapDelay: view = %@", view);
+	
+	return (0.1);
+}
+
+- (void)view:(id)view handleTapWithCount:(int)count event:(struct __GSEvent *)event
+{
+	NSLog(@"MobileTwitterrificApp: view:handleTapWithCount:event: view = %@, count = %d", view, count);
+}
+
+
 #pragma mark HACKING AWAY AT THE DELEGATE
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-	NSLog(@"MobileTwitterrificApp: request for selector: %@", NSStringFromSelector(aSelector));
+	//NSLog(@"MobileTwitterrificApp: respondsToSelector: selector = %@", NSStringFromSelector(aSelector));
 	return [super respondsToSelector:aSelector];
 }
 
