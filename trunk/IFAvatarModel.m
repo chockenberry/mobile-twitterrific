@@ -34,7 +34,7 @@
 
 - (UIImage *)avatarForScreenName:(NSString *)screenName fromURL:(NSURL *)url
 {
-	NSLog(@"IFAvatarModel: avatarForScreenName:fromURL: screenName = %@, url = %@", screenName, [url resourceSpecifier]);
+	//NSLog(@"IFAvatarModel: avatarForScreenName:fromURL: screenName = %@, url = %@", screenName, [url resourceSpecifier]);
 
 #if 0
 /*

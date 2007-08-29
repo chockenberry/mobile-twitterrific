@@ -8,7 +8,8 @@
 //
 
 /*
-NOTE: This code comes from the ApolloIM project.
+NOTE: This code comes from the ApolloIM project. Originally from NerveGas
+on the #iphone-dev channel of osx86's IRC server.
 */
 
 double objc_msgSend_fpret(id self, SEL op, ...) {

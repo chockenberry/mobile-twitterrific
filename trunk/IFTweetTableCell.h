@@ -15,6 +15,8 @@
 	UITextLabel *_userNameLabel;
 	UITextLabel *_textLabel;
     UIImageView *_avatarImageView;
+	UIPushButton *_detailButton;
+	
 	NSDictionary *_content;	
 }
 

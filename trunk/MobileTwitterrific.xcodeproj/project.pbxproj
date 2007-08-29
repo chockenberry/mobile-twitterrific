@@ -21,6 +21,8 @@
 		4420092B0C84C368007C1208 /* IFUIKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFUIKitAdditions.h; sourceTree = "<group>"; };
 		442009AA0C84CEFA007C1208 /* IFTweetTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetTable.h; sourceTree = "<group>"; };
 		442009AB0C84CEFA007C1208 /* IFTweetTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetTable.m; sourceTree = "<group>"; };
+		44200AEF0C85F16D007C1208 /* IFTwitterrificToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTwitterrificToolbar.h; sourceTree = "<group>"; };
+		44200AF00C85F16D007C1208 /* IFTwitterrificToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTwitterrificToolbar.m; sourceTree = "<group>"; };
 		4420FF1E0C7E2186007C1208 /* arrowdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowdown.png; path = Resources/arrowdown.png; sourceTree = "<group>"; };
 		4420FF1F0C7E2186007C1208 /* arrowup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowup.png; path = Resources/arrowup.png; sourceTree = "<group>"; };
 		4420FF580C7E4C8D007C1208 /* IFSoundController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFSoundController.h; sourceTree = "<group>"; };
@@ -118,6 +120,8 @@
 				442009AB0C84CEFA007C1208 /* IFTweetTable.m */,
 				442004CB0C80CF47007C1208 /* IFTweetTableCell.h */,
 				442004CC0C80CF47007C1208 /* IFTweetTableCell.m */,
+				44200AEF0C85F16D007C1208 /* IFTwitterrificToolbar.h */,
+				44200AF00C85F16D007C1208 /* IFTwitterrificToolbar.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
