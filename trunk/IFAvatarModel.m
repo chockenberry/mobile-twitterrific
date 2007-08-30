@@ -15,12 +15,72 @@
 
 @implementation IFAvatarModel
 
+#pragma mark Singleton
+
+static IFAvatarModel *avatarModel;
+
++ (IFAvatarModel *)sharedAvatarModel
+{
+	NSLog(@"IFAvatarModel: sharedAvatarModel");
+
+//	@synchronized(self)
+	{
+		if (avatarModel == nil)
+		{
+			[[self alloc] init]; // assignment not done here
+			NSLog(@"IFAvatarModel: sharedAvatarModel: avatarModel = %@", avatarModel);
+		}
+	}
+	
+	return avatarModel;
+}
+
++ (id)allocWithZone:(NSZone *)zone
+{
+//	@synchronized(self)
+	{
+		if (avatarModel == nil) {
+			avatarModel = [super allocWithZone:zone];
+			return avatarModel;  // assignment and return on first allocation
+		}
+	}
+	return nil; //on subsequent allocation attempts return nil
+}
+ 
+- (id)copyWithZone:(NSZone *)zone
+{
+	return self;
+}
+ 
+- (id)retain
+{
+	return self;
+}
+ 
+- (unsigned)retainCount
+{
+	return UINT_MAX;  //denotes an object that cannot be released
+}
+ 
+- (void)release
+{
+	//do nothing
+}
+ 
+- (id)autorelease
+{
+	return self;
+}
+
+
 - (id)init
 {
+	NSLog(@"IFAvatarModel: init");
 	self = [super init];
 	if (self != nil)
 	{
 		_avatars = [[NSMutableArray alloc] init];
+		_cache = [[NSMutableDictionary alloc] init];
 	}
 	return self;
 }
@@ -28,6 +88,7 @@
 - (void)dealloc
 {
 	[_avatars release];
+	[_cache release];
 	
 	[super dealloc];
 }
@@ -112,7 +173,7 @@ TODO: Check if options should be set to 2 = NSUncachedRead.
 	
 	return result;
 #else
-#if 1
+#if 0
 	// use the built-in cache for UIImage
 	
 	NSError *error = nil;
@@ -131,7 +192,32 @@ TODO: Check if options should be set to 2 = NSUncachedRead.
 		return image;
 	}
 #else
+#if 1
+	UIImage *image = [_cache objectForKey:screenName];
+	if (! image)
+	{
+		NSError *error = nil;
+		
+		NSData *data = [NSData dataWithContentsOfURL:url options:0 error:&error];
+		if (error)
+		{
+			NSLog(@"IFAvatarModel: avatarForScreenName:fromURL: error retrieving data: %@", [error localizedFailureReason]);
+			return nil;
+		}
+		else
+		{
+			UIImage *image = [[[UIImage alloc] initWithData:data cache:YES] autorelease];
+			[_cache setValue:image forKey:screenName];
+			
+			NSLog(@"IFAvatarModel: avatarForScreenName:fromURL: cached avatar for '%@'", screenName);
+			return image;
+		}
+	}
+	NSLog(@"IFAvatarModel: avatarForScreenName:fromURL: found avatar for '%@'", screenName);
+	return image;
+#else
 	return nil;
+#endif
 #endif
 #endif
 }

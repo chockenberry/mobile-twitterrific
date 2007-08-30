@@ -106,6 +106,13 @@ const float whiteComponents[4] = {1, 1, 1, 1};
     _content = [newContent retain];
 }
 
+/*
+- (void)setAvatarImage:(UIImage *)newImage
+{
+	[_avatarImageView setImage:newImage];
+}
+*/
+
 - (void)buttonDown
 {
 	NSLog(@"IFTweetTableCell: buttonDown");

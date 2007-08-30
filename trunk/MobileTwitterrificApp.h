@@ -30,7 +30,7 @@
 
 	// models
 	IFTweetModel *_tweetModel;
-	IFAvatarModel *avatarModel;
+//	IFAvatarModel *avatarModel;
 	
 	// user interface
 	UITableCell *tableCell;

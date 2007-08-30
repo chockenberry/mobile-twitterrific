@@ -8,6 +8,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface IFTweetModel : NSObject
 {
@@ -17,17 +18,20 @@
 
 - (NSArray *)tweets;
 
+- (NSArray *)tweetsWithoutAvatars;
+- (void)setTweetsWithoutAvatars:(NSArray *)newTweets;
+
 - (void)selectTweetWithIndex:(int)index;
 - (void)selectTweetWithId:(NSString *)tweetId;
 - (int)selectionIndex;
 
-- (NSDictionary *)selectedTweet;
+- (NSMutableDictionary *)selectedTweet;
 
-- (BOOL)addTweet:(NSDictionary *)tweet;
+- (BOOL)addTweet:(NSMutableDictionary *)tweet;
 
 - (int)indexForId:(NSString *)tweetId;
 
-- (NSDictionary *)tweetAtIndex:(int)index;
+- (NSMutableDictionary *)tweetAtIndex:(int)index;
 
 - (int)tweetCount;
 
