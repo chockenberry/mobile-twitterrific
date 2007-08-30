@@ -10,12 +10,20 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import <UIKit/UITextView.h>
+
 @interface IFTweetTableCell : UITableCell
 {
 	UITextLabel *_userNameLabel;
 	UITextLabel *_textLabel;
+#if 0
     UIImageView *_avatarImageView;
-	UIPushButton *_detailButton;
+	
+#else
+	UITextView *_avatarTextView;
+	
+#endif
+//	UIPushButton *_detailButton;
 	
 	NSDictionary *_content;
 }

@@ -345,7 +345,7 @@ clearer once the UI and associated views are established.
 		//[self removeOldTweets]; // to clean up data and keep memory usage to a minimum
 		
 		[table reloadData];
-
+		
 		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 		BOOL notify = [userDefaults boolForKey:@"notify"];
 		if (notify)
@@ -363,6 +363,8 @@ clearer once the UI and associated views are established.
 //		NSLog(@"MobileTwitterrificApp: parseXMLDocument: data = %@", data);
 #endif
 	}
+
+	[table setNeedsDisplay];
 }
 
 - (void)setupUserInterface

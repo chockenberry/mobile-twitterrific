@@ -46,6 +46,7 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 	{
 		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
+#if 1
 		_userNameLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET, contentRect.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, LINE_HEIGHT)];
 		[_userNameLabel setWrapsText:NO];
 		[_userNameLabel setBackgroundColor:CGColorCreate(colorSpace, transparentComponents)];
@@ -60,9 +61,19 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 		[_textLabel setCentersHorizontally:NO];		
 		[self addSubview:_textLabel];
 
+#if 0
 		_avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(LEFT_OFFSET, TOP_OFFSET, AVATAR_SIZE, AVATAR_SIZE)];
 		[self addSubview:_avatarImageView];
+#else
+		_avatarTextView = [[UITextView alloc] initWithFrame:CGRectMake(LEFT_OFFSET, TOP_OFFSET, AVATAR_SIZE, AVATAR_SIZE)];
+		[_avatarTextView setEditable:NO];
+		[_avatarTextView setTextSize:12.0f];
+		[_avatarTextView setTextColor:CGColorCreate(colorSpace, whiteComponents)];
+		[_avatarTextView setBackgroundColor:CGColorCreate(colorSpace, transparentComponents)];
+		[self addSubview:_avatarTextView];	
+#endif
 
+/*
 #if 0
 		_detailButton = [[UIPushButton alloc] initWithFrame:CGRectMake(contentRect.size.width - RIGHT_OFFSET, 0.0f, RIGHT_OFFSET, 88.0f)];
 		[_detailButton setAutosizesToFit:NO];
@@ -73,6 +84,16 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 		[_detailButton setShowPressFeedback:YES];
 		[_detailButton setEnabled:YES];
 		[self addSubview:_detailButton];
+*/
+
+#else
+		_avatarTextView = [[UITextView alloc] initWithFrame:CGRectMake(LEFT_OFFSET, TOP_OFFSET, contentRect.size.width - LEFT_OFFSET - RIGHT_OFFSET, 80.0)];
+		[_avatarTextView setEditable:NO];
+		[_avatarTextView setTextSize:16.0f];
+		[_avatarTextView setTextColor:CGColorCreate(colorSpace, whiteComponents)];
+		[_avatarTextView setBackgroundColor:CGColorCreate(colorSpace, transparentComponents)];
+		[self addSubview:_avatarTextView];	
+#endif
 
 //		[self setTapDelegate:self];
 
@@ -89,10 +110,15 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 	_userNameLabel = nil;
 	[_textLabel release];
 	_textLabel = nil;
+#if 0
 	[_avatarImageView release];
 	_avatarImageView = nil;
-	[_detailButton release];
-	_detailButton = nil;
+#else
+	[_avatarTextView release];
+	_avatarTextView = nil;
+#endif
+//	[_detailButton release];
+//	_detailButton = nil;
 	
 	[_content release];
 	_content = nil;
@@ -132,6 +158,7 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
 #if 1
+#if 1
 	if (selected)
 	{
 		[_userNameLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
@@ -155,8 +182,36 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 
 	[_userNameLabel setText:[_content objectForKey:@"userName"]];
 	[_textLabel setText:[_content objectForKey:@"text"]];
+#if 0
 	[_avatarImageView setImage:[_content objectForKey:@"userAvatarImage"]];
-	
+#else
+	NSString *html = [[[NSString alloc] initWithString:[NSString stringWithFormat:@"<div style=\"padding:0;margin:-8px\"><a href=\"http://google.com\"><img src=\"%@\" width=\"48\" height=\"48\" style=\"padding:0;margin:0\"></a><br/>59 min</div>",
+			[_content objectForKey:@"userAvatarUrl"]]] autorelease];
+	[_avatarTextView setHTML:html];
+//	[_avatarTextView setNeedsDisplay];
+#endif
+
+#else
+	if (selected)
+	{
+		[_avatarTextView setTextColor:CGColorCreate(colorSpace, whiteComponents)];
+
+		const float strokeComponents[4] = {1, 1, 1, 1};
+		CGContextSetStrokeColor(UICurrentContext(), strokeComponents);
+	}
+	else
+	{
+		[_avatarTextView setTextColor:CGColorCreate(colorSpace, grayComponents)];
+
+		const float strokeComponents[4] = {1, 1, 1, 0.50};
+		CGContextSetStrokeColor(UICurrentContext(), strokeComponents);
+	}
+
+	NSString *html = [[[NSString alloc] initWithString:[NSString stringWithFormat:@"<div style=\"padding:0;margin:-8px\"><a href=\"http://google.com\"><img src=\"%@\" width=\"48\" height=\"48\" style=\"padding:0;margin:0\"></a><b>%@</b><br/>%@</div>",
+			[_content objectForKey:@"userAvatarUrl"], [_content objectForKey:@"userName"], [_content objectForKey:@"text"]]] autorelease];
+	[_avatarTextView setHTML:html];
+#endif
+
 //	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:rect withRoundedEdges:15];
 	
 	struct CGRect innerRect = CGRectInset(rect, 1.5, 1.5);
