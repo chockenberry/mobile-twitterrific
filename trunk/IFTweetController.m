@@ -85,10 +85,11 @@ NOTE: The styles enumeration used withStyle are:
 	// create the text view
 	NSDictionary *tweet = [tweetModel selectedTweet];	
 	UITextView *textView = [[[UITextView alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f)] autorelease];
-	NSString *html = [[[NSString alloc] initWithString:[NSString stringWithFormat:@"<b>%@</b><br/>%@",
-			[tweet objectForKey:@"userName"], [tweet objectForKey:@"text"]]] autorelease];
+	NSString *html = [[[NSString alloc] initWithString:[NSString stringWithFormat:@"<img src=\"%@\" width=\"80\" height=\"80\"><b>%@</b><br/>%@",
+			[tweet objectForKey:@"userAvatarUrl"], [tweet objectForKey:@"userName"], [tweet objectForKey:@"text"]]] autorelease];
 	
 	[textView setEditable:NO];
+	[textView setTextSize:16.0f];
 	[textView setHTML:html];
 	[tweetView addSubview:textView];	
   
