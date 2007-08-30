@@ -43,6 +43,8 @@
 	contentRect.origin.x = 0.0f;
 	contentRect.origin.y = 0.0f;
 	
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+
 	// create the main view
 	UIView *inputView = [[[UIView alloc] initWithFrame:contentRect] autorelease];
 	
@@ -53,23 +55,54 @@
 	[navigationBar setDelegate:self]; 
 	[inputView addSubview:navigationBar];
 
-	// create the text view
+	// create the text view for previewing
 	NSDictionary *tweet = [tweetModel selectedTweet];	
-	UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f - 216.0f)];
-	NSString *html = [[NSString alloc] initWithString:[NSString stringWithFormat:@"<b>%@</b><br/>%@",
-			[tweet objectForKey:@"userName"], [tweet objectForKey:@"text"]]];
-	[textView setEditable:NO];
-	[textView setHTML:html];
-	[inputView addSubview:textView];	
 
-	UIKeyboard *keyboard = [[UIKeyboard alloc] initWithFrame: CGRectMake(0.0f, contentRect.size.height - 216.0f, contentRect.size.width, 216.0f)];
+	UITextView *previewTextView = [[[UITextView alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, 100.0f)] autorelease];
+	NSString *html = [[[NSString alloc] initWithString:[NSString stringWithFormat:@"<b>%@</b><br/>%@",
+			[tweet objectForKey:@"userName"], [tweet objectForKey:@"text"]]] autorelease];
+	[previewTextView setEditable:NO];
+	const float grayComponents[4] = {0.75, 0.75, 0.75, 1};
+	[previewTextView setBackgroundColor:CGColorCreate(colorSpace, grayComponents)];
+//	struct __GSFont *previewFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:2 size:16.0f];
+//	[previewTextView setTextFont:previewFont];
+	[previewTextView setHTML:html];
+	[inputView addSubview:previewTextView];	
+
+	// create the keyboard
+	
+	UIKeyboard *keyboard = [[[UIKeyboard alloc] initWithFrame: CGRectMake(0.0f, contentRect.size.height - 216.0f, contentRect.size.width, 216.0f)] autorelease];
+	[keyboard setReturnKeyEnabled:NO];
 	[inputView addSubview:keyboard];
 
-  
+ 	// create the text view for editing
+#if 1
+	UITextView *editingTextView = [[[UITextView alloc] initWithFrame:CGRectMake(0.0f, 44.0f + 100.0f, contentRect.size.width, contentRect.size.height - 44.0f - 100.0f - 216.0f)] autorelease];
+	[editingTextView setEditable:YES];
+	[editingTextView setText:@""];
+	[inputView addSubview:editingTextView];
+
+	[keyboard setTapDelegate:editingTextView];
+	[editingTextView becomeFirstResponder];
+#else
+	UITextField *editingTextField = [[[UITextField alloc] initWithFrame:CGRectMake(0.0f, 44.0f + 100.0f, contentRect.size.width, contentRect.size.height - 44.0f - 100.0f - 216.0f)] autorelease];
+	//[editingTextField setEditable:YES];
+	[editingTextField setText:@"What are you doing?"];
+	[inputView addSubview:editingTextField];
+
+	[keyboard setTapDelegate:editingTextField];
+	[editingTextField becomeFirstResponder];
+#endif
+
+ 
 	// setup the views
 	UIWindow *mainWindow = [controller mainWindow];
 	_oldContentView = [[mainWindow contentView] retain];
 	[mainWindow setContentView:inputView];
+	
+//	[mainWindow makeKey:editingTextView];
+
+	CFRelease(colorSpace);
 }
 
 
