@@ -17,9 +17,10 @@
     UIImageView *_avatarImageView;
 	UIPushButton *_detailButton;
 	
-	NSDictionary *_content;	
+	NSDictionary *_content;
 }
 
 - (void)setContent:(NSDictionary *)newContent;
+//- (void)setAvatarImage:(UIImage *)newImage;
 
 @end

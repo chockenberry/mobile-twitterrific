@@ -14,7 +14,10 @@
 @interface IFAvatarModel : NSObject
 {
 	NSMutableArray *_avatars;
+	NSMutableDictionary *_cache;
 }
+
++ (IFAvatarModel *)sharedAvatarModel;
 
 - (UIImage *)avatarForScreenName:(NSString *)screenName fromURL:(NSURL *)url;
 

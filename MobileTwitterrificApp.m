@@ -93,7 +93,7 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 	[inputController release];
 	[soundController release];
 	[_tweetModel release];
-	[avatarModel release];
+//	[avatarModel release];
 
 	[super dealloc];
 }
@@ -153,10 +153,22 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 #if 1
 	IFTweetTableCell *tweetTableCell = [[[IFTweetTableCell alloc] init] autorelease];
 	[tweetTableCell setContent:tweet];
+#if 0
+	NSURL *url = [NSURL URLWithString:[tweet objectForKey:@"userAvatarUrl"]];
+	UIImage *userAvatarImage = [avatarModel avatarForScreenName:[tweet objectForKey:@"screenName"] fromURL:url];
+	[tweetTableCell setAvatarImage:userAvatarImage];
+#endif
+
 	return tweetTableCell;
 #endif
 }
 
+/*
+- (UITableCell *)table:(UITable *)tab cellForRow:(int)row column:(int)column reusing:(BOOL)flag
+{
+	return [self table:tab cellForRow:row column:column];
+}
+*/
 
 /*
 NOTE: The following methods determine whether the disclosure arrow (>)
@@ -286,9 +298,13 @@ and stringValues.
 			BOOL tweetWasAdded = [_tweetModel addTweet:content];
 			if (tweetWasAdded)
 			{
-#if 1						
+/*
+TODO: Change the way avatar images are stored. The can't be held directly in the tweetModel since
+we archive that and UIImage does not have a coder.
+*/
+#if 0					
 				NSURL *url = [NSURL URLWithString:[content objectForKey:@"userAvatarUrl"]];
-				UIImage *userAvatarImage = [avatarModel avatarForScreenName:[content objectForKey:@"screenName"] fromURL:url];
+				UIImage *userAvatarImage = [[IFAvatarModel sharedAvatarModel avatarForScreenName:[content objectForKey:@"screenName"] fromURL:url];
 				[content setValue:userAvatarImage forKey:@"userAvatarImage"];
 #endif
 
@@ -336,6 +352,16 @@ clearer once the UI and associated views are established.
 		{
 			[soundController playNotification];
 		}
+		
+		NSArray *tweets = [[self tweetModel] tweetsWithoutAvatars];
+//		NSLog(@"MobileTwitterrificApp: parseXMLDocument: tweets = %@", tweets);
+#if 1
+		[userDefaults setObject:tweets forKey:@"tweets"];
+		[userDefaults synchronize];
+		NSLog(@"MobileTwitterrificApp: parseXMLDocument: persisted %d tweets", [[userDefaults objectForKey:@"tweets"] count]);
+//		NSData *data = [NSArchiver archivedDataWithRootObject:tweets];
+//		NSLog(@"MobileTwitterrificApp: parseXMLDocument: data = %@", data);
+#endif
 	}
 }
 
@@ -424,9 +450,9 @@ NOTE: The styles enumeration used with setSeparatorStyle:
 	[table setBackgroundColor:CGColorCreate(colorSpace, backgroundComponents)];
 	CFRelease(colorSpace);
 #endif
-
+//	[table setReusesTableCells:YES];
 	[mainView addSubview:table];
-	[table reloadData];
+//	[table reloadData];
 
 
 /*
@@ -519,6 +545,8 @@ UIButtonBarMiniButtonPressed.png
 
 	[window setContentView:mainView];
 	[self setMainWindow:window];
+
+	[table reloadData];
 }
 
 #pragma mark Timers
@@ -594,8 +622,20 @@ the main view not being a contentView when the notification is sent.
 	// create a model for managing the tweets
 	_tweetModel = [[IFTweetModel alloc] init];
 
+	// get the tweets we saved when we last quit
+#if 1
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	NSArray *tweets = [userDefaults objectForKey:@"tweets"];
+	//NSLog(@"MobileTwitterrificApp: setupModels: tweets = %@", tweets);
+	if (tweets)
+	{
+		NSLog(@"MobileTwitterrificApp: setupModels: loading %d tweets", [tweets count]);
+		[[self tweetModel] setTweetsWithoutAvatars:tweets];
+	}
+#endif
+
 	// create a model for managing the avatars
-	avatarModel = [[IFAvatarModel alloc] init];
+//	avatarModel = [[IFAvatarModel alloc] init];
 }
 
 #pragma mark UIApplication delegate
@@ -621,6 +661,18 @@ the main view not being a contentView when the notification is sent.
 	[self updatePreferences];
 	
 	[self refresh];
+}
+
+/*
+NOTE: Always called, regardless of whether the application can handle suspended operation
+or not.
+*/
+- (void)applicationWillSuspend;
+{
+	// save our current list of tweets
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	[userDefaults setObject:[[self tweetModel] tweetsWithoutAvatars] forKey:@"tweets"];
+	[userDefaults synchronize];
 }
 
 /*
