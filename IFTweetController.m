@@ -63,7 +63,7 @@ NOTE: The styles enumeration used withStyle are:
 	5 - Like 1
 	6+ - ?
 */
-	UISegmentedControl *upDownSegmentedControl = [[UISegmentedControl alloc] initWithFrame:CGRectMake(contentRect.size.width - 88.0f - 5.0f, 7.0f, 88.0f, 32.0f) withStyle:2 withItems:nil];
+	UISegmentedControl *upDownSegmentedControl = [[[UISegmentedControl alloc] initWithFrame:CGRectMake(contentRect.size.width - 88.0f - 5.0f, 7.0f, 88.0f, 32.0f) withStyle:2 withItems:nil] autorelease];
 	[upDownSegmentedControl setMomentaryClick:YES];
 	[upDownSegmentedControl setDelegate:self];
 	[upDownSegmentedControl addSegmentWithTitle:@""];
@@ -84,9 +84,9 @@ NOTE: The styles enumeration used withStyle are:
   
 	// create the text view
 	NSDictionary *tweet = [tweetModel selectedTweet];	
-	UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f)];
-	NSString *html = [[NSString alloc] initWithString:[NSString stringWithFormat:@"<b>%@</b><br/>%@",
-			[tweet objectForKey:@"userName"], [tweet objectForKey:@"text"]]];
+	UITextView *textView = [[[UITextView alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f)] autorelease];
+	NSString *html = [[[NSString alloc] initWithString:[NSString stringWithFormat:@"<b>%@</b><br/>%@",
+			[tweet objectForKey:@"userName"], [tweet objectForKey:@"text"]]] autorelease];
 	
 	[textView setEditable:NO];
 	[textView setHTML:html];
