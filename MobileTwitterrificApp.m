@@ -178,10 +178,7 @@ on the arrow itself.
 
 - (void)tableRowSelected:(NSNotification *)aNotification
 {
-#if 0
 	[[self tweetModel] selectTweetWithIndex:[table selectedRow]];
-	[tweetController showTweet];
-#endif
 }
 
 - (void)tableDoubleAction
@@ -516,6 +513,7 @@ UIButtonBarMiniButtonPressed.png
 	[mainView addSubview:buttonBar];
 #else
 	IFTwitterrificToolbar *toolbar = [[[IFTwitterrificToolbar alloc] initWithFrame:CGRectMake(0.0f, contentRect.size.height - 44.0f, contentRect.size.width, 44.0f)] autorelease];
+	[toolbar setDelegate:self];
 	[mainView addSubview:toolbar];
 #endif
 
@@ -580,7 +578,7 @@ to handle the selection update from the tweetController. Probably has something 
 the main view not being a contentView when the notification is sent.
 */
 	//[table selectRow:newIndex byExtendingSelection:NO withFade:NO scrollingToVisible:YES];
-	//[table selectRow:newIndex byExtendingSelection:NO];
+	[table selectRow:newIndex byExtendingSelection:NO];
 }	
 
 - (void)setupNotifications
@@ -802,6 +800,45 @@ Props to Lucas Newman for figuring out this workaround.
 		break;
 	}
 }
+
+#pragma mark IFTwitterrificToolbar delegate
+
+- (void)refreshPressed
+{
+	NSLog(@"MobileTwitterrificApp: refreshPressed");
+	[self refresh];
+}
+
+- (void)postPressed
+{
+	NSLog(@"MobileTwitterrificApp: postPressed");
+	[inputController showInput];
+}
+
+- (void)replyPressed
+{
+	NSLog(@"MobileTwitterrificApp: replyPressed");
+	[inputController showInput];
+}
+
+- (void)messagePressed
+{
+	NSLog(@"MobileTwitterrificApp: messagePressed");
+	[inputController showInput];
+}
+
+- (void)detailPressed
+{
+	NSLog(@"MobileTwitterrificApp: detailPressed");
+	[tweetController showTweet];
+}
+
+- (void)configurePressed
+{
+	NSLog(@"MobileTwitterrificApp: configurePressed");
+	[preferencesController showPreferences]; 
+}
+
 
 #pragma mark UIButtonBar delegate
 

@@ -23,6 +23,12 @@
 		442009AB0C84CEFA007C1208 /* IFTweetTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetTable.m; sourceTree = "<group>"; };
 		44200AEF0C85F16D007C1208 /* IFTwitterrificToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTwitterrificToolbar.h; sourceTree = "<group>"; };
 		44200AF00C85F16D007C1208 /* IFTwitterrificToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTwitterrificToolbar.m; sourceTree = "<group>"; };
+		44200B720C864629007C1208 /* reply.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = reply.png; path = Resources/reply.png; sourceTree = "<group>"; };
+		44200B730C864629007C1208 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = refresh.png; path = Resources/refresh.png; sourceTree = "<group>"; };
+		44200B740C864629007C1208 /* detail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = detail.png; path = Resources/detail.png; sourceTree = "<group>"; };
+		44200B750C864629007C1208 /* post.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = post.png; path = Resources/post.png; sourceTree = "<group>"; };
+		44200B760C864629007C1208 /* configure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = configure.png; path = Resources/configure.png; sourceTree = "<group>"; };
+		44200B770C864629007C1208 /* message.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = message.png; path = Resources/message.png; sourceTree = "<group>"; };
 		4420FF1E0C7E2186007C1208 /* arrowdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowdown.png; path = Resources/arrowdown.png; sourceTree = "<group>"; };
 		4420FF1F0C7E2186007C1208 /* arrowup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowup.png; path = Resources/arrowup.png; sourceTree = "<group>"; };
 		4420FF580C7E4C8D007C1208 /* IFSoundController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFSoundController.h; sourceTree = "<group>"; };
@@ -145,6 +151,12 @@
 				4420FF1E0C7E2186007C1208 /* arrowdown.png */,
 				4420FF1F0C7E2186007C1208 /* arrowup.png */,
 				442008940C83A570007C1208 /* wallpaper.jpg */,
+				44200B720C864629007C1208 /* reply.png */,
+				44200B730C864629007C1208 /* refresh.png */,
+				44200B740C864629007C1208 /* detail.png */,
+				44200B750C864629007C1208 /* post.png */,
+				44200B760C864629007C1208 /* configure.png */,
+				44200B770C864629007C1208 /* message.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";

@@ -18,6 +18,11 @@
 	UIPushButton *_messageButton;
 	UIPushButton *_detailButton;
 	UIPushButton *_configureButton;
+	
+	id _delegate;
 }
+
+- (void)setDelegate:(id)object;
+- (id)delegate;
 
 @end
