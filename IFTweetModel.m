@@ -7,12 +7,10 @@
 //  Copyright (c) 2007, The Iconfactory. All rights reserved.
 //
 
-#import "IFAvatarModel.h"
-
 #import "IFTweetModel.h"
 
 
-#define MAX_TWEET_COUNT 50
+#define MAX_TWEET_COUNT 100
 
 
 @implementation IFTweetModel
@@ -55,68 +53,6 @@
 		[_tweets addObject:tweet];
 	}
 }
-
-- (NSArray *)tweetsWithoutAvatars
-{
-	// remove the UIImages from the dictionaries, since they can't be archived (because
-	// UIImage does not implement the NSCoding protocol.)
-	
-	NSMutableArray *tweetsWithoutAvatars = [NSMutableArray arrayWithCapacity:[_tweets count]];
-	NSEnumerator *tweetEnumerator = [_tweets objectEnumerator];
-	NSMutableDictionary *tweet;
-	while ((tweet = [tweetEnumerator nextObject]))
-	{
-		NSMutableDictionary *tweetWithoutAvatar = [NSMutableDictionary dictionaryWithDictionary:tweet];
-		[tweetWithoutAvatar removeObjectForKey:@"userAvatarImage"];
-		[tweetsWithoutAvatars addObject:tweetWithoutAvatar];
-	}
-	
-	return tweetsWithoutAvatars;
-}
-
-- (void)_addAvatarToTweet:(NSMutableDictionary *)tweet
-{
-#if 0
-	// add an avatar to the tweet
-	NSURL *url = [NSURL URLWithString:[tweet objectForKey:@"userAvatarUrl"]];
-//	NSLog(@"url = %@", url);
-	UIImage *userAvatarImage = [[IFAvatarModel sharedAvatarModel] avatarForScreenName:[tweet objectForKey:@"screenName"] fromURL:url];
-//	NSLog(@"userAvatarImage = %@", userAvatarImage);
-	[tweet setValue:userAvatarImage forKey:@"userAvatarImage"];
-//	NSLog(@"tweet = %@", tweet);
-#endif
-}
-
-- (void)setTweetsWithoutAvatars:(NSArray *)newTweets
-{
-    [_tweets release];
-//	_tweets = [newTweets retain];
-//	_tweets = [newTweets mutableCopy];
-
-
-	_tweets = [[NSMutableArray arrayWithCapacity:[newTweets count]] retain];
-	NSEnumerator *newTweetsEnumerator = [newTweets objectEnumerator];
-	NSDictionary *newTweet;
-	while ((newTweet = [newTweetsEnumerator nextObject]))
-	{
-//		NSMutableDictionary *tweet = [[newTweet mutableCopy] autorelease];
-		NSMutableDictionary *tweet = [NSMutableDictionary dictionaryWithDictionary:newTweet];
-//		NSMutableDictionary *tweet = [[[NSMutableDictionary alloc] init] autorelease];
-
-//		[tweet setValue:@"1 2 3" forKey:@"test"];
-//		NSLog(@"tweet = %@", tweet);
-//		NSLog(@"tweet className = %@", [tweet className]);
-
-//		[tweet addEntriesFromDictionary:newTweet];
-//		NSLog(@"tweet = %@", tweet);
-//		NSLog(@"tweet className = %@", [tweet className]);
-
-		[self _addAvatarToTweet:tweet];
-
-		[_tweets addObject:tweet];
-	}
-}
-
 
 - (int)indexForId:(NSString *)tweetId
 {
@@ -163,7 +99,6 @@ NSComparisonResult tweetSortFunction(id tweet, id anotherTweet, void *context)
 		// the tweet has not been recorded
 
 		// add an avatar image, then add it to the array
-		[self _addAvatarToTweet:tweet];
 		[_tweets addObject:tweet];
 
 		// now re-sort the tweets; index 0 has the newest tweet

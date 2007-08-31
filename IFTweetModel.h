@@ -19,9 +19,6 @@
 - (NSArray *)tweets;
 - (void)setTweets:(NSArray *)newTweets;
 
-- (NSArray *)tweetsWithoutAvatars;
-- (void)setTweetsWithoutAvatars:(NSArray *)newTweets;
-
 - (void)selectTweetWithIndex:(int)index;
 - (void)selectTweetWithId:(NSString *)tweetId;
 - (int)selectionIndex;
