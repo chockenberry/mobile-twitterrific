@@ -11,17 +11,19 @@
 #import <UIKit/UIKit.h>
 
 #import <UIKit/UITextView.h>
+#import "IFURLImageView.h"
 
 @interface IFTweetTableCell : UITableCell
 {
 	UITextLabel *_userNameLabel;
 	UITextLabel *_textLabel;
-#if 0
-    UIImageView *_avatarImageView;
+#if 1
+    //UIImageView *_avatarImageView;
+    IFURLImageView *_avatarImageView;
 	
 #else
-	UITextView *_avatarTextView;
-	
+	//UITextView *_avatarTextView;
+	IFURLImageView *_avatarImageView2;
 #endif
 //	UIPushButton *_detailButton;
 	

@@ -163,12 +163,11 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 #endif
 }
 
-/*
-- (UITableCell *)table:(UITable *)tab cellForRow:(int)row column:(int)column reusing:(BOOL)flag
+- (UITableCell *)table:(UITable *)tab cellForRow:(int)row column:(int)column reusing:(id)cell
 {
+	NSLog(@"MobileTwitterrificApp: table:cellForRow:column: row = %d, column = %d, reusing = %@", row, column, cell);
 	return [self table:tab cellForRow:row column:column];
 }
-*/
 
 /*
 NOTE: The following methods determine whether the disclosure arrow (>)
@@ -185,7 +184,7 @@ on the arrow itself.
 
 - (BOOL)table:(UITable *)table disclosureClickableForRow:(int)row
 {
-	return YES;
+	return NO;
 }
 
 - (void)tableRowSelected:(NSNotification *)aNotification
@@ -353,18 +352,18 @@ clearer once the UI and associated views are established.
 			[soundController playNotification];
 		}
 		
-		NSArray *tweets = [[self tweetModel] tweetsWithoutAvatars];
+//		NSArray *tweets = [[self tweetModel] tweets];
 //		NSLog(@"MobileTwitterrificApp: parseXMLDocument: tweets = %@", tweets);
 #if 1
-		[userDefaults setObject:tweets forKey:@"tweets"];
+		[userDefaults setObject:[[self tweetModel] tweets] forKey:@"tweets"];
 		[userDefaults synchronize];
-		NSLog(@"MobileTwitterrificApp: parseXMLDocument: persisted %d tweets", [[userDefaults objectForKey:@"tweets"] count]);
+		//NSLog(@"MobileTwitterrificApp: parseXMLDocument: persisted %d tweets", [[userDefaults objectForKey:@"tweets"] count]);
 //		NSData *data = [NSArchiver archivedDataWithRootObject:tweets];
 //		NSLog(@"MobileTwitterrificApp: parseXMLDocument: data = %@", data);
 #endif
-	}
 
-	[table setNeedsDisplay];
+//		[table setNeedsDisplay];
+	}
 }
 
 - (void)setupUserInterface
@@ -452,7 +451,7 @@ NOTE: The styles enumeration used with setSeparatorStyle:
 	[table setBackgroundColor:CGColorCreate(colorSpace, backgroundComponents)];
 	CFRelease(colorSpace);
 #endif
-//	[table setReusesTableCells:YES];
+	[table setReusesTableCells:YES];
 	[mainView addSubview:table];
 //	[table reloadData];
 
@@ -632,7 +631,7 @@ the main view not being a contentView when the notification is sent.
 	if (tweets)
 	{
 		NSLog(@"MobileTwitterrificApp: setupModels: loading %d tweets", [tweets count]);
-		[[self tweetModel] setTweetsWithoutAvatars:tweets];
+		[[self tweetModel] setTweets:tweets];
 	}
 #endif
 
@@ -673,7 +672,7 @@ or not.
 {
 	// save our current list of tweets
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	[userDefaults setObject:[[self tweetModel] tweetsWithoutAvatars] forKey:@"tweets"];
+	[userDefaults setObject:[[self tweetModel] tweets] forKey:@"tweets"];
 	[userDefaults synchronize];
 }
 

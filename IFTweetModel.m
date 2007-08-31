@@ -41,6 +41,21 @@
 	return _tweets;
 }
 
+- (void)setTweets:(NSArray *)newTweets
+{
+    [_tweets release];
+
+	// create a mutable array with mutable dictionaries from immutable data (from NSUserDefaults, for example)
+	_tweets = [[NSMutableArray arrayWithCapacity:[newTweets count]] retain];
+	NSEnumerator *newTweetsEnumerator = [newTweets objectEnumerator];
+	NSDictionary *newTweet;
+	while ((newTweet = [newTweetsEnumerator nextObject]))
+	{
+		NSMutableDictionary *tweet = [NSMutableDictionary dictionaryWithDictionary:newTweet];
+		[_tweets addObject:tweet];
+	}
+}
+
 - (NSArray *)tweetsWithoutAvatars
 {
 	// remove the UIImages from the dictionaries, since they can't be archived (because

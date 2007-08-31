@@ -29,6 +29,10 @@
 		44200B750C864629007C1208 /* post.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = post.png; path = Resources/post.png; sourceTree = "<group>"; };
 		44200B760C864629007C1208 /* configure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = configure.png; path = Resources/configure.png; sourceTree = "<group>"; };
 		44200B770C864629007C1208 /* message.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = message.png; path = Resources/message.png; sourceTree = "<group>"; };
+		44200FA80C88761B007C1208 /* IFURLImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFURLImageView.h; sourceTree = "<group>"; };
+		44200FA90C88761B007C1208 /* IFURLImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFURLImageView.m; sourceTree = "<group>"; };
+		442010190C889144007C1208 /* UIView-Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView-Color.h"; sourceTree = "<group>"; };
+		4420101A0C889144007C1208 /* UIView-Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView-Color.m"; sourceTree = "<group>"; };
 		4420FF1E0C7E2186007C1208 /* arrowdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowdown.png; path = Resources/arrowdown.png; sourceTree = "<group>"; };
 		4420FF1F0C7E2186007C1208 /* arrowup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arrowup.png; path = Resources/arrowup.png; sourceTree = "<group>"; };
 		4420FF580C7E4C8D007C1208 /* IFSoundController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFSoundController.h; sourceTree = "<group>"; };
@@ -58,6 +62,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				442010180C88910F007C1208 /* Categories */,
 				44AC3FBE0C7CA97F00427BB8 /* Models */,
 				442004CA0C80CF11007C1208 /* Views */,
 				44AC3B430C7A080A00427BB8 /* Controllers */,
@@ -128,8 +133,19 @@
 				442004CC0C80CF47007C1208 /* IFTweetTableCell.m */,
 				44200AEF0C85F16D007C1208 /* IFTwitterrificToolbar.h */,
 				44200AF00C85F16D007C1208 /* IFTwitterrificToolbar.m */,
+				44200FA80C88761B007C1208 /* IFURLImageView.h */,
+				44200FA90C88761B007C1208 /* IFURLImageView.m */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		442010180C88910F007C1208 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				442010190C889144007C1208 /* UIView-Color.h */,
+				4420101A0C889144007C1208 /* UIView-Color.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		443D21690C76293F0045EDF9 /* Connections */ = {

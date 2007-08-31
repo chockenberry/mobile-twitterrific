@@ -13,6 +13,8 @@ SOURCES=\
 	IFAvatarModel.m \
 	IFTweetTable.m \
 	IFTwitterrificToolbar.m \
+	IFURLImageView.m \
+	UIView-Color.m \
 	IFTestDictionary.m
 RESOURCES=Resources
 

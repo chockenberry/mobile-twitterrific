@@ -14,6 +14,8 @@
 #import <WebCore/WebFontCache.h>
 #import <CoreGraphics/CGGeometry.h>
 
+#import "UIView-Color.h"
+
 #import "IFTweetTableCell.h"
 
 @implementation IFTweetTableCell
@@ -33,7 +35,8 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 
 #define AVATAR_SIZE 48.0f
 
-#define LINE_HEIGHT 20.0f
+#define LINE_HEIGHT 16.0f
+
 
 - (id)initWithFrame:(struct CGRect)frame;
 {
@@ -44,33 +47,41 @@ const float whiteComponents[4] = {1, 1, 1, 1};
     self = [super initWithFrame:frame];
     if (self)
 	{
-		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+//		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
 #if 1
-		_userNameLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET, contentRect.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, LINE_HEIGHT)];
+		_userNameLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET, contentRect.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, 22.0f)];
 		[_userNameLabel setWrapsText:NO];
-		[_userNameLabel setBackgroundColor:CGColorCreate(colorSpace, transparentComponents)];
-		struct __GSFont *userNameFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:2 size:16.0f];
+		[_userNameLabel setBackgroundColor:[UIView colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.0]];
+		struct __GSFont *userNameFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:2 size:18.0f];
 		[_userNameLabel setFont:userNameFont];
 		[self addSubview:_userNameLabel];
 
-		_textLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, LINE_HEIGHT + PADDING, contentRect.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, LINE_HEIGHT * 3)];
+		_textLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET + 18.0f, contentRect.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, 60.0f)];
 		[_textLabel setWrapsText:YES];
-		[_textLabel setBackgroundColor:CGColorCreate(colorSpace, transparentComponents)];
+		[_textLabel setBackgroundColor:[UIView colorWithRed:0.0f green:1.0f blue:0.0f alpha:0.0]];
+		struct __GSFont *textFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:2 size:16.0f];
+		[_textLabel setFont:textFont];
 		[_textLabel setEllipsisStyle:2];
 		[_textLabel setCentersHorizontally:NO];		
 		[self addSubview:_textLabel];
 
-#if 0
-		_avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(LEFT_OFFSET, TOP_OFFSET, AVATAR_SIZE, AVATAR_SIZE)];
+#if 1
+//		_avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(LEFT_OFFSET, TOP_OFFSET, AVATAR_SIZE, AVATAR_SIZE)];
+		_avatarImageView = [[IFURLImageView alloc] initWithFrame:CGRectMake(LEFT_OFFSET, TOP_OFFSET, AVATAR_SIZE, AVATAR_SIZE)];
 		[self addSubview:_avatarImageView];
 #else
+#if 0
 		_avatarTextView = [[UITextView alloc] initWithFrame:CGRectMake(LEFT_OFFSET, TOP_OFFSET, AVATAR_SIZE, AVATAR_SIZE)];
 		[_avatarTextView setEditable:NO];
 		[_avatarTextView setTextSize:12.0f];
 		[_avatarTextView setTextColor:CGColorCreate(colorSpace, whiteComponents)];
 		[_avatarTextView setBackgroundColor:CGColorCreate(colorSpace, transparentComponents)];
-		[self addSubview:_avatarTextView];	
+		[self addSubview:_avatarTextView];
+#else
+		_avatarImageView2 = [[IFURLImageView alloc] initWithFrame:CGRectMake(LEFT_OFFSET, TOP_OFFSET, AVATAR_SIZE, AVATAR_SIZE)];
+		[self addSubview:_avatarImageView2];
+#endif
 #endif
 
 /*
@@ -97,7 +108,7 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 
 //		[self setTapDelegate:self];
 
-		CFRelease(colorSpace);
+//		CFRelease(colorSpace);
 		
 		_content = nil;
 	}
@@ -110,12 +121,17 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 	_userNameLabel = nil;
 	[_textLabel release];
 	_textLabel = nil;
-#if 0
+#if 1
 	[_avatarImageView release];
 	_avatarImageView = nil;
 #else
+#if 0
 	[_avatarTextView release];
 	_avatarTextView = nil;
+#else
+	[_avatarImageView2 release];
+	_avatarImageView2 = nil;
+#endif
 #endif
 //	[_detailButton release];
 //	_detailButton = nil;
@@ -128,8 +144,13 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 
 - (void)setContent:(NSDictionary *)newContent
 {
+	NSLog(@"IFTweetTableCell: setContent:");
     [_content release];
     _content = [newContent retain];
+
+	[_userNameLabel setText:[_content objectForKey:@"userName"]];
+	[_textLabel setText:[_content objectForKey:@"text"]];
+	[_avatarImageView setURLString:[_content objectForKey:@"userAvatarUrl"]];
 }
 
 /*
@@ -155,40 +176,54 @@ const float whiteComponents[4] = {1, 1, 1, 1};
 {
 	//NSLog(@"IFTweetTableCell: drawContentInRect:");
 	
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	//CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
+	CGColorRef gray = [UIView colorWithRed:0.75f green:0.75f blue:0.75f alpha:1.0f];
+	CGColorRef white = [UIView colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
+	
 #if 1
 #if 1
 	if (selected)
 	{
-		[_userNameLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
-		[_textLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
+		[_userNameLabel setColor:gray];
+		[_textLabel setColor:white];
 
-		const float strokeComponents[4] = {1, 1, 1, 1};
-		CGContextSetStrokeColor(UICurrentContext(), strokeComponents);
+		CGContextSetStrokeColorWithColor(UICurrentContext(), white);
 	}
 	else
 	{
-		[_userNameLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
-		[_textLabel setColor:CGColorCreate(colorSpace, grayComponents)];
+		[_userNameLabel setColor:white];
+		[_textLabel setColor:gray];
 
-		const float strokeComponents[4] = {1, 1, 1, 0.50};
-		CGContextSetStrokeColor(UICurrentContext(), strokeComponents);
+		CGContextSetStrokeColorWithColor(UICurrentContext(), [UIView colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f]);
 	}
 #else
 	[_userNameLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
 	[_textLabel setColor:CGColorCreate(colorSpace, whiteComponents)];
 #endif	
 
-	[_userNameLabel setText:[_content objectForKey:@"userName"]];
-	[_textLabel setText:[_content objectForKey:@"text"]];
-#if 0
-	[_avatarImageView setImage:[_content objectForKey:@"userAvatarImage"]];
+//	[_userNameLabel setText:[_content objectForKey:@"userName"]];
+//	[_textLabel setText:[_content objectForKey:@"text"]];
+	
+//	struct CGSize textSize = [_textLabel ellipsizedTextSize];
+//	struct CGRect textFrame = CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET + 16.0f, textSize.width, textSize.height);
+//	[_textLabel setFrame:textFrame];
+	
+#if 1
+	//[_avatarImageView setImage:[_content objectForKey:@"userAvatarImage"]];
+//	if (! [_avatarImageView image])
+//	{
+//		[_avatarImageView setURLString:[_content objectForKey:@"userAvatarUrl"]];
+//	}
 #else
-	NSString *html = [[[NSString alloc] initWithString:[NSString stringWithFormat:@"<div style=\"padding:0;margin:-8px\"><a href=\"http://google.com\"><img src=\"%@\" width=\"48\" height=\"48\" style=\"padding:0;margin:0\"></a><br/>59 min</div>",
+#if 0
+	NSString *html = [[[NSString alloc] initWithString:[NSString stringWithFormat:@"<div style=\"padding:0;margin:-8px\"><a href=\"http://google.com\"><img src=\"%@\" width=\"48\" height=\"48\" style=\"padding:0;margin:0;\"></a><br/>59 min</div>",
 			[_content objectForKey:@"userAvatarUrl"]]] autorelease];
 	[_avatarTextView setHTML:html];
 //	[_avatarTextView setNeedsDisplay];
+#else
+	[_avatarImageView2 setURLString:[_content objectForKey:@"userAvatarUrl"]];
+#endif
 #endif
 
 #else
@@ -226,9 +261,12 @@ Radius is in number of pixels.
 */
 	UIBezierPath *path;
 
-	path = [UIBezierPath roundedRectBezierPath:rect withRoundedCorners:15 withCornerRadius:8.0];
-	const float backgroundComponents[4] = {0, 0, 0, 0.7};
-	CGContextSetFillColor(UICurrentContext(), backgroundComponents);
+//	path = [UIBezierPath roundedRectBezierPath:rect withRoundedCorners:15 withCornerRadius:8.0];
+	path = [UIBezierPath bezierPath];
+	[path appendBezierPathWithRect:rect];
+
+//	const float backgroundComponents[4] = {0, 0, 0, 0.7};
+	CGContextSetFillColorWithColor(UICurrentContext(), [UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.75f]);
 	[path fill];
 	
 	path = [UIBezierPath roundedRectBezierPath:innerRect withRoundedCorners:15 withCornerRadius:8.0];
@@ -237,9 +275,16 @@ Radius is in number of pixels.
 	[path setLineWidth:2.0f];
 	[path stroke];
 
+/*
+	struct CGRect clipRect = CGRectInset(rect, 10.0, 10.0);
+	path = [UIBezierPath roundedRectBezierPath:clipRect withRoundedCorners:15 withCornerRadius:8.0];
+	CGContextAddPath(UICurrentContext(), [path _pathRef]);
+	CGContextClip(UICurrentContext());
+*/
+	
 	[super drawContentInRect:rect selected:selected];
 	
-	CFRelease(colorSpace);
+	//CFRelease(colorSpace);
 }
 #endif
 
