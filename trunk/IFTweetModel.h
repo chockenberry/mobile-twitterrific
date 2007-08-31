@@ -17,6 +17,7 @@
 }
 
 - (NSArray *)tweets;
+- (void)setTweets:(NSArray *)newTweets;
 
 - (NSArray *)tweetsWithoutAvatars;
 - (void)setTweetsWithoutAvatars:(NSArray *)newTweets;

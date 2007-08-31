@@ -222,5 +222,38 @@ TODO: Check if options should be set to 2 = NSUncachedRead.
 #endif
 }
 
+#if 0
+#pragma mark NSURLConnection delegate
+
+        _imageURL = [imageURL copy];
+        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:_imageURL];
+        _imageURLConnection = [[NSURLConnection alloc] initWithRequest:imageRequest delegate:self];
+
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [_imageData appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    [_imageURLConnection release];
+    _imageURLConnection = nil;
+    
+    [_imageData release];
+    _imageData = nil;
+    [self setImage:nil];
+}
+
+-(void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    [_imageURLConnection release];
+    _imageURLConnection = nil;
+    
+    UIImage *newImage = [[[UIImage alloc] initWithData:_imageData cache:NO] autorelease];
+    [self setImage:newImage];
+}
+
+#endif
 
 @end
