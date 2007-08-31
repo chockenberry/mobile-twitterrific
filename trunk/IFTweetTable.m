@@ -18,6 +18,7 @@
 	return YES;
 }
 
+/*
 - (void)mouseDown:(struct __GSEvent *)event;
 {
 	NSLog(@"IFTweetTable: mouseDown:");
@@ -29,6 +30,7 @@
 	NSLog(@"IFTweetTable: mouseUp:");
 	[super mouseUp:event];
 }
+*/
 
 - (BOOL)canHandleSwipes
 {
@@ -52,10 +54,12 @@
 }	
 */
 
+/*
 - (void)drawRect:(struct CGRect)rect
 {
 	NSLog(@"IFTweetTable: drawRect:");
 }	
+*/
 
 /*
 - (struct CGRect)selectionBarRect
@@ -84,6 +88,7 @@
 }
 */
 
+/*
 #pragma mark HACKING AWAY AT THE DELEGATE
 
 - (BOOL)respondsToSelector:(SEL)aSelector
@@ -91,7 +96,7 @@
 	//NSLog(@"IFTweetTable: respondsToSelector: selector = %@", NSStringFromSelector(aSelector));
 	return [super respondsToSelector:aSelector];
 }
-
+*/
 
 @end
 
