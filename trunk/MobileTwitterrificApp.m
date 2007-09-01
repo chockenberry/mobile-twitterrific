@@ -112,6 +112,10 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 
 	NSDictionary *tweet = [[self tweetModel] tweetAtIndex:row];
 
+/*
+NOTE: We build table cells on an as needed basis. This lowers the memory footprint of
+the application and provides adequate performance while scrolling.
+*/
 	IFTweetTableCell *tweetTableCell = [[[IFTweetTableCell alloc] init] autorelease];
 	[tweetTableCell setContent:tweet];
 
