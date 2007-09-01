@@ -13,8 +13,7 @@ SOURCES=\
 	IFTweetTable.m \
 	IFTwitterrificToolbar.m \
 	IFURLImageView.m \
-	UIView-Color.m \
-	IFTestDictionary.m
+	UIView-Color.m
 RESOURCES=Resources
 
 CC=/Developer/SDKs/iPhone/bin/arm-apple-darwin-cc
