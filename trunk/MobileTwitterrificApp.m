@@ -43,10 +43,12 @@
 #import <UIKit/UITable.h>
 #import <UIKit/UITableCell.h>
 #import <UIKit/UITableColumn.h>
+/*
 #import <UIKit/UIButtonBar.h>
 #import <UIKit/UIButtonBarButton.h>
 #import <UIKit/UIButtonBarTextButton.h>
 #import <UIKit/UISimpleTableCell.h>
+*/
 
 #import <WebCore/WebFontCache.h>
 
@@ -60,6 +62,8 @@
 #import "IFTweetTable.h"
 #import "IFTweetTableCell.h"
 #import "IFTwitterrificToolbar.h"
+
+#import "UIView-Color.h"
 
 #import "IFTestDictionary.h"
 
@@ -93,7 +97,6 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 	[inputController release];
 	[soundController release];
 	[_tweetModel release];
-//	[avatarModel release];
 
 	[super dealloc];
 }
@@ -130,74 +133,24 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 
 	NSDictionary *tweet = [[self tweetModel] tweetAtIndex:row];
 
-#if 0
-	UIImageAndTextTableCell *imageAndTextTableCell = [[[UIImageAndTextTableCell alloc] init] autorelease];
-	[imageAndTextTableCell setTitle:[tweet objectForKey:@"userName"]];
-	return imageAndTextTableCell;
-#endif
-
-#if 0
-	UISimpleTableCell *simpleTableCell = [[[UISimpleTableCell alloc] init] autorelease];
-	[simpleTableCell setTitle:[tweet objectForKey:@"userName"]];
-//	NSData *avatarImageData = [NSData dataWithContentsOfURL:[tweet objectForKey:@"userAvatarUrl"]];
-//	[simpleTableCell setIcon:[[[UIImage alloc] initWithData:avatarImageData] autorelease]];
-#if 0
-	NSURL *url = [NSURL URLWithString:[tweet objectForKey:@"userAvatarUrl"]];
-	[simpleTableCell setIcon:[avatarModel avatarForScreenName:[tweet objectForKey:@"screenName"] fromURL:url]];
-#else
-	[simpleTableCell setIcon:[tweet objectForKey:@"userAvatarImage"]];
-#endif
-	return simpleTableCell;
-#endif
-
-#if 1
 	IFTweetTableCell *tweetTableCell = [[[IFTweetTableCell alloc] init] autorelease];
 	[tweetTableCell setContent:tweet];
-#if 0
-	NSURL *url = [NSURL URLWithString:[tweet objectForKey:@"userAvatarUrl"]];
-	UIImage *userAvatarImage = [avatarModel avatarForScreenName:[tweet objectForKey:@"screenName"] fromURL:url];
-	[tweetTableCell setAvatarImage:userAvatarImage];
-#endif
 
 	return tweetTableCell;
-#endif
 }
 
+/*
 - (UITableCell *)table:(UITable *)tab cellForRow:(int)row column:(int)column reusing:(id)cell
 {
 	NSLog(@"MobileTwitterrificApp: table:cellForRow:column: row = %d, column = %d, reusing = %@", row, column, cell);
 	return [self table:tab cellForRow:row column:column];
 }
-
-/*
-NOTE: The following methods determine whether the disclosure arrow (>)
-is shown for the row. - (BOOL)table:(UITable *)table disclosureClickableForRow:(int)row
-determines whether the arrow is clickable. If it isn't clickable, creates a "dead spot"
-on the arrow (selection won't change if clicked on arrow). It defaults to YES, so we
-don't have to implement it unless we have a good reason to not respond to clicks
-on the arrow itself.
 */
-- (BOOL)table:(UITable *)table showDisclosureForRow:(int)row
-{
-	return NO;
-}
-
-- (BOOL)table:(UITable *)table disclosureClickableForRow:(int)row
-{
-	return NO;
-}
 
 - (void)tableRowSelected:(NSNotification *)aNotification
 {
 	[[self tweetModel] selectTweetWithIndex:[table selectedRow]];
 }
-
-- (void)tableDoubleAction
-{
-	NSLog(@"tableDoubleAction");
-	[inputController showInput];
-}
-
 
 #pragma mark User interface
 
@@ -289,45 +242,16 @@ and stringValues.
 			
 		}
 		
-//		NSString *tweetId = [content objectForKey:@"id"];
-//		if (tweetId)
-		{
-			//NSLog(@"MobileTwitterrificApp: parseXMLDocument: content id = %@, type = %@", [content objectForKey:@"id"], [content objectForKey:@"type"]);
+		//NSLog(@"MobileTwitterrificApp: parseXMLDocument: content id = %@, type = %@", [content objectForKey:@"id"], [content objectForKey:@"type"]);
 
-			BOOL tweetWasAdded = [_tweetModel addTweet:content];
-			if (tweetWasAdded)
-			{
-/*
-TODO: Change the way avatar images are stored. The can't be held directly in the tweetModel since
-we archive that and UIImage does not have a coder.
-*/
-#if 0					
-				NSURL *url = [NSURL URLWithString:[content objectForKey:@"userAvatarUrl"]];
-				UIImage *userAvatarImage = [[IFAvatarModel sharedAvatarModel avatarForScreenName:[content objectForKey:@"screenName"] fromURL:url];
-				[content setValue:userAvatarImage forKey:@"userAvatarImage"];
-#endif
-
-			
-//			// check to see if id already exists
-//			int index = [self indexForId:id];
-//			if (index == -1)
-//			{
-/*
-				// add the content to the user interface
-				UIImageAndTextTableCell *imageAndTextTableCell = [[UIImageAndTextTableCell alloc] init];
-				[imageAndTextTableCell setTitle:[content objectForKey:@"userName"]];
-				[rowCells addObject:imageAndTextTableCell];
-*/		
-				// add the content to the model
-//				[tweets addObject:content];
-//				[_tweetModel addTweet:content];
-				
-				addedNewContent = YES;
-				tweetCount += 1;
-			}
-			
-			tweetFeedCount += 1;
+		BOOL tweetWasAdded = [_tweetModel addTweet:content];
+		if (tweetWasAdded)
+		{			
+			addedNewContent = YES;
+			tweetCount += 1;
 		}
+		
+		tweetFeedCount += 1;
 	}	
 	
 	NSLog(@"MobileTwitterrificApp: parseXMLDocument: received %d tweets", tweetFeedCount);
@@ -335,13 +259,6 @@ we archive that and UIImage does not have a coder.
 	if (addedNewContent)
 	{
 		NSLog(@"MobileTwitterrificApp: parseXMLDocument: created %d tweets", tweetCount);
-/*
-TODO: Manage the table cells and the model more intelligently. The current
-implementation is just a proof-of-concept. Hopefully, the right choice will become
-clearer once the UI and associated views are established.
-*/
-		//[self sortTweets]; // to display tweets from newest to oldest
-		//[self removeOldTweets]; // to clean up data and keep memory usage to a minimum
 		
 		[table reloadData];
 		
@@ -351,18 +268,16 @@ clearer once the UI and associated views are established.
 		{
 			[soundController playNotification];
 		}
-		
-//		NSArray *tweets = [[self tweetModel] tweets];
-//		NSLog(@"MobileTwitterrificApp: parseXMLDocument: tweets = %@", tweets);
+/*
+TODO: This is mainly here for debugging purposes -- when running from the command line,
+the applicationWillSuspend method doesn't get called when Control-C is used to kill the
+process.
+*/
 #if 1
 		[userDefaults setObject:[[self tweetModel] tweets] forKey:@"tweets"];
 		[userDefaults synchronize];
 		//NSLog(@"MobileTwitterrificApp: parseXMLDocument: persisted %d tweets", [[userDefaults objectForKey:@"tweets"] count]);
-//		NSData *data = [NSArchiver archivedDataWithRootObject:tweets];
-//		NSLog(@"MobileTwitterrificApp: parseXMLDocument: data = %@", data);
 #endif
-
-//		[table setNeedsDisplay];
 	}
 }
 
@@ -394,159 +309,30 @@ resist the urge.
 	[background setImage:[UIImage imageNamed:@"wallpaper.jpg"]];	
 	[mainView addSubview:background];
 
-#if 0
-/*
-NOTE: The styles enumeration used withBarStyle are:
-	0 - Standard light blue
-	1 - Shiny black
-	2 - Like 1
-	3 - Like 0
-	4+ - ?
-*/
-	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 44.0f)] autorelease];
-	[navigationBar showButtonsWithLeftTitle:@"Refresh" rightTitle:@"Setup"];
-	[navigationBar setBarStyle:1];
-	[navigationBar setDelegate:self];
-	[mainView addSubview:navigationBar];
-#endif
-
-
-//	// create a table whose height is the full screen, less the navbar, less the button bar
-//	table = [[[IFTweetTable alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f - 44.0f)] autorelease];
-//	table = [[[IFTweetTable alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f)] autorelease];
-
-	// create a table whose size fits the entire screen
+	// create a table with one column whose size fits the entire screen
 	table = [[[IFTweetTable alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, contentRect.size.height)] autorelease];
 	UITableColumn *tableColumn = [[UITableColumn alloc] initWithTitle:@"Twitterrific" identifier:@"twitterrific" width:contentRect.size.width];
+	[table addTableColumn:tableColumn];
+	[table setDataSource:self];
+	[table setDelegate:self];
+	[table setRowHeight:88.0f];
+	[table setBackgroundColor:[UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
+	[mainView addSubview:table];
+
+	// create a toolbar that overlays the table
+	IFTwitterrificToolbar *toolbar = [[[IFTwitterrificToolbar alloc] initWithFrame:CGRectMake(0.0f, contentRect.size.height - 44.0f, contentRect.size.width, 44.0f)] autorelease];
+	[toolbar setDelegate:self];
+	[mainView addSubview:toolbar];
+
+	// setup the window
+	[window setContentView:mainView];
+	[self setMainWindow:window];
 
 	[window orderFront:self];
 	[window makeKey:self];
 	[window _setHidden:NO];
 
-	[table addTableColumn:tableColumn];
-//	[table setTapDelegate:self];
-//	[table setDoubleAction:@selector(tableDoubleAction)];
-//	[table setCountString:@"The Count"];
-	[table setDataSource:self];
-	[table setDelegate:self];
-/*
-NOTE: The styles enumeration used with setSeparatorStyle:
-	0 - No separator
-	1 - Thin gray line
-	2 - Thick gray line
-	3+ - ?
-*/
-//	[table setSeparatorStyle:1];
-	[table setRowHeight:88.0f];
-
-#if 1
-//const float transparentComponents[4] = {0, 0, 0, 0};
-//const float blackComponents[4] = {0, 0, 0, 1};
-//const float grayComponents[4] = {0.5, 0.5, 0.5, 1};
-//const float blueComponents[4] = {0.208, 0.482, 0.859, 1};
-//const float whiteComponents[4] = {1, 1, 1, 1};
-
-	const float backgroundComponents[4] = {0, 0, 0, 0};
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-	[table setBackgroundColor:CGColorCreate(colorSpace, backgroundComponents)];
-	CFRelease(colorSpace);
-#endif
-	[table setReusesTableCells:YES];
-	[mainView addSubview:table];
-//	[table reloadData];
-
-
-/*
-	UIButtonBar *buttonBar = [[[UIButtonBar alloc] initWithFrame:CGRectMake(0.0f, contentRect.size.height - 44.0f, contentRect.size.width, 44.0f)] autorelease];
-	[buttonBar setBarStyle:0];
-	[buttonBar setDelegate:self];
-*/
-
-	
-#if 0
-/*
-These look like promising keys for the NSDictionary (from UIKit)
-
-UIButtonBarButtonTitleWidth
-UIButtonBarButtonStyle
-UIButtonBarButtonTarget
-UIButtonBarButtonAction
-UIButtonBarButtonTag
-UIButtonBarButtonSelectedInfo
-UIButtonBarButtonInfo
-UIButtonBarButtonTitle
-UIButtonBarButtonType
-
-// these are probably class names
-UIButtonBarButtonItem
-UIButtonBarCustomizeHeader
-UIButtonBarCustomizeView
-UIButtonBarTextButton
-UIButtonBarButton
-UIButtonBarButtonBadge
-UISwappableImageView
-UISelectionIndicatorView
-kUIButtonBarButtonInfoOffset
-kUIButtonBarButtonTitleVerticalHeight
-
-// standard images?
-UIButtonBarSelectedIndicator.png
-UIButtonBarBlueMiniButton.png
-UIButtonBarMiniButton.png
-UIButtonBarMiniButtonPressed.png
-*/
-	NSLog(@"creating testButton");
-	UIButtonBarButton *testButton = [[[UIButtonBarButton alloc] initWithImage:[UIImage imageNamed:@"arrowup.png"] selectedImage:[UIImage imageNamed:@"arrowdown.png"] label:@"Test" labelHeight:20.0f withBarStyle:0 withStyle:0 withOffset:NSMakeSize(4.0f, 0.0f)] autorelease];
-
-//	struct __GSFont *font = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:2 size:16.0f];
-//	UIButtonBarTextButton *testButton = [[[UIButtonBarTextButton alloc] initWithTitle:@"Title" selectedTitle:@"Selected" withFont:font withBarStyle:0 withStyle:0 withTitleWidth:44.0f] autorelease];      
-
-	NSLog(@"creating dictionary");
-	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithFloat:44.0f], @"UIButtonBarButtonTitleWidth",
-		[NSNumber numberWithInt:0], @"UIButtonBarButtonStyle",
-		@"Title", @"UIButtonBarButtonTitle",
-		@"Tag", @"UIButtonBarButtonTag",
-		@"UIButtonBarButton", @"UIButtonBarButtonType",
-		testButton, @"UIButtonBarButtonTarget",
-		nil];
-//		@selector(buttonAction:), @"UIButtonBarButtonAction",
-//		testButton, @"UIButtonBarButton", 
-//		self, @"UIButtonBarButtonTarget",
-	
-	
-	NSLog(@"creating test dictionary");
-	IFTestDictionary *testDictionary = [[IFTestDictionary alloc] initWithDictionary:dictionary];
-	
-	NSLog(@"creating array");
-	NSArray *itemList = [NSArray arrayWithObject:testDictionary];
-//	NSArray *itemList = [NSArray arrayWithObject:dictionary];
-
-	NSLog(@"creating buttonBar");
-	UIButtonBar *buttonBar = [[[UIButtonBar alloc] initInView:mainView withItemList:itemList] autorelease];
-
-/*
-	NSLog(@"creating dictionary");
-	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-		self, @"UIButtonBarButtonTarget",
-		nil];
-	id button = [buttonBar createButtonWithDescription:dictionary];
-	NSLog(@"button = %@", button);
-*/
-	
-	[buttonBar setBarStyle:1];
-	[buttonBar setDelegate:self];
-	
-	[mainView addSubview:buttonBar];
-#else
-	IFTwitterrificToolbar *toolbar = [[[IFTwitterrificToolbar alloc] initWithFrame:CGRectMake(0.0f, contentRect.size.height - 44.0f, contentRect.size.width, 44.0f)] autorelease];
-	[toolbar setDelegate:self];
-	[mainView addSubview:toolbar];
-#endif
-
-	[window setContentView:mainView];
-	[self setMainWindow:window];
-
+	// spring into action
 	[table reloadData];
 }
 
@@ -600,13 +386,7 @@ TODO: Make the refresh interval a preference.
 - (void)updateTweetSelection
 {
 	int newIndex = [[self tweetModel] selectionIndex];
-	NSLog(@"MobileTwitterrificApp: updateTweetSelection: new index = %d", newIndex);
-/*
-TODO: The following code causes weird things to happen with the table. Need to find a way
-to handle the selection update from the tweetController. Probably has something to do with
-the main view not being a contentView when the notification is sent.
-*/
-	//[table selectRow:newIndex byExtendingSelection:NO withFade:NO scrollingToVisible:YES];
+	//NSLog(@"MobileTwitterrificApp: updateTweetSelection: new index = %d", newIndex);
 	[table selectRow:newIndex byExtendingSelection:NO];
 }	
 
@@ -624,7 +404,6 @@ the main view not being a contentView when the notification is sent.
 	_tweetModel = [[IFTweetModel alloc] init];
 
 	// get the tweets we saved when we last quit
-#if 1
 	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 	NSArray *tweets = [userDefaults objectForKey:@"tweets"];
 	//NSLog(@"MobileTwitterrificApp: setupModels: tweets = %@", tweets);
@@ -633,10 +412,6 @@ the main view not being a contentView when the notification is sent.
 		NSLog(@"MobileTwitterrificApp: setupModels: loading %d tweets", [tweets count]);
 		[[self tweetModel] setTweets:tweets];
 	}
-#endif
-
-	// create a model for managing the avatars
-//	avatarModel = [[IFAvatarModel alloc] init];
 }
 
 #pragma mark UIApplication delegate
@@ -919,7 +694,7 @@ Props to Lucas Newman for figuring out this workaround.
 	NSLog(@"MobileTwitterrificApp: view:handleTapWithCount:event: view = %@, count = %d", view, count);
 }
 
-
+/*
 #pragma mark HACKING AWAY AT THE DELEGATE
 
 - (BOOL)respondsToSelector:(SEL)aSelector
@@ -927,5 +702,6 @@ Props to Lucas Newman for figuring out this workaround.
 	//NSLog(@"MobileTwitterrificApp: respondsToSelector: selector = %@", NSStringFromSelector(aSelector));
 	return [super respondsToSelector:aSelector];
 }
+*/
 
 @end
