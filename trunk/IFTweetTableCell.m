@@ -127,15 +127,7 @@
 	
 	// stroke an inset and rounded rect
 	struct CGRect innerRect = CGRectInset(rect, 1.5, 1.5);
-/*
-NOTE: Corners are determined by OR-ing the following values. Use 15 for all four corners:
-	1 = upper-left corner
-	2 = upper-right corner
-	4 = lower-left corner
-	8 = lower-right corner
-Radius is in number of pixels.
-*/
-	path = [UIBezierPath roundedRectBezierPath:innerRect withRoundedCorners:15 withCornerRadius:8.0];
+	path = [UIBezierPath roundedRectBezierPath:innerRect withRoundedCorners:kUIBezierPathAllCorners withCornerRadius:8.0];
 	[path setLineWidth:2.0f];
 	[path stroke];
 

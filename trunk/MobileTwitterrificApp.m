@@ -33,6 +33,8 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
 
+#import <LayerKit/LayerKit.h>
+
 #import "IFPreferencesController.h"
 #import "IFTweetController.h"
 #import "IFTweetModel.h"
@@ -318,6 +320,14 @@ resist the urge.
 	[window makeKey:self];
 	[window _setHidden:NO];
 
+#if 0
+	LKTransform sublayerTransform = LKTransformIdentity;
+	sublayerTransform.m34 = 1.0 / -500.0;
+	[[[mainView superview] _layer] setSublayerTransform:sublayerTransform];
+	[(LKLayer *)[mainView _layer] setTransform:LKTransformMakeRotation(M_PI / 4, 0.5, -1, 0)];
+//	[(LKLayer *)[mainView _layer] setTransform:LKTransformMakeRotation(M_PI / 4, 0, -1, 0)];
+#endif
+	
 	// spring into action
 	[table reloadData];
 }

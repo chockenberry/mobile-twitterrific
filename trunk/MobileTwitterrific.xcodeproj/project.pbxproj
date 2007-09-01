@@ -37,6 +37,7 @@
 		443D216F0C76298B0045EDF9 /* IFTwitterConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = IFTwitterConnection.m; sourceTree = "<group>"; };
 		443D21710C76298B0045EDF9 /* IFTwitterConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IFTwitterConnection.h; sourceTree = "<group>"; };
 		443D21720C76298B0045EDF9 /* IFTwitterTimelineConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = IFTwitterTimelineConnection.m; sourceTree = "<group>"; };
+		445B66E70C8A08000049A9B0 /* README */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		44AC39400C76472500427BB8 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icon.png; sourceTree = "<group>"; };
 		44AC39410C76472500427BB8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
 		44AC3B410C7A080200427BB8 /* IFPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFPreferencesController.h; sourceTree = "<group>"; };
@@ -79,6 +80,7 @@
 		29B97314FDCFA39411CA2CEA /* MobileTwitterrific */ = {
 			isa = PBXGroup;
 			children = (
+				445B66E70C8A08000049A9B0 /* README */,
 				D92591D70C6B431100BBDBBC /* Makefile */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,

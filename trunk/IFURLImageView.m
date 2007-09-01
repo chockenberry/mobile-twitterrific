@@ -78,7 +78,7 @@
 
 	CGContextRef context = UICurrentContext();
 
-	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:rect withRoundedCorners:15 withCornerRadius:6.0];
+	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:rect withRoundedCorners:kUIBezierPathAllCorners withCornerRadius:6.0];
 	
 	if (! _image)
 	{

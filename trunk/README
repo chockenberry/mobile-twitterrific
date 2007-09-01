@@ -1,7 +1,8 @@
 MobileTwitterrific.app
 ======================
 
-Craig Hockenberry - 19.Aug.2007
+Craig Hockenberry - 19.Aug.2007 - Initial version
+Craig Hockenberry - 01.Sep.2007 - Added svn to get headers
 
 
 Introduction
@@ -21,6 +22,22 @@ and that your SDK headers are in /Developer/SDKs/iPhone.
 You'll also need to make sure that you have the ARM compilation tools in
 /Developer/SDKs/iPhone/bin (arm-apple-darwin-cc and arm-apple-darwin-ld).
 
+Get the latest header files with:
+
+% sudo svn checkout \
+	http://svn.berlios.de/svnroot/repos/iphone-binutils/trunk/include \
+	/Developer/SDKs/iPhone/include
+
+Then symlink CoreGraphics:
+
+% sudo ln -s \
+	/System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Headers/ \
+	/Developer/SDKs/iPhone/include/CoreGraphics
+
+If you have problems compiling, make sure that you have include/WebCore and
+that include/CarbonCore has headers (and not .diff files.) Finally, you may
+need to comment out some #include "NSObject.h" in Celestial and WebCore.
+
 Building
 --------
 
@@ -38,8 +55,9 @@ be sorely disappointed by what you see when you hit the ESC key while editing
 (no code completion.)
 
 After the build completes, you'll find the iPhone application package in
-the build/Release folder. Use scp to get it onto the iPhone in the
-/Applications folder.
+the build/Release folder. The final build step uses scp to get the application
+onto the iPhone in the /Applications folder: you'll need to update the command
+in the Makefile to suit your local environment.
 
 Debugging
 ---------
