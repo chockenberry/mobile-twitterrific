@@ -10,7 +10,6 @@ SOURCES=\
 	IFSoundController.m \
 	IFInputController.m \
 	IFTweetTableCell.m \
-	IFAvatarModel.m \
 	IFTweetTable.m \
 	IFTwitterrificToolbar.m \
 	IFURLImageView.m \

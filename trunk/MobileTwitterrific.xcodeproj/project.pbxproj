@@ -14,8 +14,6 @@
 		4420036B0C7FAABF007C1208 /* IFInputController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IFInputController.h; sourceTree = "<group>"; };
 		442004CB0C80CF47007C1208 /* IFTweetTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetTableCell.h; sourceTree = "<group>"; };
 		442004CC0C80CF47007C1208 /* IFTweetTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetTableCell.m; sourceTree = "<group>"; };
-		442006480C8342E2007C1208 /* IFAvatarModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAvatarModel.h; sourceTree = "<group>"; };
-		442006490C8342E2007C1208 /* IFAvatarModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAvatarModel.m; sourceTree = "<group>"; };
 		442008940C83A570007C1208 /* wallpaper.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = wallpaper.jpg; path = Resources/wallpaper.jpg; sourceTree = "<group>"; };
 		442009280C84C1A7007C1208 /* IFRuntimeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFRuntimeAdditions.h; sourceTree = "<group>"; };
 		4420092B0C84C368007C1208 /* IFUIKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFUIKitAdditions.h; sourceTree = "<group>"; };
@@ -197,8 +195,6 @@
 			children = (
 				44AC3FBF0C7CA99C00427BB8 /* IFTweetModel.h */,
 				44AC3FC00C7CA99C00427BB8 /* IFTweetModel.m */,
-				442006480C8342E2007C1208 /* IFAvatarModel.h */,
-				442006490C8342E2007C1208 /* IFAvatarModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";

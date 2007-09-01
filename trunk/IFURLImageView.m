@@ -11,38 +11,18 @@
 #import <UIKit/UIBezierPath.h>
 #import <WebCore/WebFontCache.h>
 #import <CoreGraphics/CGGeometry.h>
-#import <LayerKit/LKLayer.h>
+//#import <LayerKit/LKLayer.h>
 
 #import "UIView-Color.h"
 
 @implementation IFURLImageView
 
-- (id)initWithFrame:(struct CGRect)frame;
-{
-//	struct CGRect contentRect = [UIHardware fullScreenApplicationContentRect];
-//	contentRect.origin.x = 0.0f;
-//	contentRect.origin.y = 0.0f;
-
-    self = [super initWithFrame:frame];
-    if (self)
-	{
-//		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-
-/*
-		[self setEditable:NO];
-		const float transparentComponents[4] = {0, 0, 0, 0};
-		[self setBackgroundColor:CGColorCreate(colorSpace, transparentComponents)];
-*/
-
-//		CFRelease(colorSpace);
-	}
-    return self;
-}
-
 - (void)dealloc
 {
 	[_URLString release];
 	_URLString = nil;
+	[_image release];
+	_image = nil;
 	
 	[super dealloc];
 }
@@ -80,43 +60,6 @@
 	[self setNeedsDisplay];
 }
 
-#if 0
-//- (void)drawLayer:(LKLayer *)layer inContext:(CGContextRef)context
-- (void)drawRect:(struct CGRect)rect
-{
-	NSLog(@"IFURLImageView: drawRect:");
-	//NSLog(@"IFURLImageView: drawLayer:inContext: layer = %@", layer);
-
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-
-/*
-	NSString *html = [NSString stringWithFormat:@"<div style=\"padding:0;margin:-8px\"><img src=\"%@\" width=\"48\" height=\"48\" style=\"padding:0;margin:0\"></div>", _URLString];
-	[self setHTML:html];
-*/
-
-	CGContextRef context = UICurrentContext();
-	
-	//struct CGRect clipRect = CGRectInset(rect, 10.0, 10.0);
-	struct CGRect clipRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
-	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:clipRect withRoundedCorners:15 withCornerRadius:8.0];
-	CGContextAddPath(context, [path _pathRef]);
-	CGContextClip(context);
-
-//	[layer renderInContext:context];
-	[super drawRect:rect];
-	
-	const float fillComponents[4] = {1, 0, 0, 1};
-	CGContextSetFillColor(context, fillComponents);
-	[path fill];
-
-	CFRelease(colorSpace);
-}	
-
-- (void)drawLayer:(LKLayer *)layer inContext:(CGContextRef)context
-{
-	NSLog(@"IFURLImageView: drawLayer:inContext: layer = %@", layer);
-}
-#else
 
 - (BOOL)isOpaque
 {
@@ -129,17 +72,6 @@
 
 	CGContextRef context = UICurrentContext();
 
-/*	
-	//struct CGRect clipRect = CGRectInset(rect, 10.0, 10.0);
-	struct CGRect clipRect = CGRectMake(0.0f, 0.0f, 10.0f, 10.0f);
-	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:clipRect withRoundedCorners:15 withCornerRadius:8.0];
-	CGContextAddPath(context, [path _pathRef]);
-	CGContextClip(context);
-*/
-
-//	[layer renderInContext:context];
-//	[super drawRect:rect];
-	
 	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:rect withRoundedCorners:15 withCornerRadius:6.0];
 	
 	if (! _image)
@@ -154,11 +86,8 @@
 	}
 }	
 
-#endif
 
-#if 1
 #pragma mark NSURLConnection delegate
-
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
@@ -194,10 +123,10 @@
 	
 	//NSLog(@"IFURLImageView: connectionDidFinishLoading: image = %@", newImage);
 	[self setImage:newImage];
+	// setting the image has the side effect of marking the view for display
 }
-#endif
 
-
+/*
 #pragma mark HACKING AWAY AT THE DELEGATE
 
 - (BOOL)respondsToSelector:(SEL)aSelector
@@ -205,6 +134,6 @@
 	//NSLog(@"IFURLImageView: respondsToSelector: selector = %@", NSStringFromSelector(aSelector));
 	return [super respondsToSelector:aSelector];
 }
-
+*/
 
 @end

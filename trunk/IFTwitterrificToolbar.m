@@ -91,9 +91,6 @@
 		[_configureButton setEnabled:YES];
 		[self addSubview:_configureButton];
 
-
-//		[self setTapDelegate:self];
-
 		CFRelease(colorSpace);
 	}
     return self;
@@ -193,7 +190,6 @@
 }
 
 
-
 - (BOOL)isOpaque
 {
 	return NO;
@@ -212,12 +208,6 @@
 }	
 
 /*
-- (void)drawTitleInRect:(struct CGRect)rect selected:(BOOL)selected
-{
-	NSLog(@"IFTweetTableCell: drawTitleInRect:");
-}
-*/
-
 #pragma mark HACKING AWAY AT THE DELEGATE
 
 - (BOOL)respondsToSelector:(SEL)aSelector
@@ -225,5 +215,6 @@
 	NSLog(@"IFTwitterrificToolbar: respondsToSelector: selector = %@", NSStringFromSelector(aSelector));
 	return [super respondsToSelector:aSelector];
 }
+*/
 
 @end
