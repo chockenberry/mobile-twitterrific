@@ -23,6 +23,12 @@
 	_URLString = nil;
 	[_image release];
 	_image = nil;
+
+	[_imageURLConnection cancel];
+	[_imageURLConnection release];
+	_imageURLConnection = nil;
+	[_imageData release];
+	_imageData = nil;
 	
 	[super dealloc];
 }
