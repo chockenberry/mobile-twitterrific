@@ -13,6 +13,7 @@
 #import "IFTwitterTimelineConnection.h"
 #import "IFTweetModel.h"
 #import "IFAvatarModel.h"
+#import "IFTweetTable.h"
 
 @class IFPreferencesController;
 @class IFTweetController;
@@ -30,11 +31,9 @@
 
 	// models
 	IFTweetModel *_tweetModel;
-//	IFAvatarModel *avatarModel;
 	
 	// user interface
-	UITableCell *tableCell;
-	UITable *table;
+	IFTweetTable *table;
 	UIWindow *_mainWindow;
 	
 	// preferences
@@ -51,6 +50,7 @@
 }
 
 - (IFTweetModel *)tweetModel;
+
 - (UIWindow *)mainWindow;
 - (void)setMainWindow:(UIWindow *)newMainWindow;
 
