@@ -33,25 +33,6 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
 
-#import <UIKit/CDStructures.h>
-#import <UIKit/UIPushButton.h>
-#import <UIKit/UIThreePartButton.h>
-#import <UIKit/UINavigationBar.h>
-#import <UIKit/UIWindow.h>
-#import <UIKit/UIView-Hierarchy.h>
-#import <UIKit/UIHardware.h>
-#import <UIKit/UITable.h>
-#import <UIKit/UITableCell.h>
-#import <UIKit/UITableColumn.h>
-/*
-#import <UIKit/UIButtonBar.h>
-#import <UIKit/UIButtonBarButton.h>
-#import <UIKit/UIButtonBarTextButton.h>
-#import <UIKit/UISimpleTableCell.h>
-*/
-
-#import <WebCore/WebFontCache.h>
-
 #import "IFPreferencesController.h"
 #import "IFTweetController.h"
 #import "IFTweetModel.h"
@@ -64,8 +45,6 @@
 #import "IFTwitterrificToolbar.h"
 
 #import "UIView-Color.h"
-
-#import "IFTestDictionary.h"
 
 #import "MobileTwitterrificApp.h"
 
@@ -140,6 +119,9 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 }
 
 /*
+NOTE: Not sure how this works yet (only know that it gets called if setReusesTableCells:YES
+is called. It might be useful to recycle cell objects, so we'll leave it commented out for now.
+
 - (UITableCell *)table:(UITable *)tab cellForRow:(int)row column:(int)column reusing:(id)cell
 {
 	NSLog(@"MobileTwitterrificApp: table:cellForRow:column: row = %d, column = %d, reusing = %@", row, column, cell);
