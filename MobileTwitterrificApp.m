@@ -649,6 +649,7 @@ Props to Lucas Newman for figuring out this workaround.
 {
 	NSLog(@"MobileTwitterrificApp: messagePressed");
 	[inputController showInput];
+//	[self openURL:[NSURL URLWithString:@"http://iconfactory.com"]];
 }
 
 - (void)detailPressed
@@ -660,7 +661,7 @@ Props to Lucas Newman for figuring out this workaround.
 - (void)configurePressed
 {
 	NSLog(@"MobileTwitterrificApp: configurePressed");
-	[preferencesController showPreferences]; 
+	[preferencesController showPreferences];
 }
 
 

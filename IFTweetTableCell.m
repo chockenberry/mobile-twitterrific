@@ -59,6 +59,8 @@
 		_avatarImageView = [[IFURLImageView alloc] initWithFrame:CGRectMake(LEFT_OFFSET, TOP_OFFSET, AVATAR_SIZE, AVATAR_SIZE)];
 		[self addSubview:_avatarImageView];
 
+		[self setTapDelegate:self];
+
 		_content = nil;
 	}
     return self;
@@ -85,7 +87,12 @@
     [_content release];
     _content = [newContent retain];
 
+#if 0
+	NSAttributedString *fancyString = [[NSAttributedString alloc] initWithString:[_content objectForKey:@"userName"] attributes:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
+	[_userNameLabel setText:fancyString];
+#else	
 	[_userNameLabel setText:[_content objectForKey:@"userName"]];
+#endif
 	[_textLabel setText:[_content objectForKey:@"text"]];
 	[_avatarImageView setURLString:[_content objectForKey:@"userAvatarUrl"]];
 }
@@ -144,6 +151,16 @@ selection highlight.
 	//NSLog(@"IFTweetTableCell: drawRect:");
 	[self drawContentInRect:rect selected:[self isSelected]];
 }	
+
+#pragma mark UIView delegate
+
+- (BOOL)view:(id)view handleTapWithCount:(int)count event:(struct __GSEvent *)event
+{
+	NSLog(@"IFTweetTableCell: view:handleTapWithCount:event: view = %@, count = %d", view, count);
+	
+	return YES;
+}
+
 
 /*
 #pragma mark HACKING AWAY AT THE DELEGATE
