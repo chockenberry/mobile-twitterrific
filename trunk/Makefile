@@ -17,7 +17,8 @@ SOURCES=\
 RESOURCES=Resources
 
 CC=/Developer/SDKs/iPhone/bin/arm-apple-darwin-cc
-CFLAGS=-g -Wall -Werror
+CFLAGS=-g -Wall
+# CFLAGS=-g -Wall -Werror
 # CFLAGS=-g -O2 -Wall -- no optimization yet
 LD=$(CC)
 #LD=/Developer/SDKs/iPhone/bin/arm-apple-darwin-ld

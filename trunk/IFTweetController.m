@@ -12,6 +12,7 @@
 #import <UIKit/CDStructures.h>
 #import <UIKit/UISwitchControl.h>
 #import <UIKit/UISegmentedControl.h>
+//#import <UIKit/UIWebView.h>
 
 #pragma mark Instance management
 
@@ -81,18 +82,28 @@ NOTE: The styles enumeration used withStyle are:
 	{
 		[upDownSegmentedControl setEnabled:NO forSegment:1];    
 	}
-  
+
+#if 1
 	// create the text view
 	NSDictionary *tweet = [tweetModel selectedTweet];	
 	UITextView *textView = [[[UITextView alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f)] autorelease];
-	NSString *html = [[[NSString alloc] initWithString:[NSString stringWithFormat:@"<img src=\"%@\" width=\"80\" height=\"80\"><b>%@</b><br/>%@",
+	NSString *html = [[[NSString alloc] initWithString:[NSString stringWithFormat:@"<img src=\"%@\" width=\"80\" height=\"80\"><b>%@</b><br/>%@<br/><a href=\"http://iconfactory.com\">link</a>",
 			[tweet objectForKey:@"userAvatarUrl"], [tweet objectForKey:@"userName"], [tweet objectForKey:@"text"]]] autorelease];
 	
 	[textView setEditable:NO];
 	[textView setTextSize:16.0f];
 	[textView setHTML:html];
+	[textView setDelegate:self];
+	[textView setTapDelegate:self];
+//	[[textView _webView] setDelegate:self];
+//	[(WebView *)*[(UIWebView *)[textView _webView] webView] setPolicyDelegate:self];
+	[textView becomeFirstResponder];
 	[tweetView addSubview:textView];	
-  
+#else
+	UIWebView *webView = [[[UIWebView alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f)] autorelease];
+	[[[webView webView] mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://iconfactory.com/home"]]];
+	[tweetView addSubview:webView];
+#endif
 	// setup the views
 	UIWindow *mainWindow = [controller mainWindow];
 	_oldContentView = [[mainWindow contentView] retain];
@@ -129,11 +140,20 @@ NOTE: The styles enumeration used withStyle are:
 	_oldContentView = nil;
 }
 
+#pragma mark UIView delegate
+
+- (BOOL)view:(id)view handleTapWithCount:(int)count event:(struct __GSEvent *)event
+{
+	NSLog(@"IFTweetController: view:handleTapWithCount:event: view = %@, count = %d", view, count);
+	
+	return YES;
+}
+
 #pragma mark UINavigationBar delegate
 
 - (void)navigationBar:(UINavigationBar*)navbar buttonClicked:(int)button 
 {
-	//NSLog(@"MobileTwitterrificApp: navigationBar:buttonClicked: button = %d", button);
+	//NSLog(@"IFTweetController: navigationBar:buttonClicked: button = %d", button);
 
 	switch (button) 
 	{
@@ -166,4 +186,13 @@ NOTE: The styles enumeration used withStyle are:
 		break;
 	}
 }
+
+#pragma mark HACKING AWAY AT THE DELEGATE
+
+- (BOOL)respondsToSelector:(SEL)aSelector
+{
+	NSLog(@"IFTweetController: respondsToSelector: selector = %@", NSStringFromSelector(aSelector));
+	return [super respondsToSelector:aSelector];
+}
+
 @end
