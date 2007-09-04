@@ -214,6 +214,7 @@ NOTE: The styles enumeration used withStyle are:
 	UIThreePartButton *button1 = [[[UIThreePartButton alloc] initWithTitle:@"Hit me" autosizesToFit:YES] autorelease];
 	struct __GSFont *font = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:NSBoldFontMask size:24.0f];
 	[button1 setTitleFont:font];
+	[button1 setImage:[UIImage imageNamed:@"refresh.png"]];
 	[button1 setBackgroundImage:[UIImage imageNamed:@"bottombarred.png"]];
 	[button1 setPressedBackgroundImage:[UIImage imageNamed:@"bottombarred_pressed.png"]];
 	CDAnonymousStruct4 pieces;
