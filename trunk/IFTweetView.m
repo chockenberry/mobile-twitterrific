@@ -1,27 +1,20 @@
 //
-//  IFTweetTableCell.m
+//  IFTweetView.m
 //  MobileTwitterrific
 //
-//  Created by Craig Hockenberry on 8/25/07.
+//  Created by Craig Hockenberry on 9/4/07.
 //
 //  Copyright (c) 2007, The Iconfactory. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "IFTweetView.h"
 
-#import <UIKit/UIBezierPath.h>
 #import <CoreGraphics/CGGeometry.h>
 #import <WebCore/WebFontCache.h>
 #import <AppKit/NSFontManager.h>
 
-#import <UIKit/NSString-UIStringDrawing.h>
-
 #import "UIView-Color.h"
 
-#import "IFTweetTableCell.h"
-
-@implementation IFTweetTableCell
 
 #define LEFT_OFFSET 6.0f
 #define RIGHT_OFFSET 6.0f
@@ -33,27 +26,24 @@
 
 #define LINE_HEIGHT 16.0f
 
+@implementation IFTweetView
 
 - (id)initWithFrame:(struct CGRect)frame;
 {
-	struct CGRect contentRect = [UIHardware fullScreenApplicationContentRect];
-	contentRect.origin.x = 0.0f;
-	contentRect.origin.y = 0.0f;
-
     self = [super initWithFrame:frame];
     if (self)
 	{
-		_userNameLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET - 5.0f, contentRect.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, 22.0f)];
+		_userNameLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET - 5.0f, frame.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, 24.0f)];
 		[_userNameLabel setWrapsText:NO];
 		[_userNameLabel setBackgroundColor:[UIView colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.0]];
-		struct __GSFont *userNameFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:NSBoldFontMask size:16.0f];
+		struct __GSFont *userNameFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:NSBoldFontMask size:20.0f];
 		[_userNameLabel setFont:userNameFont];
 		[self addSubview:_userNameLabel];
 
-		_textLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET + 18.0f - 3.0f, contentRect.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, 80.0f)];
+		_textLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET + 18.0f - 3.0f, frame.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, 80.0f)];
 		[_textLabel setWrapsText:YES];
 		[_textLabel setBackgroundColor:[UIView colorWithRed:0.0f green:1.0f blue:0.0f alpha:0.0]];
-		struct __GSFont *textFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:0 size:16.0f];
+		struct __GSFont *textFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:0 size:20.0f];
 		[_textLabel setFont:textFont];
 		[_textLabel setEllipsisStyle:2];
 //		[_textLabel setEllipsisStyle:0];
@@ -87,7 +77,7 @@
 
 - (void)setContent:(NSDictionary *)newContent
 {
-	//NSLog(@"IFTweetTableCell: setContent:");
+	NSLog(@"IFTweetTableCell: setContent:");
     [_content release];
     _content = [newContent retain];
 
@@ -111,8 +101,8 @@ length of the line does not take into account differing line lengths due to font
 //	struct CGSize size = [text sizeInRect:[_textLabel bounds] withFont:textFont];
 //	struct CGSize size = [@"This is a test of the emergency broadcasting system" sizeWithFont:textFont forWidth:260.0f ellipsis:YES];
 	struct CGRect frame = [_textLabel frame];
-	//NSLog(@"IFTweetTableCell: setContent: size = %f, %f", frame.size.width, frame.size.height);
-	float numberOfLines = ceil(frame.size.width / 258.0f);
+	NSLog(@"IFTweetTableCell: setContent: size = %f, %f", frame.size.width, frame.size.height);
+	float numberOfLines = 8.0;
 	frame.size.width = 258.0f;
 	frame.size.height = frame.size.height * numberOfLines;
 	[_textLabel setFrame:frame];
@@ -124,9 +114,18 @@ length of the line does not take into account differing line lengths due to font
 
 - (void)drawContentInRect:(struct CGRect)rect selected:(BOOL)selected
 {
-//	NSLog(@"IFTweetTableCell: drawContentInRect:selected: text = %@", [_textLabel text]);
-//	struct CGRect frame = [_textLabel frame];
-//	NSLog(@"IFTweetTableCell: drawContentInRect:selected: frame = %f, %f, %f, %f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+}
+
+/*
+NOTE: Overriding superclass implementation of drawRect: allows us to do our own
+selection highlight.
+*/
+- (void)drawRect:(struct CGRect)rect
+{
+	//NSLog(@"IFTweetTableCell: drawRect:");
+	NSLog(@"IFTweetTableCell: drawContentInRect:selected: text = %@", [_textLabel text]);
+	struct CGRect frame = [_textLabel frame];
+	NSLog(@"IFTweetTableCell: drawContentInRect:selected: frame = %f, %f, %f, %f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
 //	struct CGSize size = [_textLabel ellipsizedTextSize];
 //	NSLog(@"IFTweetTableCell: drawContentInRect:selected: size = %f, %f", size.width, size.height);
 
@@ -144,7 +143,7 @@ length of the line does not take into account differing line lengths due to font
 
 	CGColorRef transparent = [UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f];
 	
-	if (selected)
+	if (YES)
 	{
 		[_userNameLabel setColor:gray50];
 		[_textLabel setColor:white];
@@ -176,18 +175,8 @@ length of the line does not take into account differing line lengths due to font
 	[path setLineWidth:2.0f];
 	[path stroke];
 
-	// draw the views of the cell
-	[super drawContentInRect:rect selected:selected];
-}
-
-/*
-NOTE: Overriding superclass implementation of drawRect: allows us to do our own
-selection highlight.
-*/
-- (void)drawRect:(struct CGRect)rect
-{
-	//NSLog(@"IFTweetTableCell: drawRect:");
-	[self drawContentInRect:rect selected:[self isSelected]];
+	// draw the subviews
+	[super drawRect:rect];
 }	
 
 #pragma mark UIView delegate
@@ -209,5 +198,6 @@ selection highlight.
 	return [super respondsToSelector:aSelector];
 }
 */
+
 
 @end
