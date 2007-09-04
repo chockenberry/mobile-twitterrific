@@ -10,7 +10,7 @@
 #import "IFTweetModel.h"
 
 
-#define MAX_TWEET_COUNT 100
+#define MAX_TWEET_COUNT 200
 
 
 @implementation IFTweetModel

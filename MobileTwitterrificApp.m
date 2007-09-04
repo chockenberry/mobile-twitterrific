@@ -35,6 +35,10 @@
 
 #import <LayerKit/LayerKit.h>
 
+#import <WebCore/WebFontCache.h>
+#import <AppKit/NSFontManager.h>
+#import <UIKit/NSString-UIStringDrawing.h>
+
 #import "IFPreferencesController.h"
 #import "IFTweetController.h"
 #import "IFTweetModel.h"
@@ -106,6 +110,53 @@ TODO: Figure out how to handle errors and/or alerts. UIAlertSheet looks promisin
 - (int) numberOfRowsInTable: (UITable *)table
 {
 	return [[self tweetModel] tweetCount];
+}
+
+- (float)table:(UITable *)table heightForRow:(int)row
+{
+#if 1
+	struct CGSize size;
+
+	NSDictionary *tweet = [[self tweetModel] tweetAtIndex:row];
+
+	NSString *text = [tweet valueForKey:@"text"];
+
+/*
+NOTE: Calling methods in the NSString-UIStringDrawing category causes segmentation faults.
+May be an issue with the toolchain, I don't know. Calculating the size based on the
+length of the line does not take into account differing line lengths due to font pitch.
+*/
+#if 1
+	UITextLabel *label = [[[UITextLabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0.0f, 0.0f)] autorelease];
+	[label setWrapsText:YES];
+	struct __GSFont *labelFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:0 size:16.0f];
+	[label setFont:labelFont];
+	[label setText:text];
+
+	[label sizeToFit];
+	struct CGRect frame = [label frame];
+	size.width = 258.0f;
+	float numberOfLines = ceil(frame.size.width / size.width);
+	size.height = frame.size.height * numberOfLines;
+#else
+	struct __GSFont *textFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:0 size:16.0f];
+//	struct CGSize size = [text sizeInRect:[_textLabel bounds] withFont:textFont];
+//	struct CGSize size = [@"This is a test of the emergency broadcasting system" sizeWithFont:textFont forWidth:260.0f ellipsis:YES];
+	struct CGSize size = [text sizeWithFont:textFont forWidth:258.0f ellipsis:YES];
+
+	NSLog(@"IFTweetTableCell: setContent: size = %f, %f", size.width, size.height);
+#endif
+
+	size.height += 24.0f;
+	if (size.height < 60.0f)
+	{
+		size.height = 60.0f;
+	}
+	
+	return size.height;
+#else
+	return 120.0f;
+#endif
 }
 
 - (UITableCell *)table:(UITable *)table cellForRow:(int)row column:(int)column
@@ -303,8 +354,9 @@ resist the urge.
 	[table addTableColumn:tableColumn];
 	[table setDataSource:self];
 	[table setDelegate:self];
-	[table setRowHeight:88.0f];
+	[table setRowHeight:102.0f];
 	[table setBackgroundColor:[UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
+//	[table setBackgroundColor:[UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.5f]];
 	[mainView addSubview:table];
 
 	// create a toolbar that overlays the table
