@@ -101,7 +101,7 @@ NOTE: The styles enumeration used withStyle are:
 	[tweetView addSubview:textView];	
 #else
 	UIWebView *webView = [[[UIWebView alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f)] autorelease];
-	[[[webView webView] mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://iconfactory.com/home"]]];
+	[[[webView webView] mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://iconfactory.com/home/staff"]]];
 	[tweetView addSubview:webView];
 #endif
 	// setup the views
