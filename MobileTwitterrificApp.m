@@ -142,7 +142,7 @@ length of the line does not take into account differing line lengths due to font
 	struct __GSFont *textFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:0 size:16.0f];
 //	struct CGSize size = [text sizeInRect:[_textLabel bounds] withFont:textFont];
 //	struct CGSize size = [@"This is a test of the emergency broadcasting system" sizeWithFont:textFont forWidth:260.0f ellipsis:YES];
-	struct CGSize size = [text sizeWithFont:textFont forWidth:258.0f ellipsis:YES];
+	size = [text sizeWithFont:textFont forWidth:258.0f ellipsis:YES];
 
 	NSLog(@"IFTweetTableCell: setContent: size = %f, %f", size.width, size.height);
 #endif

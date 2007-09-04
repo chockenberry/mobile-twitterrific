@@ -38,6 +38,8 @@
 		443D21710C76298B0045EDF9 /* IFTwitterConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IFTwitterConnection.h; sourceTree = "<group>"; };
 		443D21720C76298B0045EDF9 /* IFTwitterTimelineConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = IFTwitterTimelineConnection.m; sourceTree = "<group>"; };
 		445B66E70C8A08000049A9B0 /* README */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		445B69380C8DF0460049A9B0 /* IFTweetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetView.h; sourceTree = "<group>"; };
+		445B69390C8DF0460049A9B0 /* IFTweetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetView.m; sourceTree = "<group>"; };
 		44AC39400C76472500427BB8 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icon.png; sourceTree = "<group>"; };
 		44AC39410C76472500427BB8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
 		44AC3B410C7A080200427BB8 /* IFPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFPreferencesController.h; sourceTree = "<group>"; };
@@ -131,6 +133,8 @@
 				44200AF00C85F16D007C1208 /* IFTwitterrificToolbar.m */,
 				44200FA80C88761B007C1208 /* IFURLImageView.h */,
 				44200FA90C88761B007C1208 /* IFURLImageView.m */,
+				445B69380C8DF0460049A9B0 /* IFTweetView.h */,
+				445B69390C8DF0460049A9B0 /* IFTweetView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";

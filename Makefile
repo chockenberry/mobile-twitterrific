@@ -13,6 +13,7 @@ SOURCES=\
 	IFTweetTable.m \
 	IFTwitterrificToolbar.m \
 	IFURLImageView.m \
+	IFTweetView.m \
 	UIView-Color.m
 RESOURCES=Resources
 
