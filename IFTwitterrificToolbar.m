@@ -12,16 +12,17 @@
 
 #import <UIKit/UIBezierPath.h>
 
+#import "UIView-Color.h"
+
 #import "IFTwitterrificToolbar.h"
 
-#define BUTTON_COUNT 6
+#define BUTTON_COUNT 5
 
 @interface IFTwitterrificToolbar (Private)
 
 - (void)refreshPressed;
 - (void)postPressed;
 - (void)replyPressed;
-- (void)messagePressed;
 - (void)detailPressed;
 - (void)configurePressed;
 
@@ -66,16 +67,7 @@
 		[_replyButton setEnabled:YES];
 		[self addSubview:_replyButton];
 
-		_messageButton = [[UIPushButton alloc] initWithFrame:CGRectMake(buttonWidth * 3.0f, 0.0f, buttonWidth, 44.0f)];
-		[_messageButton setAutosizesToFit:NO];
-		[_messageButton setImage:[UIImage imageNamed:@"message.png"] forState:0]; // normal state
-		[_messageButton addTarget:self action:@selector(messagePressed) forEvents:64]; // mouse up
-		[_messageButton setShowPressFeedback:YES];
-		[_messageButton setEnabled:YES];
-		[self addSubview:_messageButton];
-
-
-		_detailButton = [[UIPushButton alloc] initWithFrame:CGRectMake(buttonWidth * 4.0f, 0.0f, buttonWidth, 44.0f)];
+		_detailButton = [[UIPushButton alloc] initWithFrame:CGRectMake(buttonWidth * 3.0f, 0.0f, buttonWidth, 44.0f)];
 		[_detailButton setAutosizesToFit:NO];
 		[_detailButton setImage:[UIImage imageNamed:@"detail.png"] forState:0]; // normal state
 		[_detailButton addTarget:self action:@selector(detailPressed) forEvents:64]; // mouse up
@@ -83,7 +75,7 @@
 		[_detailButton setEnabled:YES];
 		[self addSubview:_detailButton];
 
-		_configureButton = [[UIPushButton alloc] initWithFrame:CGRectMake(buttonWidth * 5.0f, 0.0f, buttonWidth, 44.0f)];
+		_configureButton = [[UIPushButton alloc] initWithFrame:CGRectMake(buttonWidth * 4.0f, 0.0f, buttonWidth, 44.0f)];
 		[_configureButton setAutosizesToFit:NO];
 		[_configureButton setImage:[UIImage imageNamed:@"configure.png"] forState:0]; // normal state
 		[_configureButton addTarget:self action:@selector(configurePressed) forEvents:64]; // mouse up
@@ -104,8 +96,6 @@
 	_postButton = nil;
 	[_replyButton release];
 	_replyButton = nil;
-	[_messageButton release];
-	_messageButton = nil;
 	[_detailButton release];
 	_detailButton = nil;
 	[_configureButton release];
@@ -159,16 +149,6 @@
 	}
 }
 
-- (void)messagePressed
-{
-	NSLog(@"IFTwitterrificToolbar: messagePressed");
-	
-	if ([self isValidDelegateForSelector:@selector(messagePressed)])
-	{
-		[[self delegate] performSelector:@selector(messagePressed)];
-	}
-}
-
 - (void)detailPressed
 {
 	NSLog(@"IFTwitterrificToolbar: detailPressed");
@@ -199,9 +179,8 @@
 {
 	NSLog(@"IFTwitterrificToolbar: drawRect:");
 
-	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:rect withRoundedCorners:15 withCornerRadius:22.0];
-	const float backgroundComponents[4] = {0, 0, 0, 0.7};
-	CGContextSetFillColor(UICurrentContext(), backgroundComponents);
+	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:rect withRoundedCorners:(kUIBezierPathTopLeftCorner | kUIBezierPathTopRightCorner) withCornerRadius:8.0];
+	CGContextSetFillColorWithColor(UICurrentContext(), [UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.90f]);
 	[path fill];
 
 	[super drawRect:rect];

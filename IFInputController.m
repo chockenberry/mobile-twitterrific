@@ -69,11 +69,12 @@
 	[previewTextView setHTML:html];
 	[inputView addSubview:previewTextView];	
 
+/*
 	// create the keyboard
-	
 	UIKeyboard *keyboard = [[[UIKeyboard alloc] initWithFrame: CGRectMake(0.0f, contentRect.size.height - 216.0f, contentRect.size.width, 216.0f)] autorelease];
 	[keyboard setReturnKeyEnabled:NO];
 	[inputView addSubview:keyboard];
+*/
 
  	// create the text view for editing
 #if 1
@@ -82,7 +83,6 @@
 	[editingTextView setText:@""];
 	[inputView addSubview:editingTextView];
 
-	[keyboard setTapDelegate:editingTextView];
 	[editingTextView becomeFirstResponder];
 #else
 	UITextField *editingTextField = [[[UITextField alloc] initWithFrame:CGRectMake(0.0f, 44.0f + 100.0f, contentRect.size.width, contentRect.size.height - 44.0f - 100.0f - 216.0f)] autorelease];
@@ -90,9 +90,14 @@
 	[editingTextField setText:@"What are you doing?"];
 	[inputView addSubview:editingTextField];
 
-	[keyboard setTapDelegate:editingTextField];
 	[editingTextField becomeFirstResponder];
 #endif
+
+	// create the keyboard
+	UIKeyboard *keyboard = [[[UIKeyboard alloc] initWithFrame: CGRectMake(0.0f, contentRect.size.height - 216.0f, contentRect.size.width, 216.0f)] autorelease];
+	[keyboard setReturnKeyEnabled:NO];
+	[keyboard setTapDelegate:editingTextView];
+	[inputView addSubview:keyboard];
 
  
 	// setup the views

@@ -15,7 +15,6 @@
 	UIPushButton *_refreshButton;
 	UIPushButton *_postButton;
 	UIPushButton *_replyButton;
-	UIPushButton *_messageButton;
 	UIPushButton *_detailButton;
 	UIPushButton *_configureButton;
 	
