@@ -348,6 +348,12 @@ resist the urge.
 	[background setImage:[UIImage imageNamed:@"wallpaper.jpg"]];	
 	[mainView addSubview:background];
 
+typedef enum {
+    kUIScrollerStyleBlack = 1,
+    kUIScrollerStyleWhite = 2,
+    kUIScrollerStyleBlackWithWhiteBorder = 3
+} UIScrollerIndicatorStyles;
+
 	// create a table with one column whose size fits the entire screen
 	table = [[[IFTweetTable alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, contentRect.size.height)] autorelease];
 	UITableColumn *tableColumn = [[UITableColumn alloc] initWithTitle:@"Twitterrific" identifier:@"twitterrific" width:contentRect.size.width];
@@ -357,6 +363,7 @@ resist the urge.
 	[table setRowHeight:102.0f];
 	[table setBackgroundColor:[UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
 //	[table setBackgroundColor:[UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.5f]];
+	[table setScrollerIndicatorStyle:kUIScrollerStyleWhite];
 	[mainView addSubview:table];
 
 	// create a toolbar that overlays the table
