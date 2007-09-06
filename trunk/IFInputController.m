@@ -94,7 +94,8 @@
  	// create the text view for editing
 	_editingTextView = [[IFTweetEditTextView alloc] initWithFrame:CGRectMake(0.0f, 44.0f + 100.0f, contentRect.size.width, contentRect.size.height - 44.0f - 100.0f - 216.0f)];
 	[_editingTextView setEditable:YES];
-	[_editingTextView setText:@"This is a test of the emergency broadcasting system. In the event of a real emergency, you would have been instructed where to tune in your area for further information. This concludes this test of the emergency broadcasting system."];
+//	[_editingTextView setText:@"This is a test of the emergency broadcasting system. In the event of a real emergency, you would have been instructed where to tune in your area for further information. This concludes this test of the emergency broadcasting system."];
+	[_editingTextView setText:@""];
 	[_editingTextView setBackgroundColor:[UIView colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0]];
 	[_editingTextView setTextColor:[UIView colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0]];
 	[_editingTextView setCaretColor:[UIView colorWithRed:0.0f green:0.0f blue:1.0f alpha:1.0]];

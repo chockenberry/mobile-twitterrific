@@ -20,7 +20,7 @@ SOURCES=\
 	NSDate-Relative.m \
 	IFRuntimeAdditions.m
 RESOURCES=Resources
-LOCALIZATIONS=*.lproj
+ENGLISH_LOCALIZATION=English.lproj
 
 CC=/Developer/SDKs/iPhone/bin/arm-apple-darwin-cc
 CFLAGS=-g -Wall
@@ -99,19 +99,20 @@ all: $(PRODUCT_ABS)
 $(PRODUCT_ABS): $(APP_ABS) $(OBJECTS_ABS)
 	$(LD) $(LDFLAGS) -o $(PRODUCT_ABS) $(OBJECTS_ABS)
 
-$(APP_ABS): $(INFOPLIST_ABS) $(LOCALIZATIONS) $(SRCROOT)/$(RESOURCES)/*.png $(SRCROOT)/$(RESOURCES)/*.jpg $(SRCROOT)/$(RESOURCES)/*.wav
+$(APP_ABS): $(INFOPLIST_ABS) $(SRCROOT)/$(ENGLISH_LOCALIZATION)/* $(SRCROOT)/$(RESOURCES)/*.png $(SRCROOT)/$(RESOURCES)/*.jpg $(SRCROOT)/$(RESOURCES)/*.wav
 	mkdir -p $(APP_ABS)
 	cp $(INFOPLIST_ABS) $(APP_ABS)/
-	cp -R $(LOCALIZATIONS) $(APP_ABS)/
 	cp $(SRCROOT)/$(RESOURCES)/*.png $(APP_ABS)/
 	cp $(SRCROOT)/$(RESOURCES)/*.jpg $(APP_ABS)/
 	cp $(SRCROOT)/$(RESOURCES)/*.wav $(APP_ABS)/
+	mkdir -p $(APP_ABS)/$(ENGLISH_LOCALIZATION)
+	cp -v $(ENGLISH_LOCALIZATION)/* $(APP_ABS)/$(ENGLISH_LOCALIZATION)/
 
 $(CONFIGURATION_TEMP_DIR)/%.o: $(SRCROOT)/%.m
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 clean:
-	echo rm -f $(OBJECTS_ABS)
-	echo rm -rf $(APP_ABS)
+	rm -f $(OBJECTS_ABS)
+	rm -rf $(APP_ABS)
 

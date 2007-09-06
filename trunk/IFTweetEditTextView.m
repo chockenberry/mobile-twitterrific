@@ -46,6 +46,10 @@
 {
 //	NSLog(@"IFTweetEditTextView: webViewDidChange: notification = %@", [notification object]);
 	NSLog(@"IFTweetEditTextView: webViewDidChange: text = %@ (%d)", [self text], [[self text] length]);
+	if ([[self text] length] > 10)
+	{
+		[self setText:[[self text] substringToIndex:10]];
+	}
 	
 	[super webViewDidChange:notification];
 }
