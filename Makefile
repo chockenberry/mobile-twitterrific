@@ -14,8 +14,13 @@ SOURCES=\
 	IFTwitterrificToolbar.m \
 	IFURLImageView.m \
 	IFTweetView.m \
-	UIView-Color.m
+	IFTweetKeyboard.m \
+	IFTweetEditTextView.m \
+	UIView-Color.m \
+	NSDate-Relative.m \
+	IFRuntimeAdditions.m
 RESOURCES=Resources
+LOCALIZATIONS=*.lproj
 
 CC=/Developer/SDKs/iPhone/bin/arm-apple-darwin-cc
 CFLAGS=-g -Wall
@@ -94,9 +99,10 @@ all: $(PRODUCT_ABS)
 $(PRODUCT_ABS): $(APP_ABS) $(OBJECTS_ABS)
 	$(LD) $(LDFLAGS) -o $(PRODUCT_ABS) $(OBJECTS_ABS)
 
-$(APP_ABS): $(INFOPLIST_ABS) $(SRCROOT)/$(RESOURCES)/*.png $(SRCROOT)/$(RESOURCES)/*.jpg $(SRCROOT)/$(RESOURCES)/*.wav
+$(APP_ABS): $(INFOPLIST_ABS) $(LOCALIZATIONS) $(SRCROOT)/$(RESOURCES)/*.png $(SRCROOT)/$(RESOURCES)/*.jpg $(SRCROOT)/$(RESOURCES)/*.wav
 	mkdir -p $(APP_ABS)
 	cp $(INFOPLIST_ABS) $(APP_ABS)/
+	cp -R $(LOCALIZATIONS) $(APP_ABS)/
 	cp $(SRCROOT)/$(RESOURCES)/*.png $(APP_ABS)/
 	cp $(SRCROOT)/$(RESOURCES)/*.jpg $(APP_ABS)/
 	cp $(SRCROOT)/$(RESOURCES)/*.wav $(APP_ABS)/

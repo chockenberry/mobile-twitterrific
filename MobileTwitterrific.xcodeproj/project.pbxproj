@@ -13,7 +13,6 @@
 		442004CB0C80CF47007C1208 /* IFTweetTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetTableCell.h; sourceTree = "<group>"; };
 		442004CC0C80CF47007C1208 /* IFTweetTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetTableCell.m; sourceTree = "<group>"; };
 		442008940C83A570007C1208 /* wallpaper.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = wallpaper.jpg; path = Resources/wallpaper.jpg; sourceTree = "<group>"; };
-		442009280C84C1A7007C1208 /* IFRuntimeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFRuntimeAdditions.h; sourceTree = "<group>"; };
 		4420092B0C84C368007C1208 /* IFUIKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFUIKitAdditions.h; sourceTree = "<group>"; };
 		442009AA0C84CEFA007C1208 /* IFTweetTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetTable.h; sourceTree = "<group>"; };
 		442009AB0C84CEFA007C1208 /* IFTweetTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetTable.m; sourceTree = "<group>"; };
@@ -40,6 +39,14 @@
 		445B66E70C8A08000049A9B0 /* README */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		445B69380C8DF0460049A9B0 /* IFTweetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetView.h; sourceTree = "<group>"; };
 		445B69390C8DF0460049A9B0 /* IFTweetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetView.m; sourceTree = "<group>"; };
+		445B6BC40C906D430049A9B0 /* IFTweetKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetKeyboard.h; sourceTree = "<group>"; };
+		445B6BC50C906D430049A9B0 /* IFTweetKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetKeyboard.m; sourceTree = "<group>"; };
+		445B6C930C90816B0049A9B0 /* IFTweetEditTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetEditTextView.h; sourceTree = "<group>"; };
+		445B6C940C90816B0049A9B0 /* IFTweetEditTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetEditTextView.m; sourceTree = "<group>"; };
+		445B6CED0C9093D80049A9B0 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		445B6CF10C90949A0049A9B0 /* NSDate-Relative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate-Relative.h"; sourceTree = "<group>"; };
+		445B6CF20C90949A0049A9B0 /* NSDate-Relative.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate-Relative.m"; sourceTree = "<group>"; };
+		445B6D8B0C90981C0049A9B0 /* IFRuntimeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = IFRuntimeAdditions.m; sourceTree = "<group>"; };
 		44AC39400C76472500427BB8 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icon.png; sourceTree = "<group>"; };
 		44AC39410C76472500427BB8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
 		44AC3B410C7A080200427BB8 /* IFPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFPreferencesController.h; sourceTree = "<group>"; };
@@ -98,7 +105,7 @@
 			children = (
 				D9C1849B0C6B467300A7383F /* MobileTwitterrific_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
-				442009280C84C1A7007C1208 /* IFRuntimeAdditions.h */,
+				445B6D8B0C90981C0049A9B0 /* IFRuntimeAdditions.m */,
 				4420092B0C84C368007C1208 /* IFUIKitAdditions.h */,
 			);
 			name = "Other Sources";
@@ -109,6 +116,7 @@
 			children = (
 				443D22FA0C76463D0045EDF9 /* Images */,
 				8D1107310486CEB800E47090 /* Info.plist */,
+				445B6CEE0C9093E10049A9B0 /* Localizable.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -135,6 +143,10 @@
 				44200FA90C88761B007C1208 /* IFURLImageView.m */,
 				445B69380C8DF0460049A9B0 /* IFTweetView.h */,
 				445B69390C8DF0460049A9B0 /* IFTweetView.m */,
+				445B6BC40C906D430049A9B0 /* IFTweetKeyboard.h */,
+				445B6BC50C906D430049A9B0 /* IFTweetKeyboard.m */,
+				445B6C930C90816B0049A9B0 /* IFTweetEditTextView.h */,
+				445B6C940C90816B0049A9B0 /* IFTweetEditTextView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -144,6 +156,8 @@
 			children = (
 				442010190C889144007C1208 /* UIView-Color.h */,
 				4420101A0C889144007C1208 /* UIView-Color.m */,
+				445B6CF10C90949A0049A9B0 /* NSDate-Relative.h */,
+				445B6CF20C90949A0049A9B0 /* NSDate-Relative.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -231,6 +245,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXVariantGroup section */
+		445B6CEE0C9093E10049A9B0 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				445B6CED0C9093D80049A9B0 /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		C01FCF4F08A954540054247B /* Debug */ = {

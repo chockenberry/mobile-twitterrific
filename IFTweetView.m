@@ -13,8 +13,12 @@
 #import <WebCore/WebFontCache.h>
 #import <AppKit/NSFontManager.h>
 
-#import "UIView-Color.h"
+#import <WebKit/WebView.h>
 
+#import "IFTweetEditTextView.h"
+
+#import "UIView-Color.h"
+#import "NSDate-Relative.h"
 
 #define LEFT_OFFSET 6.0f
 #define RIGHT_OFFSET 6.0f
@@ -33,6 +37,7 @@
     self = [super initWithFrame:frame];
     if (self)
 	{
+#if 0
 		_userNameLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET - 5.0f, frame.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, 24.0f)];
 		[_userNameLabel setWrapsText:NO];
 		[_userNameLabel setBackgroundColor:[UIView colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.0]];
@@ -49,7 +54,22 @@
 //		[_textLabel setEllipsisStyle:0];
 		[_textLabel setCentersHorizontally:NO];		
 		[self addSubview:_textLabel];
-
+#else
+		// create the text view
+		_tweetTextView = [[UITextView alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET, frame.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, frame.size.height - TOP_OFFSET - BOTTOM_OFFSET)];
+//		_tweetTextView = [[IFTweetEditTextView alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET, frame.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, frame.size.height - TOP_OFFSET - BOTTOM_OFFSET)];
+		[_tweetTextView setTextColor:[UIView colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0]];
+		[_tweetTextView setBackgroundColor:[UIView colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.250]];
+		[_tweetTextView setMarginTop:0];
+		[_tweetTextView setEditable:NO];
+		[_tweetTextView setTextSize:18.0f];
+		[_tweetTextView setDelegate:self];
+		[_tweetTextView setTapDelegate:self];
+		[_tweetTextView becomeFirstResponder];
+		[_tweetTextView setScrollerIndicatorStyle:2];
+		[_tweetTextView setBottomBufferHeight:0.0f];
+		[self addSubview:_tweetTextView];	
+#endif
 		_avatarImageView = [[IFURLImageView alloc] initWithFrame:CGRectMake(LEFT_OFFSET, TOP_OFFSET, AVATAR_SIZE, AVATAR_SIZE)];
 		[self addSubview:_avatarImageView];
 
@@ -62,10 +82,15 @@
 
 - (void)dealloc
 {
+#if 0
 	[_userNameLabel release];
 	_userNameLabel = nil;
 	[_textLabel release];
 	_textLabel = nil;
+#else
+	[_tweetTextView release];
+	_tweetTextView = nil;
+#endif
 	[_avatarImageView release];
 	_avatarImageView = nil;
 	
@@ -77,18 +102,13 @@
 
 - (void)setContent:(NSDictionary *)newContent
 {
-	NSLog(@"IFTweetTableCell: setContent:");
+	NSLog(@"IFTweetView: setContent:");
     [_content release];
     _content = [newContent retain];
 
 #if 0
-	NSAttributedString *fancyString = [[NSAttributedString alloc] initWithString:[_content objectForKey:@"userName"] attributes:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-	[_userNameLabel setText:fancyString];
-#else	
 	[_userNameLabel setText:[_content objectForKey:@"userName"]];
-#endif
-	NSString *text = [_content objectForKey:@"text"];
-	
+	NSString *text = [_content objectForKey:@"text"];	
 	[_textLabel setText:text];
 
 	[_textLabel sizeToFit];
@@ -101,19 +121,44 @@ length of the line does not take into account differing line lengths due to font
 //	struct CGSize size = [text sizeInRect:[_textLabel bounds] withFont:textFont];
 //	struct CGSize size = [@"This is a test of the emergency broadcasting system" sizeWithFont:textFont forWidth:260.0f ellipsis:YES];
 	struct CGRect frame = [_textLabel frame];
-	NSLog(@"IFTweetTableCell: setContent: size = %f, %f", frame.size.width, frame.size.height);
+	NSLog(@"IFTweetView: setContent: size = %f, %f", frame.size.width, frame.size.height);
 	float numberOfLines = 8.0;
 	frame.size.width = 258.0f;
 	frame.size.height = frame.size.height * numberOfLines;
 	[_textLabel setFrame:frame];
 	
 //	[_textLabel sizeToFit];
-	 
+#else
+//	NSString *html = [[[NSString alloc] initWithString:[NSString stringWithFormat:@"<b>%@</b><br/>%@<br/><span style=\"font-size:14px;color:orange;\">12 hours ago <a href=\"http://google.com\">Link</a></span>",
+	NSString *html = [[[NSString alloc] initWithString:[NSString stringWithFormat:@"<b>%@</b><br/>%@<br/><span style=\"font-size:14px;color:orange;\">%@ ago",
+			[_content objectForKey:@"userName"], [_content objectForKey:@"text"], [[_content objectForKey:@"date"] relativeDate]]] autorelease];
+	[_tweetTextView setHTML:html];
+
+/*
+	[_tweetTextView updateWebViewObjects];
+
+	NSLog(@"_webView = %@", [_tweetTextView _webView]);
+
+	UIWebView *webView = [_tweetTextView _webView];
+	[[webView webView] setPolicyDelegate:self];
+	[webView makeWKFirstResponder];
+	[webView setEnabledGestures:YES];
+*/
+#endif
+
 	[_avatarImageView setURLString:[_content objectForKey:@"userAvatarUrl"]];
 }
 
-- (void)drawContentInRect:(struct CGRect)rect selected:(BOOL)selected
+- (void)webView:(WebView *)sender decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id)listener
 {
+	NSLog(@"IFTweetView: webView:decidePolicyForNavigationAction:");
+	[listener ignore];
+}
+
+- (void)webView:(WebView *)sender decidePolicyForNewWindowAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request newFrameName:(NSString *)frameName decisionListener:(id)listener
+{
+	NSLog(@"IFTweetView: webView:decidePolicyForNewWindowAction:");
+	[listener ignore];
 }
 
 /*
@@ -122,12 +167,13 @@ selection highlight.
 */
 - (void)drawRect:(struct CGRect)rect
 {
-	//NSLog(@"IFTweetTableCell: drawRect:");
-	NSLog(@"IFTweetTableCell: drawContentInRect:selected: text = %@", [_textLabel text]);
+#if 0
+	//NSLog(@"IFTweetView: drawRect:");
+	NSLog(@"IFTweetView: drawContentInRect:selected: text = %@", [_textLabel text]);
 	struct CGRect frame = [_textLabel frame];
-	NSLog(@"IFTweetTableCell: drawContentInRect:selected: frame = %f, %f, %f, %f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+	NSLog(@"IFTweetView: drawContentInRect:selected: frame = %f, %f, %f, %f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
 //	struct CGSize size = [_textLabel ellipsizedTextSize];
-//	NSLog(@"IFTweetTableCell: drawContentInRect:selected: size = %f, %f", size.width, size.height);
+//	NSLog(@"IFTweetView: drawContentInRect:selected: size = %f, %f", size.width, size.height);
 
 	CGColorRef white = [UIView colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
 	CGColorRef black = [UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f];
@@ -161,7 +207,14 @@ selection highlight.
 		CGContextSetFillColorWithColor(UICurrentContext(), black75);
 //		CGContextSetFillColorWithColor(UICurrentContext(), transparent);
 	}
-	
+#else
+	CGColorRef white = [UIView colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
+	CGColorRef black = [UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f];
+
+	CGContextSetStrokeColorWithColor(UICurrentContext(), white);
+	CGContextSetFillColorWithColor(UICurrentContext(), black);
+#endif
+
 	UIBezierPath *path;
 
 	// fill the entire rect
@@ -183,21 +236,19 @@ selection highlight.
 
 - (BOOL)view:(id)view handleTapWithCount:(int)count event:(struct __GSEvent *)event
 {
-	NSLog(@"IFTweetTableCell: view:handleTapWithCount:event: view = %@, count = %d", view, count);
+	NSLog(@"IFTweetView: view:handleTapWithCount:event: view = %@, count = %d", view, count);
 	
 	return YES;
 }
 
 
-/*
 #pragma mark HACKING AWAY AT THE DELEGATE
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-	//NSLog(@"IFTweetTableCell: respondsToSelector: selector = %@", NSStringFromSelector(aSelector));
+	NSLog(@"IFTweetView: respondsToSelector: selector = %@", NSStringFromSelector(aSelector));
 	return [super respondsToSelector:aSelector];
 }
-*/
 
 
 @end

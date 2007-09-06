@@ -142,7 +142,7 @@ NOTE: The styles enumeration used withStyle are:
 #endif
 #else
 	NSDictionary *tweet = [tweetModel selectedTweet];	
-	IFTweetView *fullTweetView = [[[IFTweetView alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, 216.0f)] autorelease];
+	IFTweetView *fullTweetView = [[[IFTweetView alloc] initWithFrame:CGRectMake(10.0f, 54.0f, contentRect.size.width - 20.0f, 140.0f)] autorelease];
 	[fullTweetView setContent:tweet];
 	[tweetView addSubview:fullTweetView];
 #endif
