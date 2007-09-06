@@ -54,6 +54,8 @@
 
 #import "MobileTwitterrificApp.h"
 
+#import "IFUIKitAdditions.h"
+
 @implementation MobileTwitterrificApp
 
 /*
@@ -345,15 +347,10 @@ resist the urge.
 
 	// create a background image (eventually, this will be the user's wallpaper preference)
 	UIImageView *background = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, contentRect.size.height)] autorelease];
-	[background setImage:[UIImage imageNamed:@"wallpaper.jpg"]];	
+//	[background setImage:[UIImage imageNamed:@"wallpaper.jpg"]];
+	[background setImage:[UIImage defaultDesktopImage]];
 //	[background setImage:[[[UIImage alloc] initWithImageRef:[self createApplicationDefaultPNG]] autorelease]];
 	[mainView addSubview:background];
-
-typedef enum {
-    kUIScrollerStyleBlack = 1,
-    kUIScrollerStyleWhite = 2,
-    kUIScrollerStyleBlackWithWhiteBorder = 3
-} UIScrollerIndicatorStyles;
 
 	// create a table with one column whose size fits the entire screen
 	table = [[[IFTweetTable alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, contentRect.size.height)] autorelease];
@@ -364,7 +361,7 @@ typedef enum {
 	[table setRowHeight:102.0f];
 	[table setBackgroundColor:[UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f]];
 //	[table setBackgroundColor:[UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.5f]];
-	[table setScrollerIndicatorStyle:kUIScrollerStyleWhite];
+	[table setScrollerIndicatorStyle:kUIScrollerIndicatorWhite];
 	[mainView addSubview:table];
 
 	// create a toolbar that overlays the table

@@ -22,6 +22,8 @@
 #import <WebCore/WebFontCache.h>
 #import <AppKit/NSFontManager.h>
 
+#import "IFUIKitAdditions.h"
+
 #pragma mark Instance management
 
 @implementation IFTweetController
@@ -146,15 +148,6 @@ NOTE: The styles enumeration used withStyle are:
 	[fullTweetView setContent:tweet];
 	[tweetView addSubview:fullTweetView];
 #endif
-
-typedef enum {
-    kUIControlEventMouseDown = 1 << 0,
-    kUIControlEventMouseMovedInside = 1 << 2, // mouse moved inside control target
-    kUIControlEventMouseMovedOutside = 1 << 3, // mouse moved outside control target
-    kUIControlEventMouseUpInside = 1 << 6, // mouse up inside control target
-    kUIControlEventMouseUpOutside = 1 << 7, // mouse up outside control target
-    kUIControlAllEvents = (kUIControlEventMouseDown | kUIControlEventMouseMovedInside | kUIControlEventMouseMovedOutside | kUIControlEventMouseUpInside | kUIControlEventMouseUpOutside)
-} UIControlEventMasks;
 
 	// add the push buttons
 	UIThreePartButton *button1 = [[[UIThreePartButton alloc] initWithTitle:@"Hit me" autosizesToFit:YES] autorelease];

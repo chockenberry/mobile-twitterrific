@@ -21,6 +21,8 @@
 
 #import "IFTweetTableCell.h"
 
+#import "IFUIKitAdditions.h"
+
 @implementation IFTweetTableCell
 
 #define LEFT_OFFSET 6.0f
@@ -55,8 +57,7 @@
 		[_textLabel setBackgroundColor:[UIView colorWithRed:0.0f green:1.0f blue:0.0f alpha:0.0]];
 		struct __GSFont *textFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:0 size:16.0f];
 		[_textLabel setFont:textFont];
-		[_textLabel setEllipsisStyle:2];
-//		[_textLabel setEllipsisStyle:0];
+		[_textLabel setEllipsisStyle:kUITextLabelEllipsisEnd];
 		[_textLabel setCentersHorizontally:NO];		
 		[self addSubview:_textLabel];
 

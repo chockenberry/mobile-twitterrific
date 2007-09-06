@@ -19,6 +19,8 @@
 #import <UIKit/UISwitchControl.h>
 #import <UIKit/UISegmentedControl.h>
 
+#import "IFUIKitAdditions.h"
+
 #pragma mark Instance management
 
 @implementation IFInputController
@@ -60,7 +62,7 @@
 	// create the navigation bar
 	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 44.0f)] autorelease];
 	[navigationBar showButtonsWithLeftTitle:@"Cancel" rightTitle:@"Send" leftBack:NO];
-	[navigationBar setBarStyle:0];
+	[navigationBar setBarStyle:kUINavigationBarBlack];
 	[navigationBar setDelegate:self]; 
 	[inputView addSubview:navigationBar];
 

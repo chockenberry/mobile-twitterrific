@@ -20,6 +20,8 @@
 #import "UIView-Color.h"
 #import "NSDate-Relative.h"
 
+#import "IFUIKitAdditions.h"
+
 #define LEFT_OFFSET 6.0f
 #define RIGHT_OFFSET 6.0f
 #define TOP_OFFSET 6.0f
@@ -37,24 +39,6 @@
     self = [super initWithFrame:frame];
     if (self)
 	{
-#if 0
-		_userNameLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET - 5.0f, frame.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, 24.0f)];
-		[_userNameLabel setWrapsText:NO];
-		[_userNameLabel setBackgroundColor:[UIView colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.0]];
-		struct __GSFont *userNameFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:NSBoldFontMask size:20.0f];
-		[_userNameLabel setFont:userNameFont];
-		[self addSubview:_userNameLabel];
-
-		_textLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET + 18.0f - 3.0f, frame.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, 80.0f)];
-		[_textLabel setWrapsText:YES];
-		[_textLabel setBackgroundColor:[UIView colorWithRed:0.0f green:1.0f blue:0.0f alpha:0.0]];
-		struct __GSFont *textFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:0 size:20.0f];
-		[_textLabel setFont:textFont];
-		[_textLabel setEllipsisStyle:2];
-//		[_textLabel setEllipsisStyle:0];
-		[_textLabel setCentersHorizontally:NO];		
-		[self addSubview:_textLabel];
-#else
 		// create the text view
 		_tweetTextView = [[UITextView alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET, frame.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, frame.size.height - TOP_OFFSET - BOTTOM_OFFSET)];
 //		_tweetTextView = [[IFTweetEditTextView alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET, frame.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, frame.size.height - TOP_OFFSET - BOTTOM_OFFSET)];
@@ -66,10 +50,10 @@
 		[_tweetTextView setDelegate:self];
 		[_tweetTextView setTapDelegate:self];
 		[_tweetTextView becomeFirstResponder];
-		[_tweetTextView setScrollerIndicatorStyle:2];
+		[_tweetTextView setScrollerIndicatorStyle:kUIScrollerIndicatorWhite];
 		[_tweetTextView setBottomBufferHeight:0.0f];
 		[self addSubview:_tweetTextView];	
-#endif
+
 		_avatarImageView = [[IFURLImageView alloc] initWithFrame:CGRectMake(LEFT_OFFSET, TOP_OFFSET, AVATAR_SIZE, AVATAR_SIZE)];
 		[self addSubview:_avatarImageView];
 
