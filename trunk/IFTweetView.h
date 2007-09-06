@@ -15,10 +15,14 @@
 
 @interface IFTweetView : UIView
 {
+#if 0
 	UITextLabel *_userNameLabel;
 	UITextLabel *_textLabel;
-    IFURLImageView *_avatarImageView;
-	
+#else
+	UITextView *_tweetTextView;
+#endif
+	IFURLImageView *_avatarImageView;
+
 	NSDictionary *_content;
 }
 

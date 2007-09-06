@@ -346,6 +346,7 @@ resist the urge.
 	// create a background image (eventually, this will be the user's wallpaper preference)
 	UIImageView *background = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, contentRect.size.height)] autorelease];
 	[background setImage:[UIImage imageNamed:@"wallpaper.jpg"]];	
+//	[background setImage:[[[UIImage alloc] initWithImageRef:[self createApplicationDefaultPNG]] autorelease]];
 	[mainView addSubview:background];
 
 typedef enum {

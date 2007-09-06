@@ -9,6 +9,11 @@
 
 #import "IFInputController.h"
 #import "IFTweetModel.h"
+#import "IFTweetView.h"
+#import "IFTweetKeyboard.h"
+#import "IFTweetEditTextView.h"
+
+#import "UIView-Color.h"
 
 #import <UIKit/CDStructures.h>
 #import <UIKit/UISwitchControl.h>
@@ -30,8 +35,12 @@
 
 - (void)dealloc
 {
+	[_editingTextView release];
+	_editingTextView = nil;
+	
 	[super dealloc];
 }
+
 
 #pragma mark View control
 
@@ -56,6 +65,7 @@
 	[inputView addSubview:navigationBar];
 
 	// create the text view for previewing
+/*
 	NSDictionary *tweet = [tweetModel selectedTweet];	
 
 	UITextView *previewTextView = [[[UITextView alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, 100.0f)] autorelease];
@@ -68,6 +78,11 @@
 //	[previewTextView setTextFont:previewFont];
 	[previewTextView setHTML:html];
 	[inputView addSubview:previewTextView];	
+*/
+	NSDictionary *tweet = [tweetModel selectedTweet];	
+	IFTweetView *fullTweetView = [[[IFTweetView alloc] initWithFrame:CGRectMake(10.0f, 54.0f, contentRect.size.width - 20.0f, 90.0f)] autorelease];
+	[fullTweetView setContent:tweet];
+	[inputView addSubview:fullTweetView];
 
 /*
 	// create the keyboard
@@ -77,39 +92,43 @@
 */
 
  	// create the text view for editing
-#if 1
-	UITextView *editingTextView = [[[UITextView alloc] initWithFrame:CGRectMake(0.0f, 44.0f + 100.0f, contentRect.size.width, contentRect.size.height - 44.0f - 100.0f - 216.0f)] autorelease];
-	[editingTextView setEditable:YES];
-	[editingTextView setText:@""];
-	[inputView addSubview:editingTextView];
+	_editingTextView = [[IFTweetEditTextView alloc] initWithFrame:CGRectMake(0.0f, 44.0f + 100.0f, contentRect.size.width, contentRect.size.height - 44.0f - 100.0f - 216.0f)];
+	[_editingTextView setEditable:YES];
+	[_editingTextView setText:@"This is a test of the emergency broadcasting system. In the event of a real emergency, you would have been instructed where to tune in your area for further information. This concludes this test of the emergency broadcasting system."];
+	[_editingTextView setBackgroundColor:[UIView colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0]];
+	[_editingTextView setTextColor:[UIView colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0]];
+	[_editingTextView setCaretColor:[UIView colorWithRed:0.0f green:0.0f blue:1.0f alpha:1.0]];
+	[_editingTextView setTextSize:18.0f];
 
-	[editingTextView becomeFirstResponder];
-#else
-	UITextField *editingTextField = [[[UITextField alloc] initWithFrame:CGRectMake(0.0f, 44.0f + 100.0f, contentRect.size.width, contentRect.size.height - 44.0f - 100.0f - 216.0f)] autorelease];
-	//[editingTextField setEditable:YES];
-	[editingTextField setText:@"What are you doing?"];
-	[inputView addSubview:editingTextField];
+//	[_editingTextView setMarginTop:0];
+//	[_editingTextView setBottomBufferHeight:22.0f];
 
-	[editingTextField becomeFirstResponder];
-#endif
+	[inputView addSubview:_editingTextView];
+
+//	[_editingTextView becomeFirstResponder];
 
 	// create the keyboard
-	UIKeyboard *keyboard = [[[UIKeyboard alloc] initWithFrame: CGRectMake(0.0f, contentRect.size.height - 216.0f, contentRect.size.width, 216.0f)] autorelease];
+	IFTweetKeyboard *keyboard = [[[IFTweetKeyboard alloc] initWithFrame: CGRectMake(0.0f, contentRect.size.height - 216.0f, contentRect.size.width, 216.0f)] autorelease];
 	[keyboard setReturnKeyEnabled:NO];
-	[keyboard setTapDelegate:editingTextView];
+//	[keyboard setTapDelegate:_editingTextView];
+//	[keyboard setDelegate:self];
+//	[keyboard setTapDelegate:self];
 	[inputView addSubview:keyboard];
 
- 
+//	[inputView setKeyboard:_editingTextView];
+	
 	// setup the views
 	UIWindow *mainWindow = [controller mainWindow];
 	_oldContentView = [[mainWindow contentView] retain];
 	[mainWindow setContentView:inputView];
 	
+	// ensure that the keyboard input will go into the editing field
+	[_editingTextView becomeFirstResponder];
+ 
 //	[mainWindow makeKey:editingTextView];
 
 	CFRelease(colorSpace);
 }
-
 
 - (void)hideInput
 {
@@ -132,6 +151,27 @@
 		[self hideInput]; 
 		break;
 	}
+}
+
+/*
+#pragma mark UIView delegate
+
+- (BOOL)view:(id)view handleTapWithCount:(int)count event:(struct __GSEvent *)event
+{
+	NSLog(@"IFInputController: view:handleTapWithCount:event: view = %@, count = %d", view, count);
+	
+	NSLog(@"IFInputController: view:handleTapWithCount:event: text = %@, length = %d", [_editingTextView text], [[_editingTextView text] length]);
+	
+	return YES;
+}
+*/
+
+#pragma mark HACKING AWAY AT THE DELEGATE
+
+- (BOOL)respondsToSelector:(SEL)aSelector
+{
+	NSLog(@"IFInputController: respondsToSelector: selector = %@", NSStringFromSelector(aSelector));
+	return [super respondsToSelector:aSelector];
 }
 
 @end
