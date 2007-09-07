@@ -20,7 +20,10 @@ It is assumed that your "heavenly" frameworks are in /Developer/SDKs/heavenly
 and that your SDK headers are in /Developer/SDKs/iPhone.
 
 You'll also need to make sure that you have the ARM compilation tools in
-/Developer/SDKs/iPhone/bin (arm-apple-darwin-cc and arm-apple-darwin-ld).
+/Developer/SDKs/iPhone/bin (arm-apple-darwin-cc and arm-apple-darwin-ld). I
+used Kroo's toolchain installer (v0.4) from here:
+
+<http://ellkro.jot.com/WikiHome/ToolchainInstallation>
 
 Get the latest header files with:
 

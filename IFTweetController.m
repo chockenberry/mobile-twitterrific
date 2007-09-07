@@ -18,9 +18,11 @@
 #import <UIKit/UIThreePartButton.h>
 #import <UIKit/UIPushButton-Original.h>
 
+#import <GraphicsServices/GraphicsServices.h>
+
 //#import <UIKit/UIWebView.h>
-#import <WebCore/WebFontCache.h>
-#import <AppKit/NSFontManager.h>
+//#import <WebCore/WebFontCache.h>
+//#import <AppKit/NSFontManager.h>
 
 #import "IFUIKitAdditions.h"
 
@@ -151,8 +153,10 @@ NOTE: The styles enumeration used withStyle are:
 
 	// add the push buttons
 	UIThreePartButton *button1 = [[[UIThreePartButton alloc] initWithTitle:@"Hit me" autosizesToFit:YES] autorelease];
-	struct __GSFont *font = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:NSBoldFontMask size:24.0f];
+//	struct __GSFont *font = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:NSBoldFontMask size:24.0f];
+	GSFontRef font = GSFontCreateWithName("Helvetica", kGSFontTraitBold, 24.0f);
 	[button1 setTitleFont:font];
+	CFRelease(font);
 	[button1 setImage:[UIImage imageNamed:@"refresh.png"]];
 	[button1 setBackgroundImage:[UIImage imageNamed:@"bottombarred.png"]];
 	[button1 setPressedBackgroundImage:[UIImage imageNamed:@"bottombarred_pressed.png"]];

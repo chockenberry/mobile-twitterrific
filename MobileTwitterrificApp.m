@@ -33,11 +33,15 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
 
-#import <LayerKit/LayerKit.h>
+#import <GraphicsServices/GraphicsServices.h>
 
-#import <WebCore/WebFontCache.h>
-#import <AppKit/NSFontManager.h>
-#import <UIKit/NSString-UIStringDrawing.h>
+#import <UIKit/UIView-Geometry.h>
+
+//#import <LayerKit/LayerKit.h>
+
+//#import <WebCore/WebFontCache.h>
+//#import <AppKit/NSFontManager.h>
+//#import <UIKit/NSString-UIStringDrawing.h>
 
 #import "IFPreferencesController.h"
 #import "IFTweetController.h"
@@ -131,8 +135,10 @@ length of the line does not take into account differing line lengths due to font
 #if 1
 	UITextLabel *label = [[[UITextLabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 0.0f, 0.0f)] autorelease];
 	[label setWrapsText:YES];
-	struct __GSFont *labelFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:0 size:16.0f];
+//	struct __GSFont *labelFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:0 size:16.0f];
+	GSFontRef labelFont = GSFontCreateWithName("Helvetica", 0, 16.0f);
 	[label setFont:labelFont];
+	CFRelease(labelFont);
 	[label setText:text];
 
 	[label sizeToFit];

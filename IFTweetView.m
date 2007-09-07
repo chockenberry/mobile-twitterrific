@@ -10,8 +10,8 @@
 #import "IFTweetView.h"
 
 #import <CoreGraphics/CGGeometry.h>
-#import <WebCore/WebFontCache.h>
-#import <AppKit/NSFontManager.h>
+//#import <WebCore/WebFontCache.h>
+//#import <AppKit/NSFontManager.h>
 
 #import <WebKit/WebView.h>
 
@@ -133,6 +133,7 @@ length of the line does not take into account differing line lengths due to font
 	[_avatarImageView setURLString:[_content objectForKey:@"userAvatarUrl"]];
 }
 
+#if 0
 - (void)webView:(WebView *)sender decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id)listener
 {
 	NSLog(@"IFTweetView: webView:decidePolicyForNavigationAction:");
@@ -144,6 +145,7 @@ length of the line does not take into account differing line lengths due to font
 	NSLog(@"IFTweetView: webView:decidePolicyForNewWindowAction:");
 	[listener ignore];
 }
+#endif
 
 /*
 NOTE: Overriding superclass implementation of drawRect: allows us to do our own
