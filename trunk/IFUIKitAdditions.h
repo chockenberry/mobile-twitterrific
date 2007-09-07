@@ -16,7 +16,7 @@ out-of-date and you need to update from the SVN repository at http://svn.berlios
 More information is in this project's README file.
 */
 
-
+#if 0
 /* UIControl */
 
 typedef enum {
@@ -53,6 +53,7 @@ typedef enum {
 	kUINavigationBarBlack = 1
 } UINavigationBarStyles;
 
+#endif
 
 /* UIApplication notifications?
 

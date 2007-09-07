@@ -25,11 +25,50 @@ used Kroo's toolchain installer (v0.4) from here:
 
 <http://ellkro.jot.com/WikiHome/ToolchainInstallation>
 
+It is assumed that you are using MacPorts to maintain your toolchain. With
+this setup, the paths are:
+
+/opt/local/arm-apple-darwin
+	/bin		-- build tools: cc, ld, as and ar
+	/etc		-- build tools configuration
+	/heavenly	-- the frameworks extracted from the decrypted disk image
+	/include	-- the framework include files for UIKit
+	
+We don't recommend using Kroo's Toolchain installer. In spite of it being an
+excellent way to get up and running quickly, the installer places older
+versions of the UIKit header files and screws up Subversion. You'll be
+updating the UIKit headers often -- they change daily as people discover new
+things. Keeping Subversion happy is very important.
+
+To start installing the build tools, mount the decrypted disk image so that
+"Heavenly1A543a.UserBundle" shows up on the desktop. If you need help getting
+the disk image mounted, see these instructions:
+
+<http://landonf.bikemonkey.org/code/iphone>
+
+Now install the toolchain with MacPorts:
+ 
+% sudo mkdir -p /opt/local/arm-apple-darwin/heavenly
+% sudo cp -Rn /Volumes/Heavenly1A543a.UserBundle/ /opt/local/arm-apple-darwin/heavenly
+% sudo port install arm-apple-darwin-binutils
+% sudo port install arm-apple-darwin-cc
+
+(Note: if you are having problems building with MacPorts after using Kroo's
+installer, make sure to remove the iPhone and heavenly directories in
+/Developer/SDKs and to remove "/Developer/SDKs/iPhone/bin" from your PATH.)
+
+(Note: be sure to have the latest version of Xcode installed: v2.4.1. It can
+be downloaded from ADC.)
+
 Get the latest header files with:
 
 % sudo svn checkout \
 	http://svn.berlios.de/svnroot/repos/iphone-binutils/trunk/include \
 	/Developer/SDKs/iPhone/include
+
+% sudo svn checkout \
+	http://svn.berlios.de/svnroot/repos/iphone-binutils/trunk/include \
+	/opt/local/arm-apple-darwin/include
 
 Then symlink CoreGraphics:
 
@@ -37,9 +76,21 @@ Then symlink CoreGraphics:
 	/System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Headers/ \
 	/Developer/SDKs/iPhone/include/CoreGraphics
 
+% sudo ln -s \
+	/System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Headers/ \
+	/opt/local/arm-apple-darwin/include/CoreGraphics
+
 If you have problems compiling, make sure that you have include/WebCore and
 that include/CarbonCore has headers (and not .diff files.) Finally, you may
 need to comment out some #include "NSObject.h" in Celestial and WebCore.
+
+% sudo mkdir /opt/local/arm-apple-darwin/lib
+% sudo cp /Developer/SDKs_old/iPhone/lib/libarmfp.dylib /opt/local/arm-apple-darwin/lib
+
+% sudo mkdir /opt/local/arm-apple-darwin/csu
+% sudo cp /Developer/SDKs_old/iPhone/csu/crt1.o /opt/local/arm-apple-darwin/csu
+
+
 
 Building
 --------
