@@ -7,6 +7,8 @@
 //  Copyright (c) 2007, The Iconfactory. All rights reserved.
 //
 
+#if 0
+
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <objc/objc-class.h>
@@ -38,3 +40,4 @@ double objc_msgSend_fpret(id self, SEL op, ...) {
         return 0.0;
 }
 
+#endif

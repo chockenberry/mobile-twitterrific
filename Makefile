@@ -22,15 +22,16 @@ SOURCES=\
 RESOURCES=Resources
 ENGLISH_LOCALIZATION=English.lproj
 
-CC=/Developer/SDKs/iPhone/bin/arm-apple-darwin-cc
+CC=/opt/local/arm-apple-darwin/bin/arm-apple-darwin-cc
 CFLAGS=-g -Wall
 # CFLAGS=-g -Wall -Werror
 # CFLAGS=-g -O2 -Wall -- no optimization yet
 LD=$(CC)
 #LD=/Developer/SDKs/iPhone/bin/arm-apple-darwin-ld
 #	-F/Developer/SDKs/heavenly/System/Library/Frameworks
+# LDFLAGS=-ObjC -L/Developer/SDKs/iPhone/lib \
 
-LDFLAGS=-ObjC -L/Developer/SDKs/iPhone/lib \
+LDFLAGS=-ObjC \
 	-framework CoreFoundation \
 	-framework Foundation \
 	-framework UIKit \

@@ -13,6 +13,9 @@
 
 - (NSString *)relativeDate
 {
+#if 1
+	return @"N/A";
+#else
 	NSTimeInterval timeSinceNow = fabsf([self timeIntervalSinceNow]);
 	
 	NSTimeInterval delta = timeSinceNow;
@@ -81,6 +84,7 @@
 	{
 		return [NSString stringWithFormat:NSLocalizedString(@"Weeks", nil), delta];
 	}
+#endif
 }
 
 
