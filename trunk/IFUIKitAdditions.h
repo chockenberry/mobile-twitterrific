@@ -10,18 +10,12 @@
 /*
 NOTE: Yeah, these should be in the class definition (framework header.) Hopefully at
 some point in the near future, we'll see these cause some duplicate definitions.
+
+If you see build errors about duplicate definitions, it means your UIKit headers are
+out-of-date and you need to update from the SVN repository at http://svn.berlios.de
+More information is in this project's README file.
 */
 
-
-/* UIView */
-
-typedef enum
-{
-	kUIViewSwipeUp = 1,
-	kUIViewSwipeDown = 2,
-	kUIViewSwipeLeft = 4,
-	kUIViewSwipeRight = 8
-} UIViewSwipeDirection;
 
 /* UIControl */
 

@@ -12,8 +12,9 @@
 
 #import <UIKit/UIBezierPath.h>
 #import <CoreGraphics/CGGeometry.h>
-#import <WebCore/WebFontCache.h>
-#import <AppKit/NSFontManager.h>
+//#import <WebCore/WebFontCache.h>
+//#import <AppKit/NSFontManager.h>
+#import <GraphicsServices/GraphicsServices.h>
 
 #import <UIKit/NSString-UIStringDrawing.h>
 
@@ -48,15 +49,19 @@
 		_userNameLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET - 5.0f, contentRect.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, 22.0f)];
 		[_userNameLabel setWrapsText:NO];
 		[_userNameLabel setBackgroundColor:[UIView colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.0]];
-		struct __GSFont *userNameFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:NSBoldFontMask size:16.0f];
+//		struct __GSFont *userNameFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:NSBoldFontMask size:16.0f];
+		GSFontRef userNameFont = GSFontCreateWithName("Helvetica", kGSFontTraitBold, 16.0f);
 		[_userNameLabel setFont:userNameFont];
+		CFRelease(userNameFont);
 		[self addSubview:_userNameLabel];
 
 		_textLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET + 18.0f - 3.0f, contentRect.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, 80.0f)];
 		[_textLabel setWrapsText:YES];
 		[_textLabel setBackgroundColor:[UIView colorWithRed:0.0f green:1.0f blue:0.0f alpha:0.0]];
-		struct __GSFont *textFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:0 size:16.0f];
+//		struct __GSFont *textFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:0 size:16.0f];
+		GSFontRef textFont = GSFontCreateWithName("Helvetica", 0, 16.0f);
 		[_textLabel setFont:textFont];
+		CFRelease(textFont);
 		[_textLabel setEllipsisStyle:kUITextLabelEllipsisEnd];
 		[_textLabel setCentersHorizontally:NO];		
 		[self addSubview:_textLabel];

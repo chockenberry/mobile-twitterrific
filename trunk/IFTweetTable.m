@@ -18,10 +18,12 @@
 	return YES;
 }
 
+/*
 - (BOOL)canHandleSwipes
 {
 	return YES;
 }
+*/
 
 - (int)swipe:(int)num withEvent:(struct __GSEvent *)event;
 {

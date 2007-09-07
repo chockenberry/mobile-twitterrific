@@ -9,7 +9,7 @@
 #import "IFURLImageView.h"
 
 #import <UIKit/UIBezierPath.h>
-#import <WebCore/WebFontCache.h>
+//#import <WebCore/WebFontCache.h>
 #import <CoreGraphics/CGGeometry.h>
 //#import <LayerKit/LKLayer.h>
 
