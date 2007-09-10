@@ -13,7 +13,7 @@
 
 - (NSString *)relativeDate
 {
-#if 1
+#if 0
 	return @"N/A";
 #else
 	NSTimeInterval timeSinceNow = fabsf([self timeIntervalSinceNow]);

@@ -16,15 +16,6 @@ native iPhone applications.
 Environment
 -----------
 
-It is assumed that your "heavenly" frameworks are in /Developer/SDKs/heavenly
-and that your SDK headers are in /Developer/SDKs/iPhone.
-
-You'll also need to make sure that you have the ARM compilation tools in
-/Developer/SDKs/iPhone/bin (arm-apple-darwin-cc and arm-apple-darwin-ld). I
-used Kroo's toolchain installer (v0.4) from here:
-
-<http://ellkro.jot.com/WikiHome/ToolchainInstallation>
-
 It is assumed that you are using MacPorts to maintain your toolchain. With
 this setup, the paths are:
 
@@ -33,6 +24,7 @@ this setup, the paths are:
 	/etc		-- build tools configuration
 	/heavenly	-- the frameworks extracted from the decrypted disk image
 	/include	-- the framework include files for UIKit
+	/csu		-- the folder for the mysterious crt1.o
 	
 We don't recommend using Kroo's Toolchain installer. In spite of it being an
 excellent way to get up and running quickly, the installer places older
@@ -41,15 +33,29 @@ updating the UIKit headers often -- they change daily as people discover new
 things. Keeping Subversion happy is very important.
 
 To start installing the build tools, mount the decrypted disk image so that
-"Heavenly1A543a.UserBundle" shows up on the desktop. If you need help getting
-the disk image mounted, see these instructions:
+something like "SUHeavenlyJuly1C28.UserBundle" shows up on the desktop. If you
+need help getting the disk image mounted, see these instructions:
 
 <http://landonf.bikemonkey.org/code/iphone>
+
+Make a copy of the latest disk image in ~/Library/iTunes/iPhone Software Updates
+folder and put it somewhere convenient.
+
+Rename the file from .ipsw to .zip and unzip it (using BOMArchiveHelper.)
+
+Now find the decryption key:
+
+% strings 009-7698-4.dmg | grep '^[0-9a-fA-F]*$' | awk '{ if (length($1) == 72) print; }'
+
+And use it to decrypt the disk image with vfdecrypt (replacing XXXXX with the 72
+character key):
+
+% ./vfdecrypt -i iPhone1,1_1.0.2_1C28_Restore/694-5298-5.dmg -k XXXXX -o heavenly.dmg
 
 Now install the toolchain with MacPorts:
  
 % sudo mkdir -p /opt/local/arm-apple-darwin/heavenly
-% sudo cp -Rn /Volumes/Heavenly1A543a.UserBundle/ /opt/local/arm-apple-darwin/heavenly
+% sudo cp -Rn /Volumes/SUHeavenlyJuly1C28.UserBundle/ /opt/local/arm-apple-darwin/heavenly
 % sudo port install arm-apple-darwin-binutils
 % sudo port install arm-apple-darwin-cc
 
@@ -64,17 +70,9 @@ Get the latest header files with:
 
 % sudo svn checkout \
 	http://svn.berlios.de/svnroot/repos/iphone-binutils/trunk/include \
-	/Developer/SDKs/iPhone/include
-
-% sudo svn checkout \
-	http://svn.berlios.de/svnroot/repos/iphone-binutils/trunk/include \
 	/opt/local/arm-apple-darwin/include
 
 Then symlink CoreGraphics:
-
-% sudo ln -s \
-	/System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Headers/ \
-	/Developer/SDKs/iPhone/include/CoreGraphics
 
 % sudo ln -s \
 	/System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Headers/ \
@@ -87,10 +85,9 @@ need to comment out some #include "NSObject.h" in Celestial and WebCore.
 % sudo mkdir /opt/local/arm-apple-darwin/lib
 % sudo cp /Developer/SDKs_old/iPhone/lib/libarmfp.dylib /opt/local/arm-apple-darwin/lib
 
-% sudo mkdir /opt/local/arm-apple-darwin/csu
-% sudo cp /Developer/SDKs_old/iPhone/csu/crt1.o /opt/local/arm-apple-darwin/csu
-
-
+% sudo svn checkout \
+	http://svn.berlios.de/svnroot/repos/iphone-binutils/trunk/Csu-71 \
+	/opt/local/arm-apple-darwin/csu
 
 Building
 --------

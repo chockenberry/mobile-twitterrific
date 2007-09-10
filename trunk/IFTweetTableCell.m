@@ -19,6 +19,7 @@
 #import <UIKit/NSString-UIStringDrawing.h>
 
 #import "UIView-Color.h"
+#import "NSDate-Relative.h"
 
 #import "IFTweetTableCell.h"
 
@@ -33,6 +34,7 @@
 #define PADDING 2.0f
 
 #define AVATAR_SIZE 48.0f
+#define DATE_SIZE 70.0f
 
 #define LINE_HEIGHT 16.0f
 
@@ -46,19 +48,26 @@
     self = [super initWithFrame:frame];
     if (self)
 	{
-		_userNameLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET - 5.0f, contentRect.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, 22.0f)];
+		_userNameLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET - 5.0f, contentRect.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - DATE_SIZE - RIGHT_OFFSET, 22.0f)];
 		[_userNameLabel setWrapsText:NO];
 		[_userNameLabel setBackgroundColor:[UIView colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.0]];
-//		struct __GSFont *userNameFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:NSBoldFontMask size:16.0f];
 		GSFontRef userNameFont = GSFontCreateWithName("Helvetica", kGSFontTraitBold, 16.0f);
 		[_userNameLabel setFont:userNameFont];
 		CFRelease(userNameFont);
 		[self addSubview:_userNameLabel];
 
+		_dateLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(contentRect.size.width - RIGHT_OFFSET - DATE_SIZE, TOP_OFFSET - 5.0f, DATE_SIZE, 22.0f)];
+		[_dateLabel setWrapsText:NO];
+		[_dateLabel setBackgroundColor:[UIView colorWithRed:1.0f green:1.0f blue:0.0f alpha:0.0]];
+		GSFontRef dateFont = GSFontCreateWithName("Helvetica", 0, 14.0f);
+		[_dateLabel setFont:dateFont];
+		CFRelease(dateFont);
+		[_dateLabel setFont:dateFont];
+		[self addSubview:_dateLabel];
+
 		_textLabel = [[UITextLabel alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET + 18.0f - 3.0f, contentRect.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, 80.0f)];
 		[_textLabel setWrapsText:YES];
 		[_textLabel setBackgroundColor:[UIView colorWithRed:0.0f green:1.0f blue:0.0f alpha:0.0]];
-//		struct __GSFont *textFont = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:0 size:16.0f];
 		GSFontRef textFont = GSFontCreateWithName("Helvetica", 0, 16.0f);
 		[_textLabel setFont:textFont];
 		CFRelease(textFont);
@@ -80,6 +89,8 @@
 {
 	[_userNameLabel release];
 	_userNameLabel = nil;
+	[_dateLabel release];
+	_dateLabel = nil;
 	[_textLabel release];
 	_textLabel = nil;
 	[_avatarImageView release];
@@ -97,15 +108,9 @@
     [_content release];
     _content = [newContent retain];
 
-#if 0
-	NSAttributedString *fancyString = [[NSAttributedString alloc] initWithString:[_content objectForKey:@"userName"] attributes:[NSDictionary dictionaryWithObjectsAndKeys:nil]];
-	[_userNameLabel setText:fancyString];
-#else	
+#if 1
 	[_userNameLabel setText:[_content objectForKey:@"userName"]];
-#endif
-	NSString *text = [_content objectForKey:@"text"];
-	
-	[_textLabel setText:text];
+	[_textLabel setText:[_content objectForKey:@"text"]];
 
 	[_textLabel sizeToFit];
 /*
@@ -123,13 +128,15 @@ length of the line does not take into account differing line lengths due to font
 	frame.size.height = frame.size.height * numberOfLines;
 	[_textLabel setFrame:frame];
 	
-//	[_textLabel sizeToFit];
-	 
+	[_dateLabel setText:[[_content objectForKey:@"date"] relativeDate]];
+
 	[_avatarImageView setURLString:[_content objectForKey:@"userAvatarUrl"]];
+#endif
 }
 
 - (void)drawContentInRect:(struct CGRect)rect selected:(BOOL)selected
 {
+#if 1
 //	NSLog(@"IFTweetTableCell: drawContentInRect:selected: text = %@", [_textLabel text]);
 //	struct CGRect frame = [_textLabel frame];
 //	NSLog(@"IFTweetTableCell: drawContentInRect:selected: frame = %f, %f, %f, %f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
@@ -153,6 +160,7 @@ length of the line does not take into account differing line lengths due to font
 	if (selected)
 	{
 		[_userNameLabel setColor:gray50];
+		[_dateLabel setColor:gray50];
 		[_textLabel setColor:white];
 
 		CGContextSetStrokeColorWithColor(UICurrentContext(), white);
@@ -161,6 +169,7 @@ length of the line does not take into account differing line lengths due to font
 	else
 	{
 		[_userNameLabel setColor:white];
+		[_dateLabel setColor:white];
 		[_textLabel setColor:gray75];
 //		[_textLabel setColor:white];
 
@@ -181,6 +190,7 @@ length of the line does not take into account differing line lengths due to font
 	path = [UIBezierPath roundedRectBezierPath:innerRect withRoundedCorners:kUIBezierPathAllCorners withCornerRadius:8.0];
 	[path setLineWidth:2.0f];
 	[path stroke];
+#endif
 
 	// draw the views of the cell
 	[super drawContentInRect:rect selected:selected];

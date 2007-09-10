@@ -17,6 +17,7 @@
 {
 	UITextLabel *_userNameLabel;
 	UITextLabel *_textLabel;
+	UITextLabel *_dateLabel;
 #if 1
     //UIImageView *_avatarImageView;
     IFURLImageView *_avatarImageView;
