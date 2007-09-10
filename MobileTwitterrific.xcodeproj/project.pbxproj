@@ -58,8 +58,8 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D90F56B90C6719EF007AE76B /* MobileTwitterrificApp.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MobileTwitterrificApp.m; sourceTree = "<group>"; };
 		D90F56BA0C6719EF007AE76B /* MobileTwitterrificApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MobileTwitterrificApp.h; sourceTree = "<group>"; };
-		D90F56E20C671CD1007AE76B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /Developer/SDKs/heavenly/System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		D90F56E30C671CD1007AE76B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = /Developer/SDKs/heavenly/System/Library/Frameworks/UIKit.framework; sourceTree = "<absolute>"; };
+		D90F56E20C671CD1007AE76B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = "/opt/local/arm-apple-darwin/heavenly/System/Library/Frameworks/Foundation.framework"; sourceTree = "<absolute>"; };
+		D90F56E30C671CD1007AE76B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = "/opt/local/arm-apple-darwin/heavenly/System/Library/Frameworks/UIKit.framework"; sourceTree = "<absolute>"; };
 		D92591D70C6B431100BBDBBC /* Makefile */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		D9C1849B0C6B467300A7383F /* MobileTwitterrific_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MobileTwitterrific_Prefix.pch; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -278,14 +278,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = arm;
-				CC = "/usr/local/iphonedev/bin/arm-apple-darwin-cc";
-				CXX = "/usr/local/iphonedev/bin/arm-apple-darwin-cc";
+				CC = "/opt/local/arm-apple-darwin/bin/arm-apple-darwin-cc";
+				CXX = "/opt/local/arm-apple-darwin/bin/arm-apple-darwin-cc";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /Developer/SDKs/iPhone/missing/include;
-				LD = "/usr/local/iphonedev/bin/arm-apple-darwin-cc";
+				HEADER_SEARCH_PATHS = "";
+				LD = "/opt/local/arm-apple-darwin/bin/arm-apple-darwin-cc";
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/iPhone.sdk;
+				SDKROOT = "/opt/local/arm-apple-darwin";
 				SHARED_PRECOMPS_DIR = "/Library/Caches/com.apple.Xcode.iPhone.$(UID)/SharedPrecompiledHeaders";
 			};
 			name = Release;
