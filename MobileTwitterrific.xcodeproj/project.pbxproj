@@ -58,6 +58,8 @@
 		44C0D86A0C960B7A006C4548 /* IFTweetPostView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = IFTweetPostView.m; sourceTree = "<group>"; };
 		44C0D8E20C962918006C4548 /* IFTransparentBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTransparentBox.h; sourceTree = "<group>"; };
 		44C0D8E30C962918006C4548 /* IFTransparentBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTransparentBox.m; sourceTree = "<group>"; };
+		44F4BBCB0C96F48000FF07D1 /* IFTwitterUpdateConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IFTwitterUpdateConnection.h; sourceTree = "<group>"; };
+		44F4BBCC0C96F48000FF07D1 /* IFTwitterUpdateConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = IFTwitterUpdateConnection.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D90F56B90C6719EF007AE76B /* MobileTwitterrificApp.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MobileTwitterrificApp.m; sourceTree = "<group>"; };
 		D90F56BA0C6719EF007AE76B /* MobileTwitterrificApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MobileTwitterrificApp.h; sourceTree = "<group>"; };
@@ -176,6 +178,8 @@
 				443D216F0C76298B0045EDF9 /* IFTwitterConnection.m */,
 				443D216E0C76298B0045EDF9 /* IFTwitterTimelineConnection.h */,
 				443D21720C76298B0045EDF9 /* IFTwitterTimelineConnection.m */,
+				44F4BBCB0C96F48000FF07D1 /* IFTwitterUpdateConnection.h */,
+				44F4BBCC0C96F48000FF07D1 /* IFTwitterUpdateConnection.m */,
 			);
 			name = Connections;
 			sourceTree = "<group>";

@@ -12,14 +12,19 @@
 #import <UIKit/UITextField.h>
 #import <UIKit/UITextView.h>
 
+#import "IFTweetPostView.h"
+
 #import "MobileTwitterrificApp.h"
 
+#import "IFTwitterUpdateConnection.h"
 
 @interface IFInputController : NSObject
 {
 	MobileTwitterrificApp *controller;
-//	UITextView *_editingTextView;
-//	UITextView *_counterTextView;
+
+	IFTweetPostView *_tweetPostView;
+	IFTwitterUpdateConnection *updateConnection;
+
 	UIView *_oldContentView;
 }
 

@@ -19,6 +19,8 @@
 	UITextLabel *_counterTextLabel;
 }
 
+- (NSString *)message;
+
 @end
 
 /*
