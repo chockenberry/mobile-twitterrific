@@ -194,7 +194,13 @@ If so, then handling the authentication challenge is unnecessary.
 	{
 	case 0:
 		// Send
-		[updateConnection post:[_tweetPostView message]];
+		{
+			NSString *message = [_tweetPostView message];
+			if ([message length] > 0)
+			{
+				[updateConnection post:message];
+			}
+		}
 		break;
 	case 1:
 		// Cancel
