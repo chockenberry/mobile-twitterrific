@@ -18,7 +18,8 @@
 @interface IFInputController : NSObject
 {
 	MobileTwitterrificApp *controller;
-	UITextView *_editingTextView;
+//	UITextView *_editingTextView;
+//	UITextView *_counterTextView;
 	UIView *_oldContentView;
 }
 

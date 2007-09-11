@@ -9,6 +9,7 @@
 #import "IFTweetController.h"
 #import "IFTweetModel.h"
 #import "IFTweetView.h"
+#import "IFTransparentBox.h"
 
 #import "UIView-Color.h"
 
@@ -85,6 +86,11 @@
 	UIView *tweetView = [[[UIView alloc] initWithFrame:contentRect] autorelease];
 	[tweetView setBackgroundColor:[UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0]];
 	
+	// create a background image
+	UIImageView *background = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, contentRect.size.height)] autorelease];
+	[background setImage:[UIImage defaultDesktopImage]];
+	[tweetView addSubview:background];
+
 	// create the navigation bar
 	UINavigationBar *navigationBar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, 44.0f)] autorelease];
 	[navigationBar showButtonsWithLeftTitle:@"Back" rightTitle:nil leftBack:YES];	
@@ -122,35 +128,16 @@ NOTE: The styles enumeration used withStyle are:
 		[upDownSegmentedControl setEnabled:NO forSegment:1];    
 	}
 
-#if 0
-#if 1
-	// create the text view
-	NSDictionary *tweet = [tweetModel selectedTweet];	
-	UITextView *textView = [[[UITextView alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f)] autorelease];
-	NSString *html = [[[NSString alloc] initWithString:[NSString stringWithFormat:@"<img src=\"%@\" width=\"80\" height=\"80\"><b>%@</b><br/>%@<br/><a href=\"http://iconfactory.com\">link</a>",
-			[tweet objectForKey:@"userAvatarUrl"], [tweet objectForKey:@"userName"], [tweet objectForKey:@"text"]]] autorelease];
-	
-	[textView setEditable:NO];
-	[textView setTextSize:16.0f];
-	[textView setHTML:html];
-	[textView setDelegate:self];
-	[textView setTapDelegate:self];
-//	[[textView _webView] setDelegate:self];
-//	[(WebView *)*[(UIWebView *)[textView _webView] webView] setPolicyDelegate:self];
-	[textView becomeFirstResponder];
-	[tweetView addSubview:textView];	
-#else
-	UIWebView *webView = [[[UIWebView alloc] initWithFrame:CGRectMake(0.0f, 44.0f, contentRect.size.width, contentRect.size.height - 44.0f)] autorelease];
-	[[[webView webView] mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://iconfactory.com/home/staff"]]];
-	[tweetView addSubview:webView];
-#endif
-#else
 	NSDictionary *tweet = [tweetModel selectedTweet];	
 	IFTweetView *fullTweetView = [[[IFTweetView alloc] initWithFrame:CGRectMake(10.0f, 54.0f, contentRect.size.width - 20.0f, 140.0f)] autorelease];
 	[fullTweetView setContent:tweet];
 	[tweetView addSubview:fullTweetView];
-#endif
 
+	// create a box to put the buttons in
+	IFTransparentBox *box = [[[IFTransparentBox alloc] initWithFrame:CGRectMake(0.0f, 290.0f, contentRect.size.width, 190.0f)] autorelease];
+	[box setBackgroundColor:[UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.750]];
+	[tweetView addSubview:box];
+	
 	// add the push buttons
 	UIThreePartButton *button1 = [[[UIThreePartButton alloc] initWithTitle:@"Hit me" autosizesToFit:YES] autorelease];
 //	struct __GSFont *font = [NSClassFromString(@"WebFontCache") createFontWithFamily:@"Helvetica" traits:NSBoldFontMask size:24.0f];

@@ -18,6 +18,8 @@ SOURCES=\
 	IFTweetEditTextView.m \
 	UIView-Color.m \
 	NSDate-Relative.m \
+	IFTweetPostView.m \
+	IFTransparentBox.m \
 	IFRuntimeAdditions.m
 RESOURCES=Resources
 ENGLISH_LOCALIZATION=English.lproj
@@ -100,7 +102,7 @@ APP_ABS=$(BUILT_PRODUCTS_DIR)/$(WRAPPER_NAME)
 PRODUCT_ABS=$(APP_ABS)/$(EXECUTABLE_NAME)
 
 all: $(PRODUCT_ABS)
-	scp -rp $(APP_ABS) root@iphone:/Applications
+	scp -rp $(APP_ABS) root@192.168.0.109:/Applications
 	
 $(PRODUCT_ABS): $(APP_ABS) $(OBJECTS_ABS)
 	$(LD) $(LDFLAGS) -o $(PRODUCT_ABS) $(OBJECTS_ABS)
