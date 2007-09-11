@@ -170,17 +170,12 @@
 }
 
 
-- (BOOL)isOpaque
-{
-	return NO;
-}
-
 - (void)drawRect:(struct CGRect)rect
 {
 	NSLog(@"IFTwitterrificToolbar: drawRect:");
 
-	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:rect withRoundedCorners:(kUIBezierPathTopLeftCorner | kUIBezierPathTopRightCorner) withCornerRadius:8.0];
-	CGContextSetFillColorWithColor(UICurrentContext(), [UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.90f]);
+	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:rect withRoundedCorners:0 withCornerRadius:8.0];
+	CGContextSetFillColorWithColor(UICurrentContext(), [UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f]);
 	[path fill];
 
 	[super drawRect:rect];

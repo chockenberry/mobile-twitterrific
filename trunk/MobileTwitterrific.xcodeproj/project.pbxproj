@@ -12,7 +12,6 @@
 		4420036B0C7FAABF007C1208 /* IFInputController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IFInputController.h; sourceTree = "<group>"; };
 		442004CB0C80CF47007C1208 /* IFTweetTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetTableCell.h; sourceTree = "<group>"; };
 		442004CC0C80CF47007C1208 /* IFTweetTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetTableCell.m; sourceTree = "<group>"; };
-		442008940C83A570007C1208 /* wallpaper.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = wallpaper.jpg; path = Resources/wallpaper.jpg; sourceTree = "<group>"; };
 		4420092B0C84C368007C1208 /* IFUIKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFUIKitAdditions.h; sourceTree = "<group>"; };
 		442009AA0C84CEFA007C1208 /* IFTweetTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetTable.h; sourceTree = "<group>"; };
 		442009AB0C84CEFA007C1208 /* IFTweetTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetTable.m; sourceTree = "<group>"; };
@@ -188,7 +187,6 @@
 				44AC39410C76472500427BB8 /* Default.png */,
 				4420FF1E0C7E2186007C1208 /* arrowdown.png */,
 				4420FF1F0C7E2186007C1208 /* arrowup.png */,
-				442008940C83A570007C1208 /* wallpaper.jpg */,
 				44200B720C864629007C1208 /* reply.png */,
 				44200B730C864629007C1208 /* refresh.png */,
 				44200B740C864629007C1208 /* detail.png */,
