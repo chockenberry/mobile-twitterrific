@@ -39,6 +39,7 @@
 - (BOOL)acceptInputString:(id)string
 {
 	NSLog(@"UIKeyboardImpl: acceptInputString: string = %@", string);
+#if 0
 	if ([string isEqualToString:@"x"])
 	{
 		return NO;
@@ -47,6 +48,9 @@
 	{
 		return YES;
 	}
+#else
+	return YES;
+#endif
 }
 
 - (void)textChanged:(id)text

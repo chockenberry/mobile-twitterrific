@@ -351,11 +351,9 @@ resist the urge.
 
 	UIView *mainView = [[UIView alloc] initWithFrame:contentRect];
 
-	// create a background image (eventually, this will be the user's wallpaper preference)
+	// create a background image
 	UIImageView *background = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, contentRect.size.height)] autorelease];
-//	[background setImage:[UIImage imageNamed:@"wallpaper.jpg"]];
 	[background setImage:[UIImage defaultDesktopImage]];
-//	[background setImage:[[[UIImage alloc] initWithImageRef:[self createApplicationDefaultPNG]] autorelease]];
 	[mainView addSubview:background];
 
 	// create a table with one column whose size fits the entire screen

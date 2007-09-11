@@ -55,6 +55,10 @@
 		44AC3F990C7B938900427BB8 /* IFTweetController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IFTweetController.h; sourceTree = "<group>"; };
 		44AC3FBF0C7CA99C00427BB8 /* IFTweetModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTweetModel.h; sourceTree = "<group>"; };
 		44AC3FC00C7CA99C00427BB8 /* IFTweetModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTweetModel.m; sourceTree = "<group>"; };
+		44C0D8690C960B7A006C4548 /* IFTweetPostView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IFTweetPostView.h; sourceTree = "<group>"; };
+		44C0D86A0C960B7A006C4548 /* IFTweetPostView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = IFTweetPostView.m; sourceTree = "<group>"; };
+		44C0D8E20C962918006C4548 /* IFTransparentBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTransparentBox.h; sourceTree = "<group>"; };
+		44C0D8E30C962918006C4548 /* IFTransparentBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFTransparentBox.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D90F56B90C6719EF007AE76B /* MobileTwitterrificApp.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MobileTwitterrificApp.m; sourceTree = "<group>"; };
 		D90F56BA0C6719EF007AE76B /* MobileTwitterrificApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MobileTwitterrificApp.h; sourceTree = "<group>"; };
@@ -143,10 +147,14 @@
 				44200FA90C88761B007C1208 /* IFURLImageView.m */,
 				445B69380C8DF0460049A9B0 /* IFTweetView.h */,
 				445B69390C8DF0460049A9B0 /* IFTweetView.m */,
+				44C0D8690C960B7A006C4548 /* IFTweetPostView.h */,
+				44C0D86A0C960B7A006C4548 /* IFTweetPostView.m */,
 				445B6BC40C906D430049A9B0 /* IFTweetKeyboard.h */,
 				445B6BC50C906D430049A9B0 /* IFTweetKeyboard.m */,
 				445B6C930C90816B0049A9B0 /* IFTweetEditTextView.h */,
 				445B6C940C90816B0049A9B0 /* IFTweetEditTextView.m */,
+				44C0D8E20C962918006C4548 /* IFTransparentBox.h */,
+				44C0D8E30C962918006C4548 /* IFTransparentBox.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";

@@ -43,13 +43,13 @@
 		_tweetTextView = [[UITextView alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET, frame.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, frame.size.height - TOP_OFFSET - BOTTOM_OFFSET)];
 //		_tweetTextView = [[IFTweetEditTextView alloc] initWithFrame:CGRectMake(LEFT_OFFSET + AVATAR_SIZE + PADDING, TOP_OFFSET, frame.size.width - LEFT_OFFSET - AVATAR_SIZE - PADDING - RIGHT_OFFSET, frame.size.height - TOP_OFFSET - BOTTOM_OFFSET)];
 		[_tweetTextView setTextColor:[UIView colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0]];
-		[_tweetTextView setBackgroundColor:[UIView colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.250]];
+		[_tweetTextView setBackgroundColor:[UIView colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.0]];
 		[_tweetTextView setMarginTop:0];
 		[_tweetTextView setEditable:NO];
 		[_tweetTextView setTextSize:18.0f];
 		[_tweetTextView setDelegate:self];
 		[_tweetTextView setTapDelegate:self];
-		[_tweetTextView becomeFirstResponder];
+//		[_tweetTextView becomeFirstResponder];
 		[_tweetTextView setScrollerIndicatorStyle:kUIScrollerIndicatorWhite];
 		[_tweetTextView setBottomBufferHeight:0.0f];
 		[self addSubview:_tweetTextView];	
@@ -66,15 +66,8 @@
 
 - (void)dealloc
 {
-#if 0
-	[_userNameLabel release];
-	_userNameLabel = nil;
-	[_textLabel release];
-	_textLabel = nil;
-#else
 	[_tweetTextView release];
 	_tweetTextView = nil;
-#endif
 	[_avatarImageView release];
 	_avatarImageView = nil;
 	
@@ -147,71 +140,24 @@ length of the line does not take into account differing line lengths due to font
 }
 #endif
 
-/*
-NOTE: Overriding superclass implementation of drawRect: allows us to do our own
-selection highlight.
-*/
+- (BOOL)isOpaque
+{
+	return NO;
+}
+
 - (void)drawRect:(struct CGRect)rect
 {
-#if 0
-	//NSLog(@"IFTweetView: drawRect:");
-	NSLog(@"IFTweetView: drawContentInRect:selected: text = %@", [_textLabel text]);
-	struct CGRect frame = [_textLabel frame];
-	NSLog(@"IFTweetView: drawContentInRect:selected: frame = %f, %f, %f, %f", frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
-//	struct CGSize size = [_textLabel ellipsizedTextSize];
-//	NSLog(@"IFTweetView: drawContentInRect:selected: size = %f, %f", size.width, size.height);
-
 	CGColorRef white = [UIView colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
-	CGColorRef black = [UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f];
-
-//	CGColorRef gray25 = [UIView colorWithRed:0.25f green:0.25f blue:0.25f alpha:1.0f];
-	CGColorRef gray75 = [UIView colorWithRed:0.75f green:0.75f blue:0.75f alpha:1.0f];
-	CGColorRef gray65 = [UIView colorWithRed:0.65f green:0.65f blue:0.65f alpha:1.0f];
-	CGColorRef gray50 = [UIView colorWithRed:0.65f green:0.65f blue:0.65f alpha:1.0f];
-	
-	CGColorRef white25 = [UIView colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.25f];
-	CGColorRef white50 = [UIView colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5f];
 	CGColorRef black75 = [UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.75f];
 
-	CGColorRef transparent = [UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f];
-	
-	if (YES)
-	{
-		[_userNameLabel setColor:gray50];
-		[_textLabel setColor:white];
-
-		CGContextSetStrokeColorWithColor(UICurrentContext(), white);
-		CGContextSetFillColorWithColor(UICurrentContext(), black);
-	}
-	else
-	{
-		[_userNameLabel setColor:white];
-		[_textLabel setColor:gray75];
-//		[_textLabel setColor:white];
-
-		CGContextSetStrokeColorWithColor(UICurrentContext(), white25);
-		CGContextSetFillColorWithColor(UICurrentContext(), black75);
-//		CGContextSetFillColorWithColor(UICurrentContext(), transparent);
-	}
-#else
-	CGColorRef white = [UIView colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
-	CGColorRef black = [UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f];
-
 	CGContextSetStrokeColorWithColor(UICurrentContext(), white);
-	CGContextSetFillColorWithColor(UICurrentContext(), black);
-#endif
+	CGContextSetFillColorWithColor(UICurrentContext(), black75);
 
-	UIBezierPath *path;
-
-	// fill the entire rect
-	path = [UIBezierPath bezierPath];
-	[path appendBezierPathWithRect:rect];
-	[path fill];
-	
 	// stroke an inset and rounded rect
 	struct CGRect innerRect = CGRectInset(rect, 1.0, 1.0);
-	path = [UIBezierPath roundedRectBezierPath:innerRect withRoundedCorners:kUIBezierPathAllCorners withCornerRadius:8.0];
+	UIBezierPath *path = [UIBezierPath roundedRectBezierPath:innerRect withRoundedCorners:kUIBezierPathAllCorners withCornerRadius:8.0];
 	[path setLineWidth:2.0f];
+	[path fill];
 	[path stroke];
 
 	// draw the subviews

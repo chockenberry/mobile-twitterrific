@@ -42,15 +42,29 @@
 	[super mouseUp:event];
 }
 
+- (BOOL) isValidDelegateForSelector:(SEL)selector
+{
+	return (([self delegate] != nil) && [[self delegate] respondsToSelector:selector]);
+}
+
 - (void)webViewDidChange:(NSNotification *)notification
 {
 //	NSLog(@"IFTweetEditTextView: webViewDidChange: notification = %@", [notification object]);
-	NSLog(@"IFTweetEditTextView: webViewDidChange: text = %@ (%d)", [self text], [[self text] length]);
-	if ([[self text] length] > 10)
+//	NSLog(@"IFTweetEditTextView: webViewDidChange: text = %@ (%d)", [self text], [[self text] length]);
+	if ([[self text] length] > 140)
 	{
-		[self setText:[[self text] substringToIndex:10]];
+		// limit the text to 140 characters
+		[self setText:[[self text] substringToIndex:140]];
 	}
-	
+	else
+	{
+		// notify the delegate that the text has changed
+		if ([self isValidDelegateForSelector:@selector(editTextViewDidChange:)])
+		{
+			[[self delegate] performSelector:@selector(editTextViewDidChange:) withObject:self];
+		}
+	}
+
 	[super webViewDidChange:notification];
 }
 
