@@ -196,13 +196,40 @@ is called. It might be useful to recycle cell objects, so we'll leave it comment
 
 - (void)tableRowSelected:(NSNotification *)aNotification
 {
-	[[self tweetModel] selectTweetWithIndex:[table selectedRow]];
+	IFTweetModel *tweetModel = [self tweetModel];
+	[tweetModel selectTweetWithIndex:[table selectedRow]];
+
+	// save the selected id
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	NSDictionary *selectedTweet = [tweetModel selectedTweet];
+	[userDefaults setObject:[selectedTweet objectForKey:@"id"] forKey:@"selectedId"];
 }
+
 
 #pragma mark User interface
 
+- (void)adjustTableRowSelection
+{
+	IFTweetModel *tweetModel = [self tweetModel];
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
+	// adjust the selected row using the selected id
+	NSString *selectedId = [userDefaults stringForKey:@"selectedId"];
+	[tweetModel selectTweetWithId:selectedId];
+	int selectionIndex = [tweetModel selectionIndex];
+	if (selectionIndex < 0)
+	{
+		// there is no selected id, so select the first one
+		selectionIndex = 0;
+	}
+	[table selectRow:selectionIndex byExtendingSelection:NO];
+	[table scrollRowToVisible:selectionIndex];
+}
+
 - (void)parseXMLDocument:(NSXMLDocument *)document ofType:(NSString *)type
 {
+	IFTweetModel *tweetModel = [self tweetModel];
+
 	//NSError *error = nil;
 
 /*
@@ -291,7 +318,7 @@ and stringValues.
 		
 		//NSLog(@"MobileTwitterrificApp: parseXMLDocument: content id = %@, type = %@", [content objectForKey:@"id"], [content objectForKey:@"type"]);
 
-		BOOL tweetWasAdded = [_tweetModel addTweet:content];
+		BOOL tweetWasAdded = [tweetModel addTweet:content];
 		if (tweetWasAdded)
 		{			
 			addedNewContent = YES;
@@ -308,6 +335,7 @@ and stringValues.
 		NSLog(@"MobileTwitterrificApp: parseXMLDocument: created %d tweets", tweetCount);
 		
 		[table reloadData];
+		[self adjustTableRowSelection];
 		
 		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 		BOOL notify = [userDefaults boolForKey:@"notify"];
@@ -315,8 +343,9 @@ and stringValues.
 		{
 			[soundController playNotification];
 		}
+		
 /*
-TODO: This is mainly here for debugging purposes -- when running from the command line,
+NOTE: This is mainly here for debugging purposes -- when running from the command line,
 the applicationWillSuspend method doesn't get called when Control-C is used to kill the
 process.
 */
@@ -357,7 +386,7 @@ resist the urge.
 	[mainView addSubview:background];
 
 	// create a table with one column whose size fits the entire screen
-	table = [[[IFTweetTable alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, contentRect.size.height)] autorelease];
+	table = [[[IFTweetTable alloc] initWithFrame:CGRectMake(0.0f, 0.0f, contentRect.size.width, contentRect.size.height - 44.0f)] autorelease];
 	UITableColumn *tableColumn = [[UITableColumn alloc] initWithTitle:@"Twitterrific" identifier:@"twitterrific" width:contentRect.size.width];
 	[table addTableColumn:tableColumn];
 	[table setDataSource:self];
@@ -391,6 +420,7 @@ resist the urge.
 	
 	// spring into action
 	[table reloadData];
+	[self adjustTableRowSelection];
 }
 
 #pragma mark Timers
@@ -455,6 +485,7 @@ TODO: Make the refresh interval a preference.
 
 
 #pragma mark Models
+
 - (void)setupModels
 {
 	// create a model for managing the tweets
