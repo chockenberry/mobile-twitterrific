@@ -10,7 +10,6 @@
 #import "IFInputController.h"
 #import "IFTweetModel.h"
 #import "IFTweetView.h"
-#import "IFTweetPostView.h"
 #import "IFTweetKeyboard.h"
 #import "IFTweetEditTextView.h"
 
@@ -38,11 +37,8 @@
 
 - (void)dealloc
 {
-//	[_editingTextView release];
-//	_editingTextView = nil;
-//	[_counterTextView release];
-//	_counterTextView = nil;
-	
+	[_tweetPostView release];
+	_tweetPostView = nil;
 	
 	[super dealloc];
 }
@@ -58,8 +54,6 @@
 	contentRect.origin.x = 0.0f;
 	contentRect.origin.y = 0.0f;
 	
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-
 	// create the main view
 	UIView *inputView = [[[UIView alloc] initWithFrame:contentRect] autorelease];
 	
@@ -81,38 +75,9 @@
 	[tweetView setContent:tweet];
 	[inputView addSubview:tweetView];
 
-#if 0
-	// create the text view for editing
-	_editingTextView = [[IFTweetEditTextView alloc] initWithFrame:CGRectMake(50.0f, 44.0f + 100.0f, contentRect.size.width - 40.0 - 10.0f, contentRect.size.height - 44.0f - 100.0f - 216.0f)];
-	[_editingTextView setEditable:YES];
-//	[_editingTextView setText:@"This is a test of the emergency broadcasting system. In the event of a real emergency, you would have been instructed where to tune in your area for further information. This concludes this test of the emergency broadcasting system."];
-	[_editingTextView setText:@""];
-	[_editingTextView setBackgroundColor:[UIView colorWithRed:1.0f green:0.0f blue:1.0f alpha:0.0]];
-	[_editingTextView setTextColor:[UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0]];
-	[_editingTextView setCaretColor:[UIView colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0]];
-	[_editingTextView setTextSize:18.0f];
-
-//	[_editingTextView setMarginTop:0];
-//	[_editingTextView setBottomBufferHeight:22.0f];
-	[_editingTextView setDelegate:self];
-	
-	[inputView addSubview:_editingTextView];
-
-	_counterTextView = [[UITextView alloc] initWithFrame:CGRectMake(10.0f, 44.0f + 100.0f, 40.0f, 20.0f)];
-	[_counterTextView setEditable:NO];
-//	[_counterTextView setText:@"This is a test of the emergency broadcasting system. In the event of a real emergency, you would have been instructed where to tune in your area for further information. This concludes this test of the emergency broadcasting system."];
-	[_counterTextView setText:@""];
-	[_counterTextView setBackgroundColor:[UIView colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.0]];
-	[_counterTextView setTextColor:[UIView colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.5]];
-	[_counterTextView setTextSize:16.0f];
-
-	[inputView addSubview:_counterTextView];
-
-//	[_editingTextView becomeFirstResponder];
-#else
-	IFTweetPostView *tweetPostView = [[[IFTweetPostView alloc] initWithFrame:CGRectMake(10.0f, 154.0f, contentRect.size.width - 20.0f, 90.0f)] autorelease];
-	[inputView addSubview:tweetPostView];
-#endif
+	// create the view for entering the message for the post
+	_tweetPostView = [[IFTweetPostView alloc] initWithFrame:CGRectMake(10.0f, 154.0f, contentRect.size.width - 20.0f, 90.0f)];
+	[inputView addSubview:_tweetPostView];
 
 	// create the keyboard
 	IFTweetKeyboard *keyboard = [[[IFTweetKeyboard alloc] initWithFrame: CGRectMake(0.0f, contentRect.size.height - 216.0f, contentRect.size.width, 216.0f)] autorelease];
@@ -134,7 +99,12 @@
  
 //	[mainWindow makeKey:editingTextView];
 
-	CFRelease(colorSpace);
+	// create a connection that will be used to post the message
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	NSString *login = [userDefaults stringForKey:@"login"];
+	NSString *password = [userDefaults stringForKey:@"password"];
+	updateConnection = [[IFTwitterUpdateConnection alloc] initWithLogin:login password:password delegate:self completedCallbackSelector:@selector(twitterUpdateComplete:) authenticationCallbackSelector:@selector(twitterAuthenticate:)];
+
 }
 
 - (void)hideInput
@@ -145,16 +115,89 @@
 	_oldContentView = nil;
 }
 
+#pragma mark IFTwitterConnection callbacks
+
+- (void)twitterAuthenticate:(id)object
+{
+	NSLog(@"IFInputController: twitterAuthenticate: object = %@", [object description]);
+	
+	[[(IFTwitterConnection *)object connection] cancel];
+	NSLog(@"MobileTwitterrificApp: twitterAuthenticate: invalid username or password. giving up.");
+    
+/*
+TODO: Figure out how to handle authentication. It's probably easiest to have a 
+configuration item for login/password and put that into the URL for the request.
+If so, then handling the authentication challenge is unnecessary.
+*/
+/*
+	if (autoLogin && firstLogin)
+	{
+		[self setLogin:[[userDefaultsController values] valueForKey:@"lastLogin"]];
+		[self setPassword:[IFKeychainUtilities getKeychainPasswordForLogin:[self login]]];
+		if (connectionLogging)
+		{
+			NSLog(@"IFMainController: twitterAuthenticate: autoLogin with login = %@, password = %@", [self login], [self password]);
+		}
+	}
+	else
+	{
+		if (! [self login] || ! [self password])
+		{
+			[authenticationPanel makeFirstResponder:authenticationUserName];
+			[self openAuthenticationSheet];
+			[NSApp runModalForWindow:authenticationPanel];
+
+			[self setLogin:[authenticationUserName stringValue]];
+			[self setPassword:[authenticationPassword stringValue]];
+			
+			[IFKeychainUtilities setKeychainForLogin:[self login] withPassword:[self password]];
+
+			[[userDefaultsController values] setValue:[self login] forKey:@"lastLogin"];
+			
+			// check password for a semicolon
+			NSRange semicolonRange = [[self password] rangeOfString:@":"];
+			if (semicolonRange.location != NSNotFound)
+			{
+				[[NSAlert alertWithMessageText:NSLocalizedString(@"PasswordProblem", nil) defaultButton:NSLocalizedString(@"OK", nil) alternateButton:nil otherButton:nil informativeTextWithFormat:NSLocalizedString(@"PasswordProblemText", nil)] runModal];
+			}
+		}
+		if (connectionLogging)
+		{
+			NSLog(@"IFMainController: twitterAuthenticate: login = %@, password = %@", [self login], [self password]);
+		}
+	}
+*/
+}
+
+- (void)twitterUpdateComplete:(id)object
+{
+	NSLog(@"IFInputController: twitterUpdateComplete: object = %@", [object description]);
+
+	if ([object didSucceed])
+	{
+		[self hideInput]; 
+	}
+	else
+	{
+		NSLog(@"IFInputController: twitterUpdateComplete: errorType = %@, error = %@", [object errorType], [object error]);
+		//[self processConnectionFailure:[object errorType] withError:[object error]];
+	}
+}
+
 #pragma mark UINavigationBar delegate
 
 - (void)navigationBar:(UINavigationBar*)navbar buttonClicked:(int)button 
 {
+	NSLog(@"IFInputController: navigationBar:buttonClicked: button = %d", button);
+
 	switch (button) 
 	{
-	case 0: 
-		[self hideInput]; 
+	case 0:
+		// Send
+		[updateConnection post:[_tweetPostView message]];
 		break;
-	case 1: 
+	case 1:
+		// Cancel
 		[self hideInput]; 
 		break;
 	}

@@ -1,6 +1,6 @@
 //
 //  IFTwitterTimelineConnection.h
-//  Twitterrific
+//  MobileTwitterrific
 //
 //  Created by Craig Hockenberry on 7/30/07.
 //

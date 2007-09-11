@@ -20,6 +20,7 @@ SOURCES=\
 	NSDate-Relative.m \
 	IFTweetPostView.m \
 	IFTransparentBox.m \
+	IFTwitterUpdateConnection.m \
 	IFRuntimeAdditions.m
 RESOURCES=Resources
 ENGLISH_LOCALIZATION=English.lproj

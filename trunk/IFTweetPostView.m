@@ -80,6 +80,10 @@
 	[super dealloc];
 }
 
+- (NSString *)message
+{
+	return [_editingTextView text];
+}
 
 - (BOOL)isOpaque
 {
