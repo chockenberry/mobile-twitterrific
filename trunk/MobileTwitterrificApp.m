@@ -428,6 +428,7 @@ resist the urge.
 - (void)refresh
 {
 	[timelineConnection refresh];
+	[self setStatusBarShowsProgress:YES];
 }
 
 #pragma mark Notifications
@@ -661,6 +662,8 @@ If so, then handling the authentication challenge is unnecessary.
 - (void)twitterStatusComplete:(id)object
 {
 	NSLog(@"MobileTwitterrificApp: twitterStatusComplete: object = %@", [object description]);
+
+	[self setStatusBarShowsProgress:NO];
 
 	if ([object didSucceed])
 	{
