@@ -46,7 +46,7 @@
 		_refreshButton = [[UIPushButton alloc] initWithFrame:CGRectMake(buttonWidth * 0.0f, 0.0f, buttonWidth, 44.0f)];
 		[_refreshButton setAutosizesToFit:NO];
 		[_refreshButton setImage:[UIImage imageNamed:@"refresh.png"] forState:0]; // normal state
-		[_refreshButton addTarget:self action:@selector(refreshPressed) forEvents:64]; // mouse up
+		[_refreshButton addTarget:self action:@selector(refreshPressed) forEvents:kUIControlEventMouseUpInside]; // mouse up
 		[_refreshButton setShowPressFeedback:YES];
 		[_refreshButton setEnabled:YES];
 		[self addSubview:_refreshButton];
@@ -54,7 +54,7 @@
 		_postButton = [[UIPushButton alloc] initWithFrame:CGRectMake(buttonWidth * 1.0f, 0.0f, buttonWidth, 44.0f)];
 		[_postButton setAutosizesToFit:NO];
 		[_postButton setImage:[UIImage imageNamed:@"post.png"] forState:0]; // normal state
-		[_postButton addTarget:self action:@selector(postPressed) forEvents:64]; // mouse up
+		[_postButton addTarget:self action:@selector(postPressed) forEvents:kUIControlEventMouseUpInside]; // mouse up
 		[_postButton setShowPressFeedback:YES];
 		[_postButton setEnabled:YES];
 		[self addSubview:_postButton];
@@ -62,7 +62,7 @@
 		_replyButton = [[UIPushButton alloc] initWithFrame:CGRectMake(buttonWidth * 2.0f, 0.0f, buttonWidth, 44.0f)];
 		[_replyButton setAutosizesToFit:NO];
 		[_replyButton setImage:[UIImage imageNamed:@"reply.png"] forState:0]; // normal state
-		[_replyButton addTarget:self action:@selector(replyPressed) forEvents:64]; // mouse up
+		[_replyButton addTarget:self action:@selector(replyPressed) forEvents:kUIControlEventMouseUpInside]; // mouse up
 		[_replyButton setShowPressFeedback:YES];
 		[_replyButton setEnabled:YES];
 		[self addSubview:_replyButton];
@@ -70,7 +70,7 @@
 		_detailButton = [[UIPushButton alloc] initWithFrame:CGRectMake(buttonWidth * 3.0f, 0.0f, buttonWidth, 44.0f)];
 		[_detailButton setAutosizesToFit:NO];
 		[_detailButton setImage:[UIImage imageNamed:@"detail.png"] forState:0]; // normal state
-		[_detailButton addTarget:self action:@selector(detailPressed) forEvents:64]; // mouse up
+		[_detailButton addTarget:self action:@selector(detailPressed) forEvents:kUIControlEventMouseUpInside]; // mouse up
 		[_detailButton setShowPressFeedback:YES];
 		[_detailButton setEnabled:YES];
 		[self addSubview:_detailButton];
@@ -78,7 +78,7 @@
 		_configureButton = [[UIPushButton alloc] initWithFrame:CGRectMake(buttonWidth * 4.0f, 0.0f, buttonWidth, 44.0f)];
 		[_configureButton setAutosizesToFit:NO];
 		[_configureButton setImage:[UIImage imageNamed:@"configure.png"] forState:0]; // normal state
-		[_configureButton addTarget:self action:@selector(configurePressed) forEvents:64]; // mouse up
+		[_configureButton addTarget:self action:@selector(configurePressed) forEvents:kUIControlEventMouseUpInside]; // mouse up
 		[_configureButton setShowPressFeedback:YES];
 		[_configureButton setEnabled:YES];
 		[self addSubview:_configureButton];
