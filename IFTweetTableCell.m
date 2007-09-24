@@ -80,6 +80,16 @@
 
 		[self setTapDelegate:self];
 
+#if 0
+	GSFontRef testFont = GSFontCreateWithName("Helvetica", 0, 16.0f);
+	NSMutableString *string = [NSMutableString stringWithString:@"This is a test"];
+	//struct CGSize size = [string sizeWithFont:testFont forWidth:260.0f ellipsis:0];
+	//NSLog(@"text size = %f x %f", size.width, size.height);
+	[string sizeWithFont:testFont forWidth:0.0f ellipsis:0];
+	CFRelease(testFont);
+#endif
+
+
 		_content = nil;
 	}
     return self;
@@ -157,8 +167,11 @@ length of the line does not take into account differing line lengths due to font
 
 	CGColorRef transparent = [UIView colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f];
 	
+	float lineWidth;
 	if (selected)
 	{
+		lineWidth = 2.0f;
+		
 		[_userNameLabel setColor:gray50];
 		[_dateLabel setColor:gray50];
 		[_textLabel setColor:white];
@@ -168,6 +181,8 @@ length of the line does not take into account differing line lengths due to font
 	}
 	else
 	{
+		lineWidth = 1.0f;
+		
 		[_userNameLabel setColor:white];
 		[_dateLabel setColor:white];
 		[_textLabel setColor:gray75];
@@ -186,9 +201,9 @@ length of the line does not take into account differing line lengths due to font
 	[path fill];
 	
 	// stroke an inset and rounded rect
-	struct CGRect innerRect = CGRectInset(rect, 1.0, 1.0);
+	struct CGRect innerRect = CGRectInset(rect, lineWidth / 2.0f, lineWidth / 2.0f);
 	path = [UIBezierPath roundedRectBezierPath:innerRect withRoundedCorners:kUIBezierPathAllCorners withCornerRadius:8.0];
-	[path setLineWidth:2.0f];
+	[path setLineWidth:lineWidth];
 	[path stroke];
 #endif
 
