@@ -17,6 +17,8 @@
 
 #import "IFTweetEditTextView.h"
 
+#import <UIKit/NSString-UIStringDrawing.h>
+
 #import "UIView-Color.h"
 #import "NSDate-Relative.h"
 
@@ -110,6 +112,11 @@ length of the line does not take into account differing line lengths due to font
 	NSString *html = [[[NSString alloc] initWithString:[NSString stringWithFormat:@"<b>%@</b><br/>%@<br/><span style=\"font-size:14px;color:orange;\">%@ ago",
 			[_content objectForKey:@"userName"], [_content objectForKey:@"text"], [[_content objectForKey:@"date"] relativeDate]]] autorelease];
 	[_tweetTextView setHTML:html];
+
+#if 0
+	struct CGSize size = [html sizeWithMarkupForWidth:100.0f];
+	NSLog(@"text size = %f x %f", size.width, size.height);
+#endif
 
 /*
 	[_tweetTextView updateWebViewObjects];
