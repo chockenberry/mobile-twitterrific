@@ -25,9 +25,13 @@
 }
 */
 
-- (int)swipe:(int)num withEvent:(struct __GSEvent *)event;
+- (int)swipe:(int)num withEvent:(GSEventRef)event;
 {
 	NSLog(@"IFTweetTable: swipe:withEvent: num = %d", num);
+
+	// knowing the bounds of the swipe might be useful...
+	CGRect rect = (GSEventGetLocationInWindow(event));
+	NSLog(@"%f, %f - %f, %f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height); 
 }
 
 /*
